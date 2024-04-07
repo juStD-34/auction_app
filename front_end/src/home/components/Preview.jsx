@@ -11,37 +11,37 @@ import Cards from "./Cards";
 //fake data
 var obj = [
     {
-        name: "Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
+        name: "sCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
         time: "12/04/2004 09:30:00",
         price: "8.910.410.400 VNĐ",
         image: "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
     },
     {
-        name: "Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
+        name: "qCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
         time: "12/04/2004 09:30:00",
         price: "8.910.410.400 VNĐ",
         image: "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
     },
     {
-        name: "Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
+        name: "eCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
         time: "12/04/2004 09:30:00",
         price: "8.910.410.400 VNĐ",
         image: "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
     },
     {
-        name: "Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
+        name: "xCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
         time: "12/04/2004 09:30:00",
         price: "8.910.410.400 VNĐ",
         image: "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
     },
     {
-        name: "Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
+        name: "zCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
         time: "12/04/2004 09:30:00",
         price: "8.910.410.400 VNĐ",
         image: "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
     },
     {
-        name: "Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
+        name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
         time: "12/04/2004 09:30:00",
         price: "8.910.410.400 VNĐ",
         image: "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
