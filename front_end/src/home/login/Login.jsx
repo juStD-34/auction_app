@@ -4,12 +4,12 @@ import { Label, TextInput, Modal, Button } from "flowbite-react";
 
 //form login
 
-const Login = ({ handleSignIn }) => {
+const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const userRef = React.useRef("");
   const passwordRef = React.useRef("");
 
-  const [openModal, setOpenModal] = useState(false);
+  const [openError, setopenError] = useState(false);
 
   // Xử lý data đăng nhập
   const formHandler = useCallback(
@@ -20,7 +20,7 @@ const Login = ({ handleSignIn }) => {
         email: userRef.current?.value,
         password: passwordRef.current?.value,
       };
-      setOpenModal(true);
+      setopenError(true);
 
       console.log(data);
     },
@@ -37,12 +37,12 @@ const Login = ({ handleSignIn }) => {
           <p className="text-center text-2xl inline-block">
             Bạn chưa có tài khoản?
           </p>
-          <p
-            onClick={handleSignIn}
+          <a
+            href="/register"
             className="hover:text-red-600 inline-block cursor-pointer text-2xl pl-2 font-semibold"
           >
             Đăng Ký Ngay
-          </p>
+          </a>
         </div>
         {/* form login */}
         <form className="flex flex-col pt-6" onSubmit={formHandler()}>
@@ -96,7 +96,7 @@ const Login = ({ handleSignIn }) => {
           {/* Submit */}
           <button
             type="submit"
-            className=" transition-all duration-200 ease-in-out bg-red-600 border-red-600 border-2 text-white text-2xl py-3 px-5 rounded-sm mt-4 block w-full hover:bg-white hover:text-red-600 hover:border-red-600 hover:border-2"
+            className="transition-all duration-200 ease-in-out bg-red-600 border-red-600 border-2 text-white text-2xl py-3 px-5 rounded-sm mt-4 block w-full hover:bg-white hover:text-red-600 hover:border-red-600 hover:border-2"
           >
             Đăng nhập
           </button>
@@ -105,8 +105,8 @@ const Login = ({ handleSignIn }) => {
       {/* Xử lý thông báo lỗi */}
       <Modal
         dismissible
-        show={openModal}
-        onClose={() => setOpenModal(false)}
+        show={openError}
+        onClose={() => setopenError(false)}
         size="lg"
       >
         <Modal.Body>
@@ -120,7 +120,7 @@ const Login = ({ handleSignIn }) => {
           </div>
         </Modal.Body>
         <Modal.Footer className="flex justify-center">
-          <Button color="failure" onClick={() => setOpenModal(false)}>
+          <Button color="failure" onClick={() => setopenError(false)}>
             OK
           </Button>
         </Modal.Footer>
