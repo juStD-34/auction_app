@@ -19,3 +19,11 @@ code {
 .red {
   color: red;
 }
+
+.link {
+  @apply p-2.5 flex gap-6 items-center md:cursor-pointer cursor-default;
+}
+
+.active {
+  @apply text-red-600;
+}
