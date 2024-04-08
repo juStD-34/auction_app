@@ -5,6 +5,14 @@ import SignUp from "./home/signup/SignUp";
 import Buyer from "./buyer/Buyer"
 import Seller from "./seller/Seller"
 
+import Profile from "./user/Profile";
+import Payment from "./user/Payment";
+import Address from "./user/Address";
+import Password from "./user/Password";
+import Privacy from "./user/Privacy";
+
+
+
 function App() {
   return (
     <BrowserRouter>
@@ -12,6 +20,13 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<SignUp />} />
+
+        <Route path="/user/account/profile" element={<Profile />} />
+        <Route path="/user/account/payment" element={<Payment />} />
+        <Route path="/user/account/address" element={<Address />} />
+        <Route path="/user/account/password" element={<Password />} />
+        <Route path="/user/account/privacy" element={<Privacy />} />
+
         <Route path="/buyer" element={<Buyer />} />
         <Route path="/seller" element={<Seller />} />
       </Routes>
