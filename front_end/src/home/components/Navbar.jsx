@@ -71,7 +71,7 @@ export default function NavigationBar({ loginPopup, toggleLoginPopup }) {
             inline
             placement="bottom"
             label={
-              <p className="text-xl hover:text-red-500">Tài sản đấu giá</p>
+              <a href="/autionproducts" className="text-xl hover:text-red-500">Tài sản đấu giá</a>
             }
           >
             <Dropdown.Item>

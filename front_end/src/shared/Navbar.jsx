@@ -46,7 +46,9 @@ export default function NavbarUser() {
     <div>
         <div className="w-full h-30 p-5 border-b-2 border-gray grid grid-cols-10 gap-4">
             <div className="col-span-2 flex items-center">
-                <img src={hehe} style={{ width: "60px", height: "60px" }} className="content-center ml-10" alt="auction" /> 
+                <a href="/home">
+                    <img src={hehe} style={{ width: "60px", height: "60px" }} className="content-center ml-10" alt="auction" /> 
+                </a>
             </div>
             <div className="p-2 col-span-5 flex items-center">
                 <div className="bg-gray-100 shadow-md p-2 h-10 w-30 items-center hover:bg-gray-300 rounded-l-3xl">
@@ -125,16 +127,16 @@ export default function NavbarUser() {
                         }
                     >
                     <Dropdown.Item>
-                        <p className="hover:text-red-500">Thông báo</p>
+                        <a className="hover:text-red-500">Thông báo</a>
                     </Dropdown.Item>
                     <Dropdown.Item>
-                        <p className="hover:text-red-500">Thông tin tài khoản</p>
+                        <a href="/user/account/profile" className="hover:text-red-500">Thông tin tài khoản</a>
                     </Dropdown.Item>
                     <Dropdown.Item>
-                        <p className="hover:text-red-500">Đăng xuất</p>
+                        <a className="hover:text-red-500">Đăng xuất</a>
                     </Dropdown.Item>
                     <Dropdown.Item>
-                        <p className="hover:text-red-500">Tài sản khác</p>
+                        <a className="hover:text-red-500">Tài sản khác</a>
                     </Dropdown.Item>
                     </Dropdown>
             
