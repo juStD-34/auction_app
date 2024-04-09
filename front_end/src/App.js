@@ -3,6 +3,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
 import Buyer from "./buyer/Buyer"
+import AutionProducts from "./buyer/AutionProducts"
 import Seller from "./seller/Seller"
 
 import Profile from "./user/Profile";
@@ -28,6 +29,7 @@ function App() {
         <Route path="/user/account/privacy" element={<Privacy />} />
 
         <Route path="/buyer" element={<Buyer />} />
+        <Route path="/autionproducts" element={<AutionProducts />} />
         <Route path="/seller" element={<Seller />} />
       </Routes>
     </BrowserRouter>
