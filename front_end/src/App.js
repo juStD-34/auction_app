@@ -5,6 +5,8 @@ import SignUp from "./home/signup/SignUp";
 import Buyer from "./buyer/Buyer"
 import AutionProducts from "./buyer/AutionProducts"
 import Seller from "./seller/Seller"
+import Manager from "./seller/pages/manger/Maneger"
+import Status from "./seller/pages/status/Status"
 import ProductDetail from "./buyer/ProductDetail";
 
 import Profile from "./user/Profile";
@@ -34,6 +36,8 @@ function App() {
         <Route path="/productdetail" element={<ProductDetail />} />
 
         <Route path="/seller" element={<Seller />} />
+        <Route path="/manager" element={<Manager />} />
+        <Route path="/status" element={<Status />} />
       </Routes>
     </BrowserRouter>
   );
