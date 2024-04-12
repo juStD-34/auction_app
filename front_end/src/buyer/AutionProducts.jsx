@@ -174,7 +174,9 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
                             <h2 className="text-sm font-semibold mb-3">{item.name}</h2>
                             <p className="text-sm">{item.time}</p>
                             <p>Giá khởi điểm: {item.price}</p>
-                            <button className="bg-red-600 p-2 text-white rounded-lg hover:bg-black">Chi tiết</button>
+                            <button className="bg-red-600 p-2 text-white rounded-lg hover:bg-black">
+                              <a href="/productdetail">Chi tiết</a>
+                            </button>
                           </div>
                       </div>
                   ))}
