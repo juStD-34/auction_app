@@ -46,16 +46,16 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
             </div>
             
             <div class="mx-10 my-10">
-                <button class={currentChoice1 == 1 
+                <button class={currentChoice1 === 1 
                     ? "bg-red-600 text-white mx-10 text-lg shadow-md font-semibold rounded-md p-2 transition duration-500 hover:bg-red-600" 
                     : "bg-white text-black mx-10 text-lg shadow-md font-semibold rounded-md p-2 transition duration-500 hover:bg-red-600"} 
                     onClick={() => setCurrentChoice1(1)} >Danh sách tài sản</button>
-                <button class={currentChoice1 == 2 
+                <button class={currentChoice1 === 2 
                     ? "bg-red-600 text-white text-lg font-semibold shadow-md rounded-md p-2 transition duration-500 hover:bg-red-600" 
                     : "bg-white text-black text-lg font-semibold shadow-md rounded-md p-2 transition duration-500 hover:bg-red-600"} 
                     onClick={() => setCurrentChoice1(2)}>Thông tin cuộc đấu giá</button>
             </div>
-            {currentChoice1 == 1 ? (<div class="flex">
+            {currentChoice1 === 1 ? (<div class="flex">
                 <div class="w-1/4 ml-20 pb-20">
                     <div class="mr-3">
                         <div className="mb-4 rounded-lg bg-gray-100 p-2">
@@ -107,15 +107,15 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
                 <div class="w-3/4">
                     <div class="flex justify-between">
                         <div>
-                            <button class={currentChoice2 == 1 
+                            <button class={currentChoice2 === 1 
                             ? "bg-red-600 text-white text-md shadow-md transition duration-500 px-2 mx-2 font-semibold rounded-md p-1 hover:bg-red-600"
                             : "bg-white text-black text-md shadow-md px-2 transition duration-500 mx-2 font-semibold rounded-md p-1 hover:bg-red-600"}
                             onClick={() => setCurrentChoice2(1)}>Tất cả</button>
-                            <button class={currentChoice2 == 2 
+                            <button class={currentChoice2 === 2 
                             ? "bg-red-600 text-white text-md shadow-md transition duration-500 px-2 mx-2 font-semibold rounded-md p-1 hover:bg-red-600"
                             : "bg-white text-black text-md shadow-md transition duration-500 px-2 mx-2 font-semibold rounded-md p-1 hover:bg-red-600"}
                             onClick={() => setCurrentChoice2(2)}>Đã đăng ký</button>
-                            <button class={currentChoice2 == 3 
+                            <button class={currentChoice2 === 3 
                             ? "bg-red-600 text-white text-md shadow-md transition duration-500 px-2 mx-2 font-semibold rounded-md p-1 hover:bg-red-600" 
                             : "bg-white text-black text-md shadow-md transition duration-500 px-2 mx-2 font-semibold rounded-md p-1 hover:bg-red-600"}
                             onClick={() => setCurrentChoice2(3)}>Đã phê duyệt</button>
@@ -156,18 +156,18 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
             ) : (
             <div class="flex grid grid-cols-2 mb-20">
                 <div class="w=1/2 ml-20">
-                    <img class="w-5 h-auto" src={code} />
+                    <img class="w-5 h-auto" src={code} alt="img"/>
                     <p class="font-semibold text-lg">Mã cuộc đấu giá</p>
                     <p class="mb-20">abcd1234 lmao bủh bủh</p>
-                    <img class="w-5 h-auto" src={clock} />
+                    <img class="w-5 h-auto" src={clock} alt="img"/>
                     <p class="font-semibold text-lg">Thời gian bắt đầu</p>
                     <p>Mười hai giờ</p>
                 </div>
                 <div class="w-1/2 ml-20">
-                <img class="w-5 h-auto" src={user} />
+                <img class="w-5 h-auto" src={user} alt="img"/>
                     <p class="font-semibold text-lg">Đấu giá viên</p>
                     <p class="mb-20">KevinLe</p>
-                    <img class="w-5 h-auto" src={clock} />
+                    <img class="w-5 h-auto" src={clock} alt="img"/>
                     <p class="font-semibold text-lg">Thời gian kết thúc</p>
                     <p>Mười hai giờ</p>
                 </div>
