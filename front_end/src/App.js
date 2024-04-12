@@ -4,11 +4,10 @@ import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
 import Buyer from "./buyer/Buyer"
 import AutionProducts from "./buyer/AutionProducts"
-import Seller from "./seller/pages/sell_page/SellPage"
+import Seller from "./seller/Seller"
 import Manager from "./seller/pages/manger/Maneger"
 import Status from "./seller/pages/status/Status"
-
-
+import ProductDetail from "./buyer/ProductDetail";
 
 import Profile from "./user/Profile";
 import Payment from "./user/Payment";
@@ -34,6 +33,8 @@ function App() {
 
         <Route path="/buyer" element={<Buyer />} />
         <Route path="/autionproducts" element={<AutionProducts />} />
+        <Route path="/productdetail" element={<ProductDetail />} />
+
         <Route path="/seller" element={<Seller />} />
         <Route path="/manager" element={<Manager />} />
         <Route path="/status" element={<Status />} />
