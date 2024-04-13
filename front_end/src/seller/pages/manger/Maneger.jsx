@@ -29,7 +29,9 @@ export default function Maneger() {
                                             <th scope="col" class="px-4 py-3 border-x light:border-neutral-600">Giá khởi điểm</th>
                                             <th scope="col" class="px-4 py-3 border-x light:border-neutral-600">Giá hiện tại</th>
                                             <th scope="col" class="px-4 py-3 border-x light:border-neutral-600">Người đấu giá cao nhất</th>
-                                            <th scope="col" class="px-4 py-3 border-x light:border-neutral-600">Dừng đấu giá ngay</th>
+                                            <th scope="col" class="px-4 py-3 border-x light:border-neutral-600">Chấp nhận đấu giá sớm</th>
+                                            <th scope="col" class="px-4 py-3 border-x light:border-neutral-600">Hủy đấu giá</th>
+
                                         </tr>
                                     </thead>
 
@@ -63,7 +65,12 @@ export default function Maneger() {
                                             </td>
                                             <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                                                 <div class="flex items-center">
-                                                    <button type="button" class="text-red-600 hover:text-white border border-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Dừng đấu giá</button>
+                                                    <button type="button" class="text-red-600 hover:text-white border border-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Chấp nhận giá đấu</button>
+                                                </div>
+                                            </td>
+                                            <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
+                                                <div class="flex items-center">
+                                                    <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Hủy đấu giá</button>
                                                 </div>
                                             </td>
 

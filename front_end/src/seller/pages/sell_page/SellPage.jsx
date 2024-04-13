@@ -47,8 +47,29 @@ export default function SellPage() {
                 <option value="DE">Văn hóa nghệ thuật</option>
               </select>
             </div>
-
           </div>
+          <label for="address" class="block mb-2 text-sm font-semibold  text-gray-900 dark:text-white">Địa chỉ người bán:</label>
+
+                    <div class="grid gap-6 mb-6 md:grid-cols-3">
+
+                        <div>
+                            <label for="Province" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tỉnh / Thành phố:</label>
+                            <input type="text" id="Province" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hà Nội" required />
+                        </div>
+                        <div>
+                            <label for="District" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quận / Huyện:</label>
+                            <input type="text" id="District" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đống Đa" required />
+                        </div>
+                        <div>
+                            <label for="Commune" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Xã / Phường:</label>
+                            <input type="text" id="Commune" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Khương Thượng" required />
+                        </div>
+
+                    </div>
+                    <div class="mb-6">
+                        <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên đường, ngõ, số nhà:</label>
+                        <input type="text" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Số 1, ngõ 123, phố Khương Thượng" required />
+                    </div>
           <div class="mb-6">
             <label for="message" class="block text-sm font-semibold mb-2">Mô tả sản phẩm:</label>
             <textarea id="message" rows="2" class="w-full p-2 border border-gray-300 rounded" placeholder="Viết mô tả của bạn ở đây..." required></textarea>
@@ -86,7 +107,7 @@ export default function SellPage() {
             <p class="mt-1 text-sm text-gray-500" id="file_input_help"> Chấp nhận ảnh PNG, JPEG, JPG hoặc WEBP.</p>
 
             {selectedImages.length > 0 &&
-               (
+              (
                 <button
                   className="upload-btn text-red"
                   onClick={() => {
