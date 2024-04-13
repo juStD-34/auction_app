@@ -63,7 +63,7 @@ export default function Maneger() {
                                             </td>
                                             <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                                                 <div class="flex items-center">
-                                                    <button type="button" class="text-blue-700 hover:text-white border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Dừng đấu giá</button>
+                                                    <button type="button" class="text-red-600 hover:text-white border border-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Dừng đấu giá</button>
                                                 </div>
                                             </td>
 
