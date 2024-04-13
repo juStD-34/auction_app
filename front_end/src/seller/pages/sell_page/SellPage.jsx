@@ -47,8 +47,29 @@ export default function SellPage() {
                 <option value="DE">Văn hóa nghệ thuật</option>
               </select>
             </div>
-
           </div>
+          <label for="address" class="block mb-2 text-sm font-semibold  text-gray-900 dark:text-white">Địa chỉ người bán:</label>
+
+                    <div class="grid gap-6 mb-6 md:grid-cols-3">
+
+                        <div>
+                            <label for="Province" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tỉnh / Thành phố:</label>
+                            <input type="text" id="Province" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Hà Nội" required />
+                        </div>
+                        <div>
+                            <label for="District" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Quận / Huyện:</label>
+                            <input type="text" id="District" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Đống Đa" required />
+                        </div>
+                        <div>
+                            <label for="Commune" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Xã / Phường:</label>
+                            <input type="text" id="Commune" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Khương Thượng" required />
+                        </div>
+
+                    </div>
+                    <div class="mb-6">
+                        <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tên đường, ngõ, số nhà:</label>
+                        <input type="text" id="address" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Số 1, ngõ 123, phố Khương Thượng" required />
+                    </div>
           <div class="mb-6">
             <label for="message" class="block text-sm font-semibold mb-2">Mô tả sản phẩm:</label>
             <textarea id="message" rows="2" class="w-full p-2 border border-gray-300 rounded" placeholder="Viết mô tả của bạn ở đây..." required></textarea>
@@ -74,7 +95,7 @@ export default function SellPage() {
           <div class="mb-6">
             <label class="block mb-2 text-sm font-medium text-gray-900" for="multiple_files">Đăng ảnh sản phẩm:</label>
             <div className="grid gap-6 mb-6 md:grid-cols-4">
-              <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none"
+              <input class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 white:text-gray-400 focus:outline-none"
                 id="multiple_files"
                 type="file"
                 name="images"
@@ -86,7 +107,7 @@ export default function SellPage() {
             <p class="mt-1 text-sm text-gray-500" id="file_input_help"> Chấp nhận ảnh PNG, JPEG, JPG hoặc WEBP.</p>
 
             {selectedImages.length > 0 &&
-               (
+              (
                 <button
                   className="upload-btn text-red"
                   onClick={() => {
@@ -104,7 +125,7 @@ export default function SellPage() {
                     <div key={image} className="image">
                       <img class="object-fill h-48 w-96" src={image} height="10px" alt="upload" />
                       <hr />
-                      <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
+                      <button type="button" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-3 py-1.5 me-2 mb-2 white:bg-red-600 white:hover:bg-red-700 white:focus:ring-red-900"
                         onClick={() => deleteHandler(image)}>
                         Xóa ảnh
                       </button>
@@ -140,8 +161,8 @@ export default function SellPage() {
           </div>
           {/* Nút bấm */}
           <div class="grid gap-6 mb-6 md:grid-cols-8">
-            <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Tạo đấu giá</button>
-            <button type="button" class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700">Hủy</button>
+            <button type="button" class="text-white bg-red-600 hover:bg-red-900 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 white:bg-blue-600 white:hover:bg-red focus:outline-none white:focus:ring-blue-800">Tạo đấu giá</button>
+            <button type="button" class="text-white bg-gray-600 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 white:bg-gray-800 white:hover:bg-gray-700 white:focus:ring-gray-700 white:border-gray-700">Hủy</button>
           </div>
         </form>
       </div>
