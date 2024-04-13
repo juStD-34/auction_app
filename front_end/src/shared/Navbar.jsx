@@ -151,7 +151,7 @@ export default function NavbarUser() {
                         inline
                         placement="bottom"
                         label={
-                        <a href="/autionproducts" className="text-3xl ml-20 hover:text-red-500">Tài sản đấu giá</a>
+                        <a href="/buyer" className="text-3xl ml-20 hover:text-red-500">Tài sản đấu giá</a>
                         }
                     >
                         <Dropdown.Item>

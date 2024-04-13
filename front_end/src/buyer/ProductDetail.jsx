@@ -17,17 +17,18 @@ var obj = [
 ]
 
 export default function ProductDetail() {
+    const [showPopup, setShowPopup] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const [currentChoice1, setCurrentChoice1] = useState(1);
     const [currentChoice2, setCurrentChoice2] = useState(1);
     const [viewMode, setViewMode] = useState('grid');
-  const itemsPerPage = 6;
+    const itemsPerPage = 6;
 
-  const handleClick = (pageNumber) => {
-      setCurrentPage(pageNumber);
-  };
+    const handleClick = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
 
-const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
     return (
         <>
             <NavbarUser/>
@@ -37,7 +38,8 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
                         <p className="text-3xl mb-5 font-semibold">Cáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình</p>
                         <p className="text-xl opacity-50">Thời gian bắt đầu:</p>
                         <p className="text-xl opacity-50 mb-5">Thời gian kết thúc:</p>
-                        <p className="text-xl opacity-50">Cuộc đấu giá bắt đầu sau:</p>
+                        <p className="text-xl mb-5 opacity-50">Cuộc đấu giá bắt đầu sau:</p>
+                        <button class="bg-red-600 text-white rounded-md p-2 font-semibold " onClick={() => setShowPopup(true)}>ĐẤU GIÁ NGAY!!!</button>
                     </div>
                     <div class="col-span-2">
                         <img src="https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg" alt="Ảnh minh họa" class="w-full"/>
@@ -175,6 +177,32 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
 
             )}
             <Footer/>
+            {showPopup && (
+                <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+                <div className="relative">
+                    <button
+                        className="absolute top-0 right-0 m-1 bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full"
+                        onClick={() => setShowPopup(false)}
+                    >
+                        X
+                    </button>
+                    <div className="bg-white p-8 rounded">
+                        <p className="text-2xl mb-5">Đấu giá sản phẩm</p>
+                        <p>Giá ban đầu:</p>
+                        <p>Giá cao nhất được trả:</p>
+                        <p>Khoảng cách giá:</p>
+                        <input class="rounded-md mr-2 p-2 border border-pgray-300" placeholder="Giá đấu..."/>
+                        <button
+                            className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            onClick={() => setShowPopup(false)}
+                        >
+                            Đồng ý
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            )}
         </>
     )
 }
