@@ -1,9 +1,8 @@
-const mongoose = require("mongooese")
+const mongoose = require("mongoose")
 
 const auctionSchema = new mongoose.Schema({
     id: {
         type: String,
-        required: true,
     },
     title: {
         type: String,
@@ -19,6 +18,11 @@ const auctionSchema = new mongoose.Schema({
     },
     category: {
         type: String,
+    },
+    createdBy: {
+        type: String,
+        ref: "User",
+      
     }
 })
 

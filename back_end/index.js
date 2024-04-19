@@ -1,6 +1,12 @@
 const express = require('express')
 const moogoose = require('mongoose')
+const cookieParser = require('cookie-parser');
 const authRoute = require('./route/AuthRoute')
+const auctionRoute = require('./route/AuctionRoute')
+const session = require('express-session');
+const passport = require('passport');
+
+
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
@@ -24,7 +30,11 @@ app.use(
         credential: true,
     })
 )
-
+app.use(session({ secret: 'anything' }));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.json())
+app.use(cookieParser())
 app.use('/', authRoute)
+app.use('/auction', auctionRoute)
 
