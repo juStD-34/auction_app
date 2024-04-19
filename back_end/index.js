@@ -1,6 +1,8 @@
 const express = require('express')
 const moogoose = require('mongoose')
 const authRoute = require('./route/AuthRoute')
+const auctionRoute = require('./route/AuctionRoute')
+const SearchRoute = require('./route/SearchRoute')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
@@ -27,4 +29,6 @@ app.use(
 
 app.use(express.json())
 app.use('/', authRoute)
+app.use('/seller', auctionRoute)
+app.use('buyer', SearchRoute)
 
