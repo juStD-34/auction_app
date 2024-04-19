@@ -1,5 +1,10 @@
 const Auction = require("../controller/AuctionController");
 
-const route = require("express").Router()
+const router = require("express").Router()
 
-route.post("/createAuction", Auction.createAuction)	
+router.post("/", Auction.createAuction)
+router.get("/", Auction.getAllAuction)	
+router.get("/:id", Auction.getAuctionById)
+router.patch("/update/:id", Auction.updateAuctionById)
+router.get("/delete/:id", Auction.deleteAuctionById)
+module.exports = router

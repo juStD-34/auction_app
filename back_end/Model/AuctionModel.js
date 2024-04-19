@@ -1,48 +1,76 @@
 const mongoose = require('mongoose');
 
 const auctionSchema = new mongoose.Schema({
-  product: {
-    name: {
-      type: String,
-      required: true,
+    // Product details
+    product: {
+        name: {
+            type: String,
+            required: true,
+        },
+        type: {
+            type: String,
+            required: true,
+        },
+        description: {
+            type: String,
+            required: true,
+        },
+        category: {
+            type: String,
+            required: false, // Not required, as you specified
+        },
+        createdBy: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "User",
+            required: true, // Reference to User model
+        },
+        softDelete: {
+            type: Boolean,
+            default: false,
+        },
+        participants: {
+            type: [mongoose.Schema.Types.ObjectId],
+            ref: 'User', // List of participants (reference to User model)
+            default: []
+        },
+        startPrice: {
+            type: Number,
+            required: true,
+        },
+        img: {
+            type: Buffer,
+            required: true,
+        }
     },
-    type: {
-      type: String,
-      required: true,
-    },
-    img: {
-      type: Buffer,
-      required: true,
-    }
-  },
-  timeStart: {
-    type: Date,
-    required: true,
-  },
-  timeEnd: {
-    type: Date,
-    required: true,
-  },
-  startPrice: {
-    type: Number,
-    required: true,
-  },
-  participants: [
-    {
-      bidderId: {
-        type: Number,
+    // Auction timing
+    timeStart: {
+        type: Date,
         required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
     },
-  ],
-  sellerID: {
-    type: Number,
-    required: true,
-  },
+    timeEnd: {
+        type: Date,
+        required: true,
+    },
+    // Auction participants and bids
+    participants: [
+        {
+            bidderId: {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User',
+                required: true, // Reference to User model
+            },
+            price: {
+                type: Number,
+                required: true,
+            },
+        },
+    ],
+    // Seller ID
+    sellerID: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
 });
 
 const Auction = mongoose.model('Auction', auctionSchema);
