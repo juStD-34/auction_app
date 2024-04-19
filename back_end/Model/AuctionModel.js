@@ -21,8 +21,19 @@ const auctionSchema = new mongoose.Schema({
     },
     createdBy: {
         type: String,
-        ref: "User",
-      
+        ref: "User", 
+    },
+    softDelete: {
+        type: Boolean,
+        default: false,
+    },
+    participants: {
+        type: Array,
+        default:[]
+    },
+    startPrice: {
+        type: Number,
+        required: true,
     }
 })
 
