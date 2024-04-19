@@ -1,29 +1,34 @@
-const Auction = require("../controller/AuctionController");
+const Auction = require("../Model/AuctionModel");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
 module.exports.getIncompleteAuction = async (req, res) => {
-    if (!req.cookies.token) {
-        return res.json({ status: false, message: "Please login first" });
-    }
-    const token = req.cookies.token;
-    jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
-        if (err) {
-            return res.json({ status: false })
-        } else {
-            try {
-                const user_id = data.id
-                const query = { participants: { $elemMatch: { bidderId: user_id } } }
-                const searchResult = await Auction.find(query)
-                res.status(201).json({
-                    success: true,
-                    message: "Search successful",
-                    searchResult
-                });
-            } catch (error) {
-                res.status(500).json({ error: error.message })
-            }
+    try {
+        if (!req.cookies.token) {
+            return res.json({ status: false, message: "Please login first" });
         }
-    })
+        const token = req.cookies.token;
+        jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
+            if (err) {
+                return res.json({ status: false })
+            } else {
+                try {
+                    const user_id = data.id
+                    const query = { participants: { $elemMatch: { bidderId: user_id } } }
+                    const searchResult = await Auction.find(query)
+                    res.status(201).json({
+                        success: true,
+                        message: "Search successful",
+                        searchResult
+                    });
+                } catch (error) {
+                    res.status(500).json({ error: error.message })
+                }
+            }
+        })
+    } catch (error) {
+        res.status(500).json({ error: error.message })
+    }
 }
 
 module.exports.search = async (req, res) => {

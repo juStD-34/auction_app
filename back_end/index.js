@@ -2,7 +2,7 @@ const express = require('express')
 const moogoose = require('mongoose')
 const authRoute = require('./route/AuthRoute')
 const sellerRoute = require('./route/SellerRoute')
-const buyerRoute = require('./route/BuyerRoute')
+const bidderRoute = require('./route/BidderRoute')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
@@ -30,5 +30,5 @@ app.use(
 app.use(express.json());
 app.use('/', authRoute);
 app.use('/seller', sellerRoute);
-app.use('/buyer', buyerRoute);
+app.use('/bidder', bidderRoute);
 
