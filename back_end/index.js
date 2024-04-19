@@ -1,8 +1,8 @@
 const express = require('express')
 const moogoose = require('mongoose')
 const authRoute = require('./route/AuthRoute')
-const auctionRoute = require('./route/AuctionRoute')
-const SearchRoute = require('./route/SearchRoute')
+const sellerRoute = require('./route/SellerRoute')
+const buyerRoute = require('./route/BuyerRoute')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
@@ -27,8 +27,8 @@ app.use(
     })
 )
 
-app.use(express.json())
-app.use('/', authRoute)
-app.use('/seller', auctionRoute)
-app.use('buyer', SearchRoute)
+app.use(express.json());
+app.use('/', authRoute);
+app.use('/seller', sellerRoute);
+app.use('/buyer', buyerRoute);
 

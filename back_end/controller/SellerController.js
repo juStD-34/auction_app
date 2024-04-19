@@ -1,7 +1,7 @@
 const Auction = require("../Model/AuctionModel");
 
 module.exports.createAuction = async (req, res) => {
-    const {auctionName, productName, productType, productImg, timeStart, timeEnd, startPrice, sellerId} = req.body;
+    const { auctionName, productName, productType, productImg, timeStart, timeEnd, startPrice, sellerId } = req.body;
     //this is not complete version. Img need to turn into binary.
     try {
         const newAuction = await Auction.create({
