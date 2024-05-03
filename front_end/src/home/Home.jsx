@@ -5,23 +5,28 @@ import Introduction from "./components/Introduction";
 import Preview from "./components/Preview";
 import Footers from "./components/Footer";
 import LoginModal from "./login/LoginModal";
+import SearchModal from "../search/SearchModal";
 
 function Home() {
   const [loginPopup, setLoginPopup] = React.useState(false);
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
 
+  const [searchPopup, setSearchPopup] = React.useState(false);
+  const toggleSearch = () => setSearchPopup(!searchPopup);
+
   return (
     <>
       <div className={loginPopup ? "blur-sm" : ""}>
         <NavigationBar
-          loginPopup={loginPopup}
           toggleLoginPopup={toggleLoginPopup}
+          toggleSearch={toggleSearch}
         />
         <Introduction />
         <Preview />
         <Footers />
       </div>
       <LoginModal loginPopup={loginPopup} toggleLoginPopup={toggleLoginPopup} />
+      <SearchModal searchPopup={searchPopup} toggleSearch={toggleSearch} />
     </>
   );
 }

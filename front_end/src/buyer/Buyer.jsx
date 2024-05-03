@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import NavbarUser from "../shared/Navbar";
 import Footer from "../home/components/Footer";
+import Card from "../home/components/Cards";
 
 import banner from "../home/assets/banner.png"
 import row from "../home/assets/row.png"
@@ -61,7 +62,7 @@ var obj = [
 
 
 export default function Buyer () {
-  const [viewMode, setViewMode] = useState('grid');
+  const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
@@ -88,7 +89,7 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
         </div>
         <div className="flex mb-10">
           {/* Sidebar */}
-          <div className="w-1/4 bg-gray-200 p-4 shadow-md rounded-lg ml-10">
+          <div className="w-1/4 h-3/4 bg-white p-4 shadow-md rounded-lg ml-10">
               <div className="bg-white p-3 rounded-lg mb-5">
                 {/* Ngày */}
                 <div className="mb-4">
@@ -154,28 +155,41 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
           <div className="w-3/4 flex ml-10 mr-20">
             <div>
               <div className="flex justify-end mb-4">
-                  <button onClick={() => setViewMode('grid')} className="bg-white shadow-md py-2 mr-2 px-2 rounded">
-                    <img className="w-10" src={grid} alt="img"/>
+                  <button onClick={() => setViewMode(true)} className="bg-white shadow-md py-2 mr-2 px-2 rounded">
+                    <img className="w-5" src={grid} alt="img"/>
                   </button>
-                  <button onClick={() => setViewMode('list')} className="bg-white shadow-md py-2 px-2 rounded">
-                    <img className="w-10" src={row} alt="img"/>
+                  <button onClick={() => setViewMode(false)} className="bg-white shadow-md py-2 px-2 rounded">
+                    <img className="w-5" src={row} alt="img"/>
                   </button>
               </div>
-              <div className={viewMode === 'grid' ? "grid grid-cols-3 gap-10" : "flex flex-wrap justify-center"}>
-                  {displayItems.map((item, index) => (
-                      <div key={index} className="bg-gray-100 p-4 mb-10 shadow-md rounded-lg transition duration-500 ease-in-out hover:transform  
-                      hover:translate-y-1 hover:scale-105">
-                          <img src={item.image} alt={item.name} className={viewMode === 'grid' ? "w-full" : "w-1/5"} />
-                          <div className={viewMode === 'grid' ? "" : "w-2/3"}>
-                            <h2 className="text-sm font-semibold mb-3">{item.name}</h2>
-                            <p className="text-sm">{item.time}</p>
-                            <p>Giá khởi điểm: {item.price}</p>
-                            <button className="bg-red-600 p-2 text-white rounded-lg hover:bg-black">
-                              <a href="/productdetail">Chi tiết</a>
-                            </button>
-                          </div>
-                      </div>
-                  ))}
+              <div className={viewMode ? "grid grid-cols-3 gap-10" : "flex flex-wrap justify-center"}>
+              {displayItems.map((item, index) =>
+                viewMode ? (
+                  <Card object={item} />
+                ) : (
+                  <div
+                    key={index}
+                    className="bg-gray-100 mt-5 p-4 mb-10 shadow-md rounded-lg transition duration-500 ease-in-out hover:transform
+                            hover:translate-y-1 hover:scale-105 overflow-hidden"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className={viewMode ? "w-full" : "w-1/5"}
+                    />
+                    <div className={!viewMode ? "" : "w-2/3"}>
+                      <h2 className="text-sm font-semibold mb-3">
+                        {item.name}
+                      </h2>
+                      <p className="text-sm">{item.time}</p>
+                      <p>Giá khởi điểm: {item.price}</p>
+                      <button className="bg-red-600 p-2 text-white rounded-lg hover:bg-black">
+                        Chi tiết
+                      </button>
+                    </div>
+                  </div>
+                )
+              )}
               </div>
               <div className="flex justify-center items-end mt-4">
                   {[...Array(Math.ceil(obj.length / itemsPerPage)).keys()].map((pageNumber) => (

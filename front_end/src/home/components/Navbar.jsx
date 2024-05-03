@@ -2,7 +2,7 @@ import { Dropdown, Navbar, Button } from "flowbite-react";
 import { CiSearch } from "react-icons/ci";
 import React from "react";
 
-export default function NavigationBar({ loginPopup, toggleLoginPopup }) {
+export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
   const [time, setTime] = React.useState(new Date().toLocaleString());
   const date = time.split(" ");
   var day;
@@ -57,7 +57,7 @@ export default function NavigationBar({ loginPopup, toggleLoginPopup }) {
               {date[0].replace(",", "")}
             </div>
           </div>
-          <Button color="red">
+          <Button color="red" onClick={toggleSearch}>
             <CiSearch className="h-7 w-7" />
             <p className="pt-1">Tìm kiếm</p>
           </Button>

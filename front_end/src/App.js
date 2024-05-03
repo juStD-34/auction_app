@@ -4,6 +4,7 @@ import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
 import Buyer from "./buyer/Buyer"
 import ProductDetail from "./buyer/ProductDetail"
+import SearchResult from "./search/SearchResult";
 
 import Profile from "./user/Profile";
 import Payment from "./user/Payment";
@@ -33,8 +34,9 @@ function App() {
         <Route path="/user/account/privacy" element={<Privacy />} />
 
         <Route path="/buyer" element={<Buyer />} />
-        <Route path="/productdetail" element={<ProductDetail />} />
+        <Route path="/productdetail/:id" element={<ProductDetail />} />
         
+        <Route path="/search/:keyword" element={<SearchResult />} />
 
         <Route path="/seller" element={<Seller />} />
         <Route path="/seller/profile" element={<SellerProfile />} />
