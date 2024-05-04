@@ -156,9 +156,11 @@ module.exports.stopAuction = async (req, res) => {
 
             //step 2: find winner
             const winner = await findWinner(auctionID);
+            existAuction.winnerID - winner.bidderId;
+            existAuction.save();
 
             //step 3: send notification
-            
+
             res.status(201).json({
                 success: true,
                 message: "Stop auction successfully",
