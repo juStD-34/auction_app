@@ -1,9 +1,9 @@
 const auction = require("../Model/AuctionModel");
 const participants = require("../Model/ParticipantsModel");
 module.exports.createBid = async (req, res) => {
-  const { userId, price } = req.body;
+  const { auctionID, userId, price } = req.body;
   try {
-    const result = await participants.findOne({ auctionID: req.params.id });
+    const result = await participants.findOne({ auctionID: auctionID});
     if (!result) {
       return res.status(404).json({
         success: false,
@@ -11,7 +11,7 @@ module.exports.createBid = async (req, res) => {
       });
     }
     const newBid = await participants.findOneAndUpdate(
-      { auctionID: req.params.id },
+      { auctionID: auctionID },
       {
         $push: { participants: { bidderId: userId, price: price } },
       },
@@ -94,20 +94,25 @@ module.exports.search = async (req, res) => {
   }
 };
 
-module.exports.DeleteBid = async (req, res) => {
-    const { userId } = req.body;
+module.exports.deleteBid = async (req, res) => {
+    const { userId, auctionID } = req.body;
     try {
-      const result = await participants.findOne({ auctionID: req.params.id });
+      const result = await participants.findOne({ auctionID: auctionID });
       if (!result) {
         return res.status(404).json({
           success: false,
           message: "Auction not found",
         });
       }
-      const newBid = await participants.findOne({ auctionID: req.params.id })
-      const element = await newBid.findLast({ bidderId: userId })
-      element.softDelete = true
-      await newBid.save()      
+      const newBid = await participants.findOne({ auctionID: auctionID })
+      const newParticipants = newBid.participants
+      for(i = newParticipants.length - 1; i >= 0; i --) {
+        if(newParticipants[i].bidderId == userId) {
+          newParticipants[i].softDelete = true
+          break
+        }
+      } 
+      await participants.findOneAndUpdate({ auctionID: auctionID }, { participants: newParticipants });    
 
       res.status(201).json({
         success: true,

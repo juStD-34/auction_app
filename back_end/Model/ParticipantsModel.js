@@ -9,7 +9,7 @@ const participantsSchema = new mongoose.Schema({
     participants: [
         {
             bidderId: {
-                type: Number,
+                type: String,
                 required: false,
             },
             price: {
