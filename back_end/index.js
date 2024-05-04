@@ -2,8 +2,10 @@ const express = require('express')
 const moogoose = require('mongoose')
 const cookieParser = require('cookie-parser');
 const authRoute = require('./route/AuthRoute')
-const auctionRoute = require('./route/AuctionRoute')
+const sellerRoute = require('./route/SellerRoute')
 const bidderRoute = require('./route/BidderRoute')
+const adminRoute = require('./route/AdminRoute')
+const auctionRoute = require('./route/AuctionRoute')
 
 const session = require('express-session');
 const passport = require('passport');
@@ -32,6 +34,12 @@ app.use(
         credential: true,
     })
 )
+
+app.use(express.json());
+app.use('/', authRoute);
+app.use('/seller', sellerRoute);
+app.use('/bidder', bidderRoute);
+app.use('/admin', adminRoute);
 app.use(session({ secret: 'anything' }));
 app.use(passport.initialize());
 app.use(passport.session());
