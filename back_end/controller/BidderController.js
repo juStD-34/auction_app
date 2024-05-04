@@ -10,7 +10,14 @@ module.exports.createBid = async (req, res) => {
         message: "Auction not found",
       });
     }
-
+    const length = result.participants.length
+    if(price <= result.participants[length - 1].price) {
+      
+      return res.status(201).json({
+        success: false,
+        message: "Price must be higher"
+      })
+    }
     const newBid = await participants.findOneAndUpdate(
       { auctionID: auctionID },
       {
