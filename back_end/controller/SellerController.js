@@ -35,6 +35,7 @@ module.exports.createAuction = async (req, res) => {
             newAuction
         });
     } catch (error) {
+        console.log(error);
         res.status(500).json({
             success: false,
             message: "Internal server error",
@@ -44,24 +45,39 @@ module.exports.createAuction = async (req, res) => {
     // res.status(200).json({ msg: "create auction" });
 }
 
-module.exports.updateAuctionById = async (req, res) => {
+// module.exports.updateAuctionById = async (req, res) => {
+//     try {
+//         const auction = await Auction.findByIdAndUpdate(req.params.id, req.body, { new: true });
+//         res.status(201).json({
+//             success: true,
+//             message: "Update auction successfully",
+//             auction
+//         });
+//     } catch (error) {
+//         res.status(500).json({
+//             success: false,
+//             message: "Internal server error",
+//             error: error.message,
+//         });
+//     }
+// }
+module.exports.deleteAuction = async (req, res) => {
+    const {auctionID} = req.params;
     try {
-        const auction = await Auction.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        const deleteAuction = await Auction.findByIdAndUpdate(auctionID, {softDelete: true});
         res.status(201).json({
             success: true,
-            message: "Update auction successfully",
-            auction
+            message: "Delete auction successfully",
+            deleteAuction
         });
-    } catch (error) {
+    }
+    catch (error) {
         res.status(500).json({
             success: false,
             message: "Internal server error",
             error: error.message,
         });
     }
-}
-module.exports.deleteAuction = async (req, res) => {
-    res.json({ msg: "delete auction" });
 }
 
 module.exports.getAllAuction = async (req, res) => {
