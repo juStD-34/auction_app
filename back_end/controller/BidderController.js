@@ -10,6 +10,7 @@ module.exports.createBid = async (req, res) => {
         message: "Auction not found",
       });
     }
+
     const newBid = await participants.findOneAndUpdate(
       { auctionID: auctionID },
       {
@@ -108,7 +109,7 @@ module.exports.deleteBid = async (req, res) => {
       const newParticipants = newBid.participants
       for(i = newParticipants.length - 1; i >= 0; i --) {
         if(newParticipants[i].bidderId == userId) {
-          newParticipants[i].softDelete = true
+          newParticipants.splice(i, 1);
           break
         }
       } 
