@@ -31,7 +31,10 @@ module.exports.createAuction = async (req, res) => {
         const auctionID = newAuction._id;
         const newParticipants = await Participants.create({
             auctionID,
-            participants: []
+            participants: [{
+                bidderId : null,
+                price: startPrice,
+            }]
         })
         res.status(201).json({
             success: true,
@@ -82,6 +85,12 @@ module.exports.getAllAuctionByID = async (req, res) => {
             });
         }
         const ownerAuction = await Auction.find({ sellerID });
+        if (ownerAuction.length == 0) {
+            return res.status(404).json({
+                success: false,
+                message: "Don't have auction",
+            });
+        }
         res.status(201).json({
             success: true,
             message: "Get all auction successfully",
@@ -157,7 +166,7 @@ module.exports.stopAuction = async (req, res) => {
 
             //step 2: find winner
             const winner = await findWinner(auctionID);
-            existAuction.winnerID - winner.bidderId;
+            existAuction.winnerID = winner.bidderId;
             existAuction.save();
 
             //step 3: send notification
@@ -165,7 +174,7 @@ module.exports.stopAuction = async (req, res) => {
             res.status(201).json({
                 success: true,
                 message: "Stop auction successfully",
-                winner
+                existAuction
             });
         }
     }
