@@ -3,6 +3,7 @@ const moogoose = require('mongoose')
 const authRoute = require('./route/AuthRoute')
 const sellerRoute = require('./route/SellerRoute')
 const bidderRoute = require('./route/BidderRoute')
+const adminRoute = require('./route/AdminRoute')
 const app = express()
 const cors = require('cors')
 require('dotenv').config()
@@ -31,4 +32,5 @@ app.use(express.json());
 app.use('/', authRoute);
 app.use('/seller', sellerRoute);
 app.use('/bidder', bidderRoute);
+app.use('/adming', adminRoute);
 
