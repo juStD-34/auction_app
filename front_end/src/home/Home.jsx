@@ -16,7 +16,7 @@ function Home() {
 
   return (
     <>
-      <div className={loginPopup ? "blur-sm" : ""}>
+      <div className={loginPopup ? "blur-sm " : ""}>
         <NavigationBar
           toggleLoginPopup={toggleLoginPopup}
           toggleSearch={toggleSearch}

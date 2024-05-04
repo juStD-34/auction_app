@@ -1,20 +1,33 @@
 // PostCard.js
-import React from 'react';
+import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const PostCard = ({ image, title, description }) => {
+function PostCard({ image, title, description, date }) {
+
+  const navigate = useNavigate();
+  function handleClick(id) {
+    navigate("/historydetails/" + id);
+  }
+
   return (
-    <div className="bg-white rounded-lg shadow-md mb-4 flex items-center">
+    <div className="bg-white rounded-lg shadow-md mb-6 flex">
       <img
         src={image}
         alt="Post"
-        className="h-full w-16 rounded-l-lg object-cover mr-4"
+        className="h-full w-32 rounded-l-lg object-cover mr-4"
       />
       <div>
-        <h3 className="font-bold">{title}</h3>
-        <p className="text-gray-600">{description}</p>
+        <h3 className="font-bold text-2xl">{title}</h3>
+        <p className="text-gray-600 text-lg">{description}: {date}</p>
+        <button
+          onClick={() => handleClick(title)}
+          className="bg-red-600 rounded-md p-2 text-white hover:bg-black mt-4"
+        >
+          Xem thêm chi tiết
+        </button>
       </div>
     </div>
   );
-};
+}
 
 export default PostCard;
