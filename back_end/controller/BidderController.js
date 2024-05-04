@@ -86,3 +86,19 @@ module.exports.search = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 }
+
+module.exports.DeleteBid = async (req, res) => {
+    res.json({msg: "delete bid"});
+}
+
+module.exports.getFailAuction = async (req, res) => {
+    res.json({msg: "get fail auction"});
+}
+
+//
+module.exports.getSuccessAuction = async (req, res) => {
+    res.json({msg: "get success auction"});
+}
+
+
+//Con thieu tinh nang se them sau

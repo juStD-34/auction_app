@@ -35,6 +35,10 @@ const auctionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    winnerID: {
+        type: String,
+        required: false,
+    }
 });
 
 const Auction = mongoose.model('auction', auctionSchema);
