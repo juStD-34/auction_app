@@ -32,7 +32,7 @@ const auctionSchema = new mongoose.Schema({
         required: true,
     },
     sellerID: {
-        type: Number,
+        type: String,
         required: true,
     },
     winnerID: {

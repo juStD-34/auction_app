@@ -80,8 +80,31 @@ module.exports.deleteAuction = async (req, res) => {
     }
 }
 
-module.exports.getAllAuction = async (req, res) => {
-    res.json({ msg: "get all auction" });
+module.exports.getAllAuctionByID = async (req, res) => {
+    const {sellerID} = req.params;
+    const existSeller = await Auction.findOne({sellerID});
+    if(!existSeller){
+        return res.status(404).json({
+            success: false,
+            message: "Seller not found",
+        });
+    }
+    try{
+        const ownerAuction = await Auction.find({sellerID});
+        res.status(201).json({
+            success: true,
+            message: "Get all auction successfully",
+            ownerAuction
+        });
+    }
+    catch(error){
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+    // res.json({ msg: "get all auction" });
 }
 
 module.exports.getAuctionByID = async (req, res) => {
