@@ -5,11 +5,13 @@ import Notifications from "react-notifications-menu";
 import hehe from "../home/assets/hehe.png";
 import search from "../home/assets/search.png";
 
+const id = 1;
+
 const DEFAULT_NOTIFICATION = {
   image:
     "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
   message: "Notification one.",
-  detailPage: "/events",
+  detailPage: "/historydetails/"+id,
   receivedTime: "12h ago",
 };
 
@@ -20,6 +22,10 @@ export default function NavbarUser() {
 
   function searchItem() {
     navigate(`/search/${inputRef.current.value}`);
+  }
+
+  function viewAll() {
+    navigate("/history");
   }
 
   const [time, setTime] = React.useState(new Date().toLocaleString());
@@ -127,7 +133,7 @@ export default function NavbarUser() {
                   title: "Notifications",
                   option: {
                     text: "View All",
-                    onClick: () => console.log("Clicked"),
+                    onClick: () => viewAll(),
                   },
                 }}
                 markAsRead={(data) => {

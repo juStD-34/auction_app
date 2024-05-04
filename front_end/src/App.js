@@ -5,6 +5,8 @@ import SignUp from "./home/signup/SignUp";
 import Buyer from "./buyer/Buyer"
 import ProductDetail from "./buyer/ProductDetail"
 import SearchResult from "./search/SearchResult";
+import History from "./history/History";
+import HistoryDetail from "./history/HistoryDetail";
 
 import Profile from "./user/Profile";
 import Payment from "./user/Payment";
@@ -16,8 +18,6 @@ import Seller from "./seller/pages/sell_page/SellPage"
 import Manager from "./seller/pages/manger/Maneger"
 import SellerProfile from "./seller/pages/profile/Profile"
 import Status from "./seller/pages/status/Status"
-
-
 
 function App() {
   return (
@@ -37,6 +37,8 @@ function App() {
         <Route path="/productdetail/:id" element={<ProductDetail />} />
         
         <Route path="/search/:keyword" element={<SearchResult />} />
+        <Route path="/history" element={<History />} />
+        <Route path="/historydetails/:id" element={<HistoryDetail />} />
 
         <Route path="/seller" element={<Seller />} />
         <Route path="/seller/profile" element={<SellerProfile />} />
