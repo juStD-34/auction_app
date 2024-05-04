@@ -31,18 +31,6 @@ const auctionSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    participants: [
-        {
-            bidderId: {
-                type: Number,
-                required: false,
-            },
-            price: {
-                type: Number,
-                required: false,
-            },
-        },
-    ],
     sellerID: {
         type: Number,
         required: true,
