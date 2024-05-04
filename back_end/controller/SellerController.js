@@ -1,5 +1,5 @@
 const Auction = require("../Model/AuctionModel");
-
+const Participants = require("../Model/ParticipantsModel");
 module.exports.createAuction = async (req, res) => {
     const {
         auctionName,
@@ -24,6 +24,11 @@ module.exports.createAuction = async (req, res) => {
             startPrice,
             sellerID
         });
+        const auctionID = newAuction._id;
+        const newParticipants = await Participants.create({
+            auctionID,
+            participants: []
+        })
         res.status(201).json({
             success: true,
             message: "Auction created successfully",
