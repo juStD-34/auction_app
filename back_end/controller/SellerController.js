@@ -1,5 +1,6 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
+const {findWinner} = require("../controller/AuctionController");
 
 //done
 module.exports.createAuction = async (req, res) => {
@@ -97,6 +98,36 @@ module.exports.getAllAuctionByID = async (req, res) => {
 }
 
 //done
+//done
+module.exports.getAllAuctionByID = async (req, res) => {
+    const { sellerID } = req.params;
+
+    try {
+        const existSeller = await Auction.findOne({ sellerID });
+        if (!existSeller) {
+            return res.status(404).json({
+                success: false,
+                message: "Seller not found",
+            });
+        }
+        const ownerAuction = await Auction.find({ sellerID });
+        res.status(201).json({
+            success: true,
+            message: "Get all auction successfully",
+            ownerAuction
+        });
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+    // res.json({ msg: "get all auction" });
+}
+
+//done
 module.exports.getAuctionByID = async (req, res) => {
     const { auctionID } = req.params;
 
@@ -123,12 +154,56 @@ module.exports.getAuctionByID = async (req, res) => {
             error: error.message,
         });
     }
-    // res.json({ msg: "get auction by id" });
 }
 
 
+
+/*
+    step 1: set auction's endTime to now
+    step 2: find winner 
+    step 3: send notification
+*/
 module.exports.stopAuction = async (req, res) => {
-    res.json({ msg: "stop auction" });
+    const { auctionID } = req.params;
+
+    try {
+        //step 1: set timeEnd to now
+        const existAuction = await Auction.findById(auctionID);
+        if (!existAuction) {
+            return res.status(404).json({
+                success: false,
+                message: "Auction not found",
+            });
+        } else {
+            if (existAuction.timeEnd < Date.now()) {
+                return res.status(400).json({
+                    success: false,
+                    message: "Auction already stopped",
+                });
+            }
+            existAuction.timeEnd = Date.now();
+            existAuction.save();
+
+            //step 2: find winner
+            const winner = await findWinner(auctionID);
+
+            //step 3: send notification
+            
+            res.status(201).json({
+                success: true,
+                message: "Stop auction successfully",
+                winner
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+    // res.json({ msg: "stop auction" });
 }
 
 //thieu giai doan thanh toan
