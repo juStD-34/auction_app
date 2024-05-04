@@ -162,28 +162,37 @@ const displayItems = obj.slice((currentPage - 1) * itemsPerPage, currentPage * i
                     <img className="w-5" src={row} alt="img"/>
                   </button>
               </div>
-              <div className={viewMode ? "grid grid-cols-3 gap-10" : "flex flex-wrap justify-center"}>
+              <div className={viewMode ? "grid grid-cols-3 gap-10" : "flex flex-wrap flex justify-center"}>
               {displayItems.map((item, index) =>
                 viewMode ? (
-                  <Card object={item} />
+                  <div className="transition duration-500 ease-in-out hover:transform hover:translate-y-1 hover:scale-105 overflow-hidden">
+                    <Card object={item} />
+                  </div>
                 ) : (
                   <div
                     key={index}
-                    className="bg-gray-100 mt-5 p-4 mb-10 shadow-md rounded-lg transition duration-500 ease-in-out hover:transform
+                    className="flex flex-row bg-gray-100 mt-5 mb-10 shadow-md rounded-lg transition duration-500 ease-in-out hover:transform
                             hover:translate-y-1 hover:scale-105 overflow-hidden"
                   >
                     <img
                       src={item.image}
                       alt={item.name}
-                      className={viewMode ? "w-full" : "w-1/5"}
+                      className={viewMode ? "" : "w-1/3"}
                     />
-                    <div className={!viewMode ? "" : "w-2/3"}>
-                      <h2 className="text-sm font-semibold mb-3">
+                    <div className={viewMode ? "" : "w-2/3 mt-3 ml-3"}>
+                      <h2 className="text-md font-semibold mb-3">
                         {item.name}
                       </h2>
-                      <p className="text-sm">{item.time}</p>
-                      <p>Giá khởi điểm: {item.price}</p>
-                      <button className="bg-red-600 p-2 text-white rounded-lg hover:bg-black">
+                      <div className="flex">
+                        <p className="text-sm">Thời gian đấu giá:</p>
+                        <p className="text-sm font-bold ml-1">{item.time}</p>
+                      </div>
+                      <div className="flex">
+                        <p className="text-sm">Giá khởi điểm: </p>
+                        <p className='text-sm font-bold ml-1 mb-3'>{item.price}</p>
+                      </div>
+                      
+                      <button className="bg-red-600 p-2 text-white rounded-lg font-semibold hover:bg-black">
                         Chi tiết
                       </button>
                     </div>
