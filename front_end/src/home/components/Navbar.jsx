@@ -71,7 +71,7 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
             inline
             placement="bottom"
             label={
-              <a href="/buyer" className="text-xl hover:text-red-500">Tài sản đấu giá</a>
+              <p className="text-xl hover:text-red-500">Tài sản đấu giá</p>
             }
           >
             <Dropdown.Item>
@@ -119,10 +119,10 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
               <p className="hover:text-red-500">Tin khác</p>
             </Dropdown.Item>
           </Dropdown>
-          <p href="#" className="text-xl hover:text-red-500">
+          <p className="text-xl hover:text-red-500 hover:cursor-pointer">
             Giới thiệu
           </p>
-          <p href="#" className="text-xl hover:text-red-500">
+          <p  className="text-xl hover:text-red-500 hover:cursor-pointer">
             Liên hệ
           </p>
         </Navbar.Collapse>

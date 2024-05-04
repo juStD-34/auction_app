@@ -38,7 +38,7 @@ export default function Maneger() {
                                     {/* DATA mẫu */}
 
                                     <tbody>
-                                        <tr class="border-b light:border-gray-600 hover:bg-gray-100 light:hover:bg-gray-700 border-b light:border-neutral-600">
+                                        <tr class="light:border-gray-600 hover:bg-gray-100 light:hover:bg-gray-700 border-b light:border-neutral-600">
                                             <td class="w-4 px-4 py-3">
                                                 <div class="flex items-center">
                                                     <label htmlFor="">1</label>

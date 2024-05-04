@@ -1,13 +1,22 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown, Navbar } from "flowbite-react";
+import Notifications from "react-notifications-menu";
 import hehe from "../home/assets/hehe.png";
 import search from "../home/assets/search.png";
-import noti from "../home/assets/noti.png";
+
+const DEFAULT_NOTIFICATION = {
+  image:
+    "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
+  message: "Notification one.",
+  detailPage: "/events",
+  receivedTime: "12h ago",
+};
 
 export default function NavbarUser() {
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
+  const [data, setData] = React.useState([DEFAULT_NOTIFICATION]);
 
   function searchItem() {
     navigate(`/search/${inputRef.current.value}`);
@@ -92,7 +101,10 @@ export default function NavbarUser() {
             />
           </div>
           <div>
-            <button onClick={searchItem} className="ml-2 w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-2 hover:bg-gray-300">
+            <button
+              onClick={searchItem}
+              className="ml-2 w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-2 hover:bg-gray-300"
+            >
               <img src={search} alt="dp" />
             </button>
           </div>
@@ -109,7 +121,19 @@ export default function NavbarUser() {
         <div className="col-span-2 flex items-center justify-end mr-10">
           <div className="mr-2">
             <button className="items-center w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-1 hover:bg-gray-300">
-              <img src={noti} className="w-8 h-8 rounded-full" alt="dp" />
+            <Notifications
+                data={data}
+                header={{
+                  title: "Notifications",
+                  option: {
+                    text: "View All",
+                    onClick: () => console.log("Clicked"),
+                  },
+                }}
+                markAsRead={(data) => {
+                  console.log(data);
+                }}
+              />
             </button>
           </div>
           <div className="h-10 w-auto flex rounded-full shadow-md border-2 border-gray-400 p-1 items-center space-x-2 pr-2 hover:bg-gray-300">
@@ -132,7 +156,9 @@ export default function NavbarUser() {
               }
             >
               <Dropdown.Item>
-                <a className="hover:text-red-500">Thông báo</a>
+                <a href="" className="hover:text-red-500">
+                  Thông báo
+                </a>
               </Dropdown.Item>
               <Dropdown.Item>
                 <a href="/user/account/profile" className="hover:text-red-500">

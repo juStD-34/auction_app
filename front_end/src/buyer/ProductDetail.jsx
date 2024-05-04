@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Card from "../home/components/Cards";
 import NavbarUser from "../shared/Navbar";
@@ -37,6 +37,11 @@ export default function ProductDetail() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, []);
+
   return (
     <>
       <NavbarUser />

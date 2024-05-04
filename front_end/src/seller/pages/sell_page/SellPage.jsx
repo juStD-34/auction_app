@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef } from "react";
 import Sidebar from "../../components/sidebar/Sidebar"
-import { Button, Card, Label, TextInput, Modal, Select } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
 import LoginModal from "../../../home/login/LoginModal"
 
 export default function SellPage() {
