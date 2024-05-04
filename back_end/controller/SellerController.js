@@ -1,5 +1,7 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
+
+//done
 module.exports.createAuction = async (req, res) => {
     const {
         auctionName,
@@ -45,26 +47,11 @@ module.exports.createAuction = async (req, res) => {
     // res.status(200).json({ msg: "create auction" });
 }
 
-// module.exports.updateAuctionById = async (req, res) => {
-//     try {
-//         const auction = await Auction.findByIdAndUpdate(req.params.id, req.body, { new: true });
-//         res.status(201).json({
-//             success: true,
-//             message: "Update auction successfully",
-//             auction
-//         });
-//     } catch (error) {
-//         res.status(500).json({
-//             success: false,
-//             message: "Internal server error",
-//             error: error.message,
-//         });
-//     }
-// }
+//done
 module.exports.deleteAuction = async (req, res) => {
-    const {auctionID} = req.params;
+    const { auctionID } = req.params;
     try {
-        const deleteAuction = await Auction.findByIdAndUpdate(auctionID, {softDelete: true});
+        const deleteAuction = await Auction.findByIdAndUpdate(auctionID, { softDelete: true });
         res.status(201).json({
             success: true,
             message: "Delete auction successfully",
@@ -80,24 +67,26 @@ module.exports.deleteAuction = async (req, res) => {
     }
 }
 
+//done
 module.exports.getAllAuctionByID = async (req, res) => {
-    const {sellerID} = req.params;
-    const existSeller = await Auction.findOne({sellerID});
-    if(!existSeller){
-        return res.status(404).json({
-            success: false,
-            message: "Seller not found",
-        });
-    }
-    try{
-        const ownerAuction = await Auction.find({sellerID});
+    const { sellerID } = req.params;
+
+    try {
+        const existSeller = await Auction.findOne({ sellerID });
+        if (!existSeller) {
+            return res.status(404).json({
+                success: false,
+                message: "Seller not found",
+            });
+        }
+        const ownerAuction = await Auction.find({ sellerID });
         res.status(201).json({
             success: true,
             message: "Get all auction successfully",
             ownerAuction
         });
     }
-    catch(error){
+    catch (error) {
         res.status(500).json({
             success: false,
             message: "Internal server error",
@@ -107,9 +96,36 @@ module.exports.getAllAuctionByID = async (req, res) => {
     // res.json({ msg: "get all auction" });
 }
 
+//done
 module.exports.getAuctionByID = async (req, res) => {
-    res.json({ msg: "get auction by id" });
+    const { auctionID } = req.params;
+
+    try {
+        const existAuction = await Auction.findById(auctionID);
+        if (!existAuction) {
+            return res.status(404).json({
+                success: false,
+                message: "Auction not found",
+            });
+        } else {
+            res.status(201).json({
+                success: true,
+                message: "Get auction successfully",
+                existAuction
+
+            });
+        }
+    }
+    catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+    // res.json({ msg: "get auction by id" });
 }
+
 
 module.exports.stopAuction = async (req, res) => {
     res.json({ msg: "stop auction" });
