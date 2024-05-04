@@ -74,36 +74,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
     const { sellerID } = req.params;
 
     try {
-        const existSeller = await Auction.findOne({ sellerID });
-        if (!existSeller) {
-            return res.status(404).json({
-                success: false,
-                message: "Seller not found",
-            });
-        }
-        const ownerAuction = await Auction.find({ sellerID });
-        res.status(201).json({
-            success: true,
-            message: "Get all auction successfully",
-            ownerAuction
-        });
-    }
-    catch (error) {
-        res.status(500).json({
-            success: false,
-            message: "Internal server error",
-            error: error.message,
-        });
-    }
-    // res.json({ msg: "get all auction" });
-}
-
-//done
-module.exports.getAllAuctionByID = async (req, res) => {
-    const { sellerID } = req.params;
-
-    try {
-        const existSeller = await User.findOne({ sellerID });
+        const existSeller = await User.findById({ _id: sellerID });
         if (!existSeller) {
             return res.status(404).json({
                 success: false,

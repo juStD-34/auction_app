@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 const bcrypt = require("bcryptjs");
 
 const Role = {
-  ADMIN:'ADMIN',
-  BIDDER:"BIDDER",
-  SELLER:"SELLER",
+  ADMIN: 'ADMIN',
+  BIDDER: "BIDDER",
+  SELLER: "SELLER",
 };
 const userSchema = new mongoose.Schema({
   email: {
