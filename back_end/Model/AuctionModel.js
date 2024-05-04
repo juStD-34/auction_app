@@ -38,6 +38,7 @@ const auctionSchema = new mongoose.Schema({
     winnerID: {
         type: String,
         required: false,
+        default : null
     },
     softDelete: {
         type: Boolean,

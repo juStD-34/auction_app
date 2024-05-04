@@ -1,7 +1,7 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
 const User = require("../Model/UserModel");
-const {findWinner} = require("../controller/AuctionController");
+const {endAuction} = require("../service_manager");
 
 //done
 module.exports.createAuction = async (req, res) => {
@@ -77,7 +77,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
     const { sellerID } = req.params;
 
     try {
-        const existSeller = await User.findById({ _id: sellerID });
+        const existSeller = await User.find({ _id: sellerID , softDelete: false });
         if (!existSeller) {
             return res.status(404).json({
                 success: false,
@@ -112,7 +112,7 @@ module.exports.getAuctionByID = async (req, res) => {
     const { auctionID } = req.params;
 
     try {
-        const existAuction = await Auction.findById(auctionID);
+        const existAuction = await Auction.find({_id: auctionID, softDelete: false});
         if (!existAuction) {
             return res.status(404).json({
                 success: false,
@@ -148,7 +148,7 @@ module.exports.stopAuction = async (req, res) => {
 
     try {
         //step 1: set timeEnd to now
-        const existAuction = await Auction.findById(auctionID);
+        const existAuction = await Auction.find({_id: auctionID, softDelete: false});
         if (!existAuction) {
             return res.status(404).json({
                 success: false,
@@ -165,7 +165,7 @@ module.exports.stopAuction = async (req, res) => {
             existAuction.save();
 
             //step 2: find winner
-            const winner = await findWinner(auctionID);
+            const winner = await endAuction(existAuction);
             existAuction.winnerID = winner.bidderId;
             existAuction.save();
 

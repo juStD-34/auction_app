@@ -9,23 +9,23 @@ const transactionSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    auctionID : {
-        type: String,
-        required: true,
-    },
     createdAt: {
         type: Date,
         default: Date.now
     },
     payment: {
         amount: {
-            type: Double,
-            required: false
+            type: Number,
+            required: true
         },
         paidAt : {
             type: Date,
-            required: false
+            required: false,
+            default: null
         }
     }
-
 });
+
+const Transaction = mongoose.model("Transactions", transactionSchema);
+
+module.exports = Transaction;
