@@ -32,5 +32,5 @@ app.use(express.json());
 app.use('/', authRoute);
 app.use('/seller', sellerRoute);
 app.use('/bidder', bidderRoute);
-app.use('/adming', adminRoute);
+app.use('/admin', adminRoute);
 

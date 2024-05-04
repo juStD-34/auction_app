@@ -1,6 +1,6 @@
-const Seller = require("../controller/SellerController");
+const {createAuction} = require("../controller/SellerController");
 const router = require("express").Router();
 
-router.post("/createAuction", Seller.createAuction);
+router.post("/createAuction", createAuction);
 
 module.exports = router;
