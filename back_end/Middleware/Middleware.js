@@ -2,14 +2,13 @@ const jwt = require("jsonwebtoken");
 const User = require("../Model/UserModel");
 
 module.exports.userVerification = async (req, res, next) => {
-    // Check if cookies are available and token is present
     if (!req.cookies || !req.cookies.token) {
         return res.status(401).json({ status: false, message: 'No token provided.' });
     }
 
     const token = req.cookies.token;
 
-    // Verify the token using JWT
+
     jwt.verify(token, process.env.TOKEN_KEY, async (err, data) => {
         if (err) {
             if (err.name === 'TokenExpiredError') {

@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const authRoute = require('./route/AuthRoute')
 const auctionRoute = require('./route/AuctionRoute')
 const bidderRoute = require('./route/BidderRoute')
+const userRoute = require('./route/UserRoute')
 
 const session = require('express-session');
 const passport = require('passport');
@@ -43,5 +44,5 @@ app.use('/', authRoute)
 app.use('/auction', auctionRoute)
 console.log(typeof userVerification)
 app.use('/bid', bidderRoute)
-
+app.use('/user/', userRoute)
 
