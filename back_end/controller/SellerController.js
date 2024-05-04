@@ -98,7 +98,6 @@ module.exports.getAllAuctionByID = async (req, res) => {
 }
 
 //done
-//done
 module.exports.getAllAuctionByID = async (req, res) => {
     const { sellerID } = req.params;
 
