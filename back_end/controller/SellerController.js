@@ -1,5 +1,6 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
+const User = require("../Model/UserModel");
 const {findWinner} = require("../controller/AuctionController");
 
 //done
@@ -102,7 +103,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
     const { sellerID } = req.params;
 
     try {
-        const existSeller = await Auction.findOne({ sellerID });
+        const existSeller = await User.findOne({ sellerID });
         if (!existSeller) {
             return res.status(404).json({
                 success: false,
