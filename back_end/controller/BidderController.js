@@ -1,9 +1,7 @@
 const auction = require("../Model/AuctionModel");
 const participants = require("../Model/ParticipantsModel");
 module.exports.createBid = async (req, res) => {
-  const { price } = req.body;
-  console.log(req.user);
-  userId = req.user._id;
+  const { userId, price } = req.body;
   try {
     const result = await participants.findOne({ auctionID: req.params.id });
     if (!result) {
@@ -97,8 +95,33 @@ module.exports.search = async (req, res) => {
 };
 
 module.exports.DeleteBid = async (req, res) => {
-  res.json({ msg: "delete bid" });
-};
+    const { userId } = req.body;
+    try {
+      const result = await participants.findOne({ auctionID: req.params.id });
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: "Auction not found",
+        });
+      }
+      const newBid = await participants.findOne({ auctionID: req.params.id })
+      const element = await newBid.findLast({ bidderId: userId })
+      element.softDelete = true
+      await newBid.save()      
+
+      res.status(201).json({
+        success: true,
+        message: "Create bid successfully",
+        newBid,
+      });
+    } catch (error) {
+      res.status(500).json({
+        success: false,
+        message: "Internal server error",
+        error: error.message,
+      });
+    }
+  };
 
 module.exports.getFailAuction = async (req, res) => {
   res.json({ msg: "get fail auction" });

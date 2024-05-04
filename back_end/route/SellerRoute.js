@@ -1,4 +1,4 @@
-const {createAuction, deleteAuction, getAllAuctionByID, getAuctionByID, stopAuction} = require("../controller/SellerController");
+const {createAuction, deleteAuction} = require("../controller/SellerController");
 const router = require("express").Router();
 
 const createAuctionApi = "/createAuction"
