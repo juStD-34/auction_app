@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const auctionSchema = new mongoose.Schema({
-    // Product details
+    name: {
+        type: String,
+        required: true,
+    },
     product: {
         name: {
             type: String,
@@ -11,38 +14,11 @@ const auctionSchema = new mongoose.Schema({
             type: String,
             required: true,
         },
-        description: {
-            type: String,
-            required: true,
-        },
-        category: {
-            type: String,
-            required: false, // Not required, as you specified
-        },
-        createdBy: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "User",
-            required: true, // Reference to User model
-        },
-        softDelete: {
-            type: Boolean,
-            default: false,
-        },
-        participants: {
-            type: [mongoose.Schema.Types.ObjectId],
-            ref: 'User', // List of participants (reference to User model)
-            default: []
-        },
-        startPrice: {
-            type: Number,
-            required: true,
-        },
         img: {
             type: Buffer,
             required: true,
         }
     },
-    // Auction timing
     timeStart: {
         type: Date,
         required: true,
@@ -51,28 +27,25 @@ const auctionSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    // Auction participants and bids
-    participants: [
-        {
-            bidderId: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'User',
-                required: true, // Reference to User model
-            },
-            price: {
-                type: Number,
-                required: true,
-            },
-        },
-    ],
-    // Seller ID
-    sellerID: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+    startPrice: {
+        type: Number,
         required: true,
     },
+    sellerID: {
+        type: String,
+        required: true,
+    },
+    winnerID: {
+        type: String,
+        required: false,
+        default : null
+    },
+    softDelete: {
+        type: Boolean,
+        default: false
+    }
 });
 
-const Auction = mongoose.model('Auction', auctionSchema);
+const Auction = mongoose.model('auction', auctionSchema);
 
 module.exports = Auction;
