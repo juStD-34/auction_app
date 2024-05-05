@@ -5,10 +5,6 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
 
-
-
-
-
 module.exports.getAuctionById = async (req, res) => {
     try {
         const auction = await Auction.findById(req.params.id);
@@ -25,7 +21,6 @@ module.exports.getAuctionById = async (req, res) => {
         });
     }
 }
-
 
 
 module.exports.deleteAuctionById = async (req, res) => {
@@ -45,15 +40,6 @@ module.exports.deleteAuctionById = async (req, res) => {
     }
 }
 
-async function findWinner (auctionID) {
-    try {
-        const participants = await Participants.findOne({auctionID: auctionID});
-        const winner = participants.participants[participants.participants.length - 1];
-        return winner;
-    }
-    catch (error) {
-        throw new Error("Failed to find winner");
-    }
-}
+
 
 module.exports = {findWinner};
