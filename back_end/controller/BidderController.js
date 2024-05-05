@@ -1,7 +1,7 @@
 const auction = require("../Model/AuctionModel");
 const participants = require("../Model/ParticipantsModel");
 module.exports.createBid = async (req, res) => {
-  const { auctionID, userId, price } = req.body;
+  const { auctionID, userID, price } = req.body;
   try {
     const result = await participants.findOne({ auctionID: auctionID});
     if (!result) {
@@ -21,7 +21,7 @@ module.exports.createBid = async (req, res) => {
     const newBid = await participants.findOneAndUpdate(
       { auctionID: auctionID },
       {
-        $push: { participants: { bidderId: userId, price: price } },
+        $push: { participants: { bidderId: userID, price: price } },
       },
     );
     res.status(201).json({
@@ -103,7 +103,7 @@ module.exports.search = async (req, res) => {
 };
 
 module.exports.deleteBid = async (req, res) => {
-    const { userId, auctionID } = req.body;
+    const { userID, auctionID } = req.body;
     try {
       const result = await participants.findOne({ auctionID: auctionID });
       if (!result) {
@@ -115,7 +115,7 @@ module.exports.deleteBid = async (req, res) => {
       const newBid = await participants.findOne({ auctionID: auctionID })
       const newParticipants = newBid.participants
       for(i = newParticipants.length - 1; i >= 0; i --) {
-        if(newParticipants[i].bidderId == userId) {
+        if(newParticipants[i].bidderId == userID) {
           newParticipants.splice(i, 1);
           break
         }

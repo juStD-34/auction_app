@@ -1,7 +1,7 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
 const User = require("../Model/UserModel");
-const {endAuction} = require("../services/service_manager");
+const { endAuction } = require("../services/service_manager");
 
 //done
 module.exports.createAuction = async (req, res) => {
@@ -32,7 +32,7 @@ module.exports.createAuction = async (req, res) => {
         const newParticipants = await Participants.create({
             auctionID,
             participants: [{
-                bidderId : null,
+                bidderId: null,
                 price: startPrice,
             }]
         })
@@ -77,7 +77,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
     const { sellerID } = req.params;
 
     try {
-        const existSeller = await User.find({ _id: sellerID , softDelete: false });
+        const existSeller = await User.find({ _id: sellerID, softDelete: false });
         if (!existSeller) {
             return res.status(404).json({
                 success: false,
@@ -112,7 +112,7 @@ module.exports.getAuctionByID = async (req, res) => {
     const { auctionID } = req.params;
 
     try {
-        const existAuction = await Auction.find({_id: auctionID, softDelete: false});
+        const existAuction = await Auction.find({ _id: auctionID, softDelete: false });
         if (!existAuction) {
             return res.status(404).json({
                 success: false,
@@ -148,7 +148,7 @@ module.exports.stopAuction = async (req, res) => {
 
     try {
         //step 1: set timeEnd to now
-        const existAuction = await Auction.find({_id: auctionID, softDelete: false});
+        const existAuction = await Auction.findOne({ _id: auctionID, softDelete: false });
         if (!existAuction) {
             return res.status(404).json({
                 success: false,
@@ -161,15 +161,14 @@ module.exports.stopAuction = async (req, res) => {
                     message: "Auction already stopped",
                 });
             }
+            try {
+                await endAuction(existAuction);
+            }
+            catch (error) {
+                console.log(error);
+            }
             existAuction.timeEnd = Date.now();
             existAuction.save();
-
-            //step 2: find winner
-            const winner = await endAuction(existAuction);
-            existAuction.winnerID = winner.bidderId;
-            existAuction.save();
-
-            //step 3: send notification
 
             res.status(201).json({
                 success: true,

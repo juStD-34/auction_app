@@ -49,8 +49,8 @@ app.use(passport.session());
 app.use(cookieParser())
 
 
-// app.use('/', authRoute)
-console.log(typeof userVerification)
-app.use('/bid', bidderRoute)
-app.use('/user/', userRoute)
+// // app.use('/', authRoute)
+// console.log(typeof userVerification)
+// app.use('/bid', bidderRoute)
+// app.use('/user/', userRoute)
 

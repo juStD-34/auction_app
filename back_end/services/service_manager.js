@@ -25,44 +25,61 @@ async function findEndAuction() {
     }
 }
 
-async function endAuction (auction){
-    console.log("endAuction: ", auction);
+async function endAuction(auction) {
+    try {
+        console.log("endAuction: ", auction);
 
-    const winner = await findWinner(auction._id);
-    console.log(winner, auction._id)
-    const transaction = new Transaction({
-        auctionID: auction._id,
-        bidderID: winner.bidderId,
-        sellerID: auction.sellerID,
-        payment: {
-            amount: winner.price,
+        const winner = await findWinner(auction._id);
+        if (winner.bidderId == null) {
+            const failNotification = new Notification({
+                title: "Fail Auction",
+                content: "Your auction don't have anyone get bid!",
+                receiverID: auction.sellerID,
+                auctionID: auction._id
+            })
+            failNotification.save();
+            console.log("endAuction fail ")
+        } else {
+            // console.log(winner, auction._id)
+            const transaction = new Transaction({
+                auctionID: auction._id,
+                bidderID: winner.bidderId,
+                sellerID: auction.sellerID,
+                payment: {
+                    amount: winner.price,
+                }
+
+            });
+            transaction.save();
+            auction.winnerID = winner._id;
+            // auction.save();
+            const notification = new Notification({
+                title: "End Auction",
+                content: "You are winner of the auction",
+                receiverID: winner.bidderId,
+                auctionID: auction._id
+
+            })
+            const notification2 = new Notification({
+                title: "End Auction",
+                content: "Your auction ended!",
+                receiverID: auction.sellerID,
+                auctionID: auction._id
+            })
+            notification.save();
+            notification2.save();
+            console.log("endAuction success ");
         }
-
-    });
-    transaction.save();
-    auction.winnerID = winner._id;
-    auction.save();
-    const notification = new Notification({
-        title:"End Auction",
-        content: "You are winner of the auction",
-        receiverID: winner.bidderId,
-        auctionID: auction._id
-
-    })
-    const notification2 = new Notification({
-        title:"End Auction",
-        content: "Your auction ended!",
-        receiverID: auction.sellerID,
-        auctionID: auction._id
-    })
-    notification.save();
-    notification2.save();
+    }
+    catch (error) {
+        throw new Error("Failed to end auction");
+    }
 }
 
 
-async function findWinner (auctionID) {
+async function findWinner(auctionID) {
     try {
-        const participants = await Participants.findOne({auctionID: auctionID});
+        const participants = await Participants.findOne({ auctionID: auctionID });
         const winner = participants.participants[participants.participants.length - 1];
         return winner;
     }
@@ -73,4 +90,4 @@ async function findWinner (auctionID) {
 
 const interval = setInterval(findEndAuction, 60000);
 
-module.exports = {endAuction}
+module.exports = { endAuction }
