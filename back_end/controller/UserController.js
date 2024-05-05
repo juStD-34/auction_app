@@ -35,6 +35,8 @@ module.exports.updateUserById = async (req, res) => {
     }
 }
 
+
+
 module.exports.changePassword = async (req, res) => {
     try {
         const{password} = req.body

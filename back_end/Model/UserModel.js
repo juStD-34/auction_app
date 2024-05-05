@@ -12,10 +12,22 @@ const userSchema = new mongoose.Schema({
     required: [true, "Your email address is required"],
     unique: true,
   },
-  username: {
+  
+  fullName: {
     type: String,
-    required: [true, "Your username is required"],
+    required: [true, "Your Fullname is required"],
   },
+
+  phoneNumber: {
+    type: String,
+    required: [true, "Your phone number is required"],
+  },
+
+  address: {
+    type: String,
+    required: [true, "Your address is required"],
+  },
+
   password: {
     type: String,
     required: [true, "Your password is required"],
@@ -29,6 +41,11 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: new Date(),
   },
+  budget: {
+    type: Number,
+    required: true,
+    default: 0
+  }
 });
 
 userSchema.pre("save", async function () {

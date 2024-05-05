@@ -3,13 +3,13 @@ const { createSecretToken } = require("../util/SecretToken");
 const bcrypt = require("bcryptjs");
 
 module.exports.Signup = async (req, res, next) => {
-  const { email, password, username, role } = req.body;
+  const { email, password, username, role, fullName, phoneNumber, address } = req.body;
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.json({ message: "User already exists" });
     }
-    const user = await User.create({ email, password, username, role });
+    const user = await User.create({ email, password, username, role, fullName, phoneNumber, address });
     const token = createSecretToken(user._id);
     res.cookie("token", token, {
       withCredentials: true,

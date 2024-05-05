@@ -7,6 +7,7 @@ const bidderRoute = require('./route/BidderRoute')
 const adminRoute = require('./route/AdminRoute')
 const userRoute = require('./route/UserRoute')
 
+
 const session = require('express-session');
 const passport = require('passport');
 const userVerification = require('./Middleware/Middleware')
@@ -40,6 +41,7 @@ app.use('/', authRoute);
 app.use('/seller', sellerRoute);
 app.use('/bidder', bidderRoute);
 app.use('/admin', adminRoute);
+
 app.use(session({ secret: 'anything' }));
 app.use(passport.initialize());
 app.use(passport.session());

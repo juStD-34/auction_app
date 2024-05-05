@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const transactionSchema = new mongoose.Schema({
     auctionID :{
         type: String,
@@ -19,7 +18,7 @@ const transactionSchema = new mongoose.Schema({
     },
     payment: {
         amount: {
-            type: Double,
+            type: Number,
             required: false
         },
         paidAt : {
@@ -27,5 +26,4 @@ const transactionSchema = new mongoose.Schema({
             required: false
         }
     }
-
 });
