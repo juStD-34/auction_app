@@ -43,11 +43,11 @@ app.use('/admin', adminRoute);
 app.use(session({ secret: 'anything' }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.json())
+// app.use(express.json())
 app.use(cookieParser())
 
 
-app.use('/', authRoute)
+// app.use('/', authRoute)
 console.log(typeof userVerification)
 app.use('/bid', bidderRoute)
 app.use('/user/', userRoute)

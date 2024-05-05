@@ -3,26 +3,26 @@ const Auction = require("./Model/AuctionModel");
 const Transaction = require("./Model/TransactionModel");
 
 
-async function findEndAuction() {
-    const now = new Date();
-    console.log("findEndAuction: ", now);
-    try {
-        const completeAuctions = await Auction.find({
-            timeEnd: { $lte: new Date() },
-            winnerID: null,
-            softDelete: false
-        });
-        console.log("completeAuctions: ", completeAuctions);
-        if (completeAuctions && completeAuctions.length > 0) {
-            // console.log("have")
-            for (const auction of completeAuctions) {
-                await endAuction(auction);
-            }
-        }
-    } catch (error) {
-        console.error("Error in findEndAuction:", error);
-    }
-}
+// async function findEndAuction() {
+//     const now = new Date();
+//     console.log("findEndAuction: ", now);
+//     try {
+//         const completeAuctions = await Auction.find({
+//             timeEnd: { $lte: new Date() },
+//             winnerID: null,
+//             softDelete: false
+//         });
+//         console.log("completeAuctions: ", completeAuctions);
+//         if (completeAuctions && completeAuctions.length > 0) {
+//             // console.log("have")
+//             for (const auction of completeAuctions) {
+//                 await endAuction(auction);
+//             }
+//         }
+//     } catch (error) {
+//         console.error("Error in findEndAuction:", error);
+//     }
+// }
 
 async function endAuction (auction){
     console.log("endAuction: ", auction);
@@ -53,6 +53,6 @@ async function findWinner (auctionID) {
     }
 }
 
-const interval = setInterval(findEndAuction, 1000);
+// const interval = setInterval(findEndAuction, 1000);
 
 module.exports = {endAuction}
