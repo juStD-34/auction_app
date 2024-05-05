@@ -105,7 +105,7 @@ module.exports.payForAuction = async (req, res) => {
 module.exports.getIncomingAuction = async (req, res) => {
     try {
         const result = await Auction.find({
-            timeStart: { $lt: Date.now() },
+            timeStart: { $gt: new Date() },
             softDelete: false
         })
         if (!result) {

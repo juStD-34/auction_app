@@ -18,7 +18,7 @@ const notificationSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
-    AuctionID: {   
+    auctionID: {   
         type: String,
         required: true,
     }
