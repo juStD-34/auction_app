@@ -105,7 +105,7 @@ module.exports.payForAuction = async (req, res) => {
 module.exports.getIncomingAuction = async (req, res) => {
     try {
         const result = await Auction.find({
-            timeStart: { $lt: Date.now() },
+            timeStart: { $gt: new Date() },
             softDelete: false
         })
         if (!result) {
@@ -121,6 +121,34 @@ module.exports.getIncomingAuction = async (req, res) => {
             result
         });
     }catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+}
+
+module.exports.getOccuringAuction = async (req, res) => {
+    try{
+        const result = await Auction.find({
+            timeStart: { $lt: new Date() },
+            timeEnd : { $gt: new Date() },
+            softDelete: false
+        })
+        if(!result) {
+            return res.status(404).json({
+                success: false,
+                message: "Occuring auction not found",
+            });
+        }
+        res.status(201).json({
+            success: true,
+            message: "Get occuring auction successfully",
+            result
+        });
+
+    } catch (error) {
         res.status(500).json({
             success: false,
             message: "Internal server error",
