@@ -7,7 +7,7 @@ import {
 
 import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
-import Buyer from "./buyer/Buyer"
+import IncomingAuction from "./buyer/IncomingAuction";
 import ProductDetail from "./buyer/ProductDetail"
 import SearchResult from "./search/SearchResult";
 import History from "./history/History";
@@ -38,7 +38,8 @@ function App() {
           <Route path="/user/account/address" element={<Address />} />
           <Route path="/user/account/password" element={<Password />} />
           <Route path="/user/account/privacy" element={<Privacy />} />
-          <Route path="/buyer" element={<Buyer />} />
+
+          <Route path="/incoming" element={<IncomingAuction />}/>
           <Route path="/productdetail/:id" element={<ProductDetail />} />
       
           <Route path="/search/:keyword" element={<SearchResult />} />
