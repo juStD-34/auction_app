@@ -75,16 +75,13 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
             }
           >
             <Dropdown.Item>
-              <p className="hover:text-red-500">Tài sản nhà nước</p>
+              <a href="/common" className="hover:text-red-500">Tài sản gia dụng</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p className="hover:text-red-500">Tài sản bất động sản</p>
+              <a href="/transport" className="hover:text-red-500">Tài sản phương tiện</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p className="hover:text-red-500">Phương tiện xe cộ</p>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <p className="hover:text-red-500">Văn hoá nghệ thuật</p>
+              <a href="/other" className="hover:text-red-500">Khác</a>
             </Dropdown.Item>
           </Dropdown>
           <Dropdown
@@ -97,10 +94,7 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
               <a href="/incoming" className="hover:text-red-500">Cuộc đấu giá sắp đấu giá</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p className="hover:text-red-500">Cuộc đấu giá đang diễn ra</p>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <p className="hover:text-red-500">Cuộc đấu giá đã kết thúc</p>
+              <a href="/occuring" className="hover:text-red-500">Cuộc đấu giá đang diễn ra</a>
             </Dropdown.Item>
           </Dropdown>
           <Dropdown

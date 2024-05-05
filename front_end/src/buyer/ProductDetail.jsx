@@ -1,19 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NavbarUser from "../shared/Navbar";
+import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 
 import useAuctionId from "../hooks/useAuctionId";
-
-var obj = [
-  {
-    name: "sCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-];
+import { useLoggedIn } from "../stores/useLoggedIn";
 
 export default function ProductDetail() {
   useEffect(() => {
@@ -21,6 +13,8 @@ export default function ProductDetail() {
   }, []);
 
   const [showPopup, setShowPopup] = useState(false);
+  const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
+
 
   const { id } = useParams();
   const datas = useAuctionId(id);
@@ -39,7 +33,7 @@ export default function ProductDetail() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  obj = {
+  var obj = {
     id: res._id,
     name: res.product.name,
     timeStart: formatDate(res.timeStart),
@@ -49,14 +43,9 @@ export default function ProductDetail() {
       "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
   };
 
-  // const displayItems = obj.slice(
-  //   (currentPage - 1) * itemsPerPage,
-  //   currentPage * itemsPerPage
-  // );
-
   return (
     <>
-      <NavbarUser />
+      {isLoggedIn ? <NavbarUser /> : <NavigationBar />}
       <div class="my-10 bg-[url('https://lacvietauction.vn/LVT/assets/images/bg/client-right.png')]">
         <div class="w-4/5 mx-auto mt-10 grid grid-cols-5 gap-4 content-center">
           <div class="col-span-3 p-4">
@@ -64,12 +53,12 @@ export default function ProductDetail() {
             <p className="text-xl opacity-50">Thời gian bắt đầu: {obj.timeStart}</p>
             <p className="text-xl opacity-50 mb-5">Thời gian kết thúc: {obj.timeEnd}</p>
             <p className="text-xl mb-5 opacity-50">Cuộc đấu giá bắt đầu sau: </p>
-            <button
+            {isLoggedIn ? <button
               class="bg-red-600 text-white rounded-md p-2 font-semibold "
               onClick={() => setShowPopup(true)}
             >
               ĐẤU GIÁ NGAY!!!
-            </button>
+            </button> : null}
           </div>
           <div class="col-span-2">
             <img

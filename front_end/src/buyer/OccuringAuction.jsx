@@ -5,7 +5,7 @@ import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
-import useIncomingAuction from "../hooks/useIncomingAuction";
+import useOccuringAuction from "../hooks/useOccuringAuction";
 import { useLoggedIn } from "../stores/useLoggedIn";
 
 import banner from "../home/assets/banner.png";
@@ -14,7 +14,7 @@ import grid from "../home/assets/grid.png";
 import "swiper/css";
 import "swiper/css/pagination";
 
-export default function IncomingAuction() {
+export default function OccuringAuction() {
   const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -26,7 +26,7 @@ export default function IncomingAuction() {
     navigate(`/productdetail/${id}`);
   }
 
-  const datas = useIncomingAuction();
+  const datas = useOccuringAuction();
   if (datas.isLoading) return <p>Loading...</p>;
   var res = datas.auction.result;
   var obj = [];

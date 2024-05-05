@@ -68,7 +68,7 @@ export default function NavbarUser() {
   }, []);
   return (
     <div>
-      <div className="flex justify-between w-full h-30 p-5 border-b-2 border-gray gap-4">
+      <div className="flex justify-between w-full h-20 p-5 border-b-2 border-gray gap-4">
         <div className="flex items-center">
           <div className="flex">
             <a href="/home">
@@ -104,22 +104,19 @@ export default function NavbarUser() {
             inline
             placement="bottom"
             label={
-              <a href="/buyer" className="text-xl hover:text-red-500">
+              <p href="/buyer" className="text-xl hover:text-red-500">
                 Tài sản đấu giá
-              </a>
+              </p>
             }
           >
             <Dropdown.Item>
-              <p className="hover:text-red-500">Tài sản nhà nước</p>
+              <a href="/common" className="hover:text-red-500">Tài sản gia dụng</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p className="hover:text-red-500">Tài sản bất động sản</p>
+              <p href="/transport" className="hover:text-red-500">Tài sản phương tiện</p>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p className="hover:text-red-500">Phương tiện xe cộ</p>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <p className="hover:text-red-500">Văn hoá nghệ thuật</p>
+              <a href="/other" className="hover:text-red-500">Khác</a>
             </Dropdown.Item>
           </Dropdown>
           <Dropdown
@@ -134,10 +131,7 @@ export default function NavbarUser() {
               <a href="/incoming" className="hover:text-red-500">Cuộc đấu giá sắp đấu giá</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p className="hover:text-red-500">Cuộc đấu giá đang diễn ra</p>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <p className="hover:text-red-500">Cuộc đấu giá đã kết thúc</p>
+              <a href="/occuring" className="hover:text-red-500">Cuộc đấu giá đang diễn ra</a>
             </Dropdown.Item>
           </Dropdown>
         </div>

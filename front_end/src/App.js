@@ -8,7 +8,12 @@ import {
 import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
 import IncomingAuction from "./buyer/IncomingAuction";
-import ProductDetail from "./buyer/ProductDetail"
+import OccuringAuction from "./buyer/OccuringAuction";
+import ProductDetail from "./buyer/ProductDetail";
+import TransportAuction from "./buyer/TransportAuction";
+import OtherAuction from "./buyer/OtherAuction";
+import CommonAuction from "./buyer/CommonAuction";
+
 import SearchResult from "./search/SearchResult";
 import History from "./history/History";
 import HistoryDetail from "./history/HistoryDetail";
@@ -40,6 +45,10 @@ function App() {
           <Route path="/user/account/privacy" element={<Privacy />} />
 
           <Route path="/incoming" element={<IncomingAuction />}/>
+          <Route path="/occuring" element={<OccuringAuction />}/>
+          <Route path="/transport" element={<TransportAuction />}/>
+          <Route path="/other" element={<OtherAuction />}/>
+          <Route path="/common" element={<CommonAuction />}/>
           <Route path="/productdetail/:id" element={<ProductDetail />} />
       
           <Route path="/search/:keyword" element={<SearchResult />} />
