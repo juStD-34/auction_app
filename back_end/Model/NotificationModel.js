@@ -21,6 +21,11 @@ const notificationSchema = new mongoose.Schema({
     auctionID: {   
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        enum: ['unread', 'read'],
+        default: 'unread' 
     }
 });
 

@@ -155,7 +155,7 @@ module.exports.stopAuction = async (req, res) => {
                 message: "Auction not found",
             });
         } else {
-            if (existAuction.timeEnd < Date.now()) {
+            if (existAuction.status == "CLOSED") {
                 return res.status(400).json({
                     success: false,
                     message: "Auction already stopped",
@@ -167,8 +167,8 @@ module.exports.stopAuction = async (req, res) => {
             catch (error) {
                 console.log(error);
             }
-            existAuction.timeEnd = Date.now();
-            existAuction.save();
+            // existAuction.timeEnd = Date.now();
+            // existAuction.save();
 
             res.status(201).json({
                 success: true,

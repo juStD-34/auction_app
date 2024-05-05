@@ -40,6 +40,11 @@ const auctionSchema = new mongoose.Schema({
         required: false,
         default : null
     },
+    status: {
+        type: String,
+        enum: ['INCOMING', 'OPEN', 'CLOSED', 'CANCELED'],
+        default: 'INCOMING'
+    },
     softDelete: {
         type: Boolean,
         default: false

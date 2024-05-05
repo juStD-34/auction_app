@@ -10,7 +10,7 @@ async function findEndAuction() {
     try {
         const completeAuctions = await Auction.find({
             timeEnd: { $lte: new Date() },
-            winnerID: null,
+            status: { $ne: "CLOSED" },
             softDelete: false
         });
         console.log("completeAuctions: ", completeAuctions);
@@ -70,6 +70,9 @@ async function endAuction(auction) {
             notification2.save();
             console.log("endAuction success ");
         }
+        auction.timeEnd = new Date();
+        auction.status = "CLOSED";
+        auction.save();
     }
     catch (error) {
         throw new Error("Failed to end auction");

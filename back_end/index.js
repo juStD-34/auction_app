@@ -5,6 +5,7 @@ const authRoute = require('./route/AuthRoute')
 const sellerRoute = require('./route/SellerRoute')
 const bidderRoute = require('./route/BidderRoute')
 const adminRoute = require('./route/AdminRoute')
+const notificationRouter = require('./services/NotificationManager')
 const userRoute = require('./route/UserRoute')
 
 
@@ -41,6 +42,7 @@ app.use('/', authRoute);
 app.use('/seller', sellerRoute);
 app.use('/bidder', bidderRoute);
 app.use('/admin', adminRoute);
+app.use('/notifications', notificationRouter);
 
 app.use(session({ secret: 'anything' }));
 app.use(passport.initialize());
