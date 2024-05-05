@@ -1,7 +1,7 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
 const User = require("../Model/UserModel");
-const {endAuction} = require("../service_manager");
+const {endAuction} = require("../services/service_manager");
 
 //done
 module.exports.createAuction = async (req, res) => {

@@ -101,3 +101,30 @@ module.exports.payForAuction = async (req, res) => {
         })
     }
 }
+
+module.exports.getIncomingAuction = async (req, res) => {
+    try {
+        const result = await Auction.find({
+            timeStart: { $lt: Date.now() },
+            softDelete: false
+        })
+        if (!result) {
+            return res.status(404).json({
+                success: false,
+                message: "Incoming auction not found",
+            });
+        }
+
+        res.status(201).json({
+            success: true,
+            message: "Get incoming auction successfully",
+            result
+        });
+    }catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Internal server error",
+            error: error.message,
+        });
+    }
+}

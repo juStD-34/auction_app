@@ -1,6 +1,6 @@
-const Participants = require("./Model/ParticipantsModel");
-const Auction = require("./Model/AuctionModel");
-const Transaction = require("./Model/TransactionModel");
+const Participants = require("../Model/ParticipantsModel");
+const Auction = require("../Model/AuctionModel");
+const Transaction = require("../Model/TransactionModel");
 
 
 // async function findEndAuction() {
@@ -26,7 +26,9 @@ const Transaction = require("./Model/TransactionModel");
 
 async function endAuction (auction){
     console.log("endAuction: ", auction);
-    const winner = findWinner(auction._id);
+
+    const winner = await findWinner(auction._id);
+    console.log(winner, auction._id)
     const transaction = new Transaction({
         auctionID: auction._id,
         bidderID: winner.bidderId,
