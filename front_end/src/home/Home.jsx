@@ -7,6 +7,8 @@ import Footers from "./components/Footer";
 import LoginModal from "./login/LoginModal";
 import SearchModal from "../search/SearchModal";
 
+import useData from '../hooks/useData';
+
 function Home() {
   const [loginPopup, setLoginPopup] = React.useState(false);
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);

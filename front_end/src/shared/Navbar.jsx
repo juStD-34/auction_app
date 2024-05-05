@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { Dropdown, Navbar } from "flowbite-react";
+import { Dropdown } from "flowbite-react";
 import Notifications from "react-notifications-menu";
 import hehe from "../home/assets/hehe.png";
 import avt from "../home/assets/avt.png";
@@ -19,7 +19,7 @@ const DEFAULT_NOTIFICATION = {
 export default function NavbarUser() {
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
-  const [data, setData] = React.useState([DEFAULT_NOTIFICATION]);
+  const data = ([DEFAULT_NOTIFICATION]);
 
   function searchItem() {
     navigate(`/search/${inputRef.current.value}`);
@@ -194,10 +194,10 @@ export default function NavbarUser() {
                   </a>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <a className="hover:text-red-500">Đăng xuất</a>
+                  <p className="hover:text-red-500">Đăng xuất</p>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <a className="hover:text-red-500">Tài sản khác</a>
+                  <p className="hover:text-red-500">Tài sản khác</p>
                 </Dropdown.Item>
               </Dropdown>
             </div>
