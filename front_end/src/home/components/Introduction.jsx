@@ -4,7 +4,7 @@ import intro from "../assets/intro.jpg"
 
 export default function Introduction() {
     return (
-        <div className="flex flex-row pt-32 pb-32">
+        <div className="flex flex-row pt-32 pb-32 bg-[url('https://lacvietauction.vn/LVT/assets/images/bg/client-right.png')]">
             <div className="basis-2/3 flex-col px-20 content-center">
                 <p className="text-xl font-bold text-red-500">Chào mừng bạn đến với Đấu giá tới bến</p>
                 <h3 className="text-4xl font-semibold py-4">Nền tảng đấu giá trực tuyến hàng đầu Việt Nam</h3>
