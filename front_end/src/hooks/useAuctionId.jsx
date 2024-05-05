@@ -1,11 +1,10 @@
-import React from "react";
 import { useQuery } from "react-query";
 import axios from "axios";
 
-export default function useData(id) {
+export default function useAuctionId(id) {
   const retrievePosts = async () => {
     const response = await axios.get(
-      "http://localhost:3002/seller/getAuctionByID/" + id
+      "http://localhost:3002/seller/getAuctionByID/"+id
     );
     return response.data;
   };
@@ -14,7 +13,7 @@ export default function useData(id) {
     data: auction,
     error,
     isLoading,
-  } = useQuery("postsData", retrievePosts, {
+  } = useQuery("AuctionId", retrievePosts, {
     cacheTime: Infinity, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là undefined
     refetchOnWindowFocus: false,
   });

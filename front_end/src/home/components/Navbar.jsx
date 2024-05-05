@@ -94,7 +94,7 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
             label={<p className="text-xl hover:text-red-500">Cuộc đấu giá</p>}
           >
             <Dropdown.Item>
-              <p className="hover:text-red-500">Cuộc đấu giá sắp đấu giá</p>
+              <a href="/incoming" className="hover:text-red-500">Cuộc đấu giá sắp đấu giá</a>
             </Dropdown.Item>
             <Dropdown.Item>
               <p className="hover:text-red-500">Cuộc đấu giá đang diễn ra</p>

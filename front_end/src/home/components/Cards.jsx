@@ -7,7 +7,7 @@ export default function Cards({object}) {
   const navigate = useNavigate();
 
   function openDetail() {
-    navigate(`/productdetail/${object.name}`);
+    navigate(`/productdetail/${object.id}`);
   }
 
   return (

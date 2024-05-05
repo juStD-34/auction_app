@@ -8,13 +8,13 @@ import "swiper/css/pagination";
 
 import Cards from "./Cards";
 
-import useData from "../../hooks/useData";
+import useIncomingAuction from "../../hooks/useIncomingAuction";
 
 
 export default function Preview() {
-  const datas = useData("66360bd155eacc9304c44f61");
+  const datas = useIncomingAuction();
   if (datas.isLoading) return <p>Loading...</p>;
-  console.log(datas.auction.existAuction[0]);
+  var res = datas.auction.result;
   var obj = [];
 
   const formatDate = (dateString) => {
@@ -29,11 +29,12 @@ export default function Preview() {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  for (var i = 0; i < 8; i++) {
+  for (var i = 0; i < res.length; i++) {
     obj.push({
-      name: datas.auction.existAuction[0].product.name,
-      time: formatDate(datas.auction.existAuction[0].timeStart),
-      price: datas.auction.existAuction[0].startPrice,
+      id: res[i]._id,
+      name: res[i].product.name,
+      time: formatDate(res[i].timeStart),
+      price: res[i].startPrice,
       image:
         "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
     });
