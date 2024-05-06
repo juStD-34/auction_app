@@ -15,7 +15,7 @@ export default function SellPage() {
   const dateStartRef = useRef("");
   const timeEndRef = useRef("");
   const dateEndRef = useRef("");
-  const imgRef = useRef("");
+  const imgRef = useRef([]);
 
   const [type, setType] = React.useState("");
 
@@ -28,6 +28,8 @@ export default function SellPage() {
   const formHandler = useCallback(
     () => (event) => {
       event.preventDefault();
+      const imagesBase64 = covertToBase64();
+
 
       const data = {
         nameProduct: nameProductRef.current?.value,
@@ -38,8 +40,7 @@ export default function SellPage() {
         dateStart: dateStartRef.current?.value,
         timeEnd: timeEndRef.current?.value,
         dateEnd: dateEndRef.current?.value,
-        imgRef: imgRef.current?.value,
-
+        imgRef: imagesBase64, // Sử dụng kết quả từ covertToBase64
 
         type: type,
       };
@@ -64,6 +65,25 @@ export default function SellPage() {
     // FOR BUG IN CHROME
     event.target.value = "";
   };
+  function covertToBase64() {
+    const selectedFiles = imgRef.current.files;
+    const selectedFilesArray = Array.from(selectedFiles);
+    let array = [];
+    selectedFilesArray.forEach((file) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        const base64String = reader.result;
+        //console.log(base64String); // In ra chuỗi base64 của từng file
+        array.push(base64String);
+      };
+      reader.onerror = (error) => {
+        console.log("Error: ", error);
+      };
+    });
+    console.log(array);
+    return array;
+  }
 
   function deleteHandler(image) {
     setSelectedImages(selectedImages.filter((e) => e !== image));
@@ -127,7 +147,7 @@ export default function SellPage() {
                   id="multiple_files"
                   type="file"
                   name="images"
-                  onChange={onSelectFile}
+                  onChange={covertToBase64}
                   multiple
                   accept="image/png , image/jpeg, image/webp, image/jpg"
                   ref={imgRef}
@@ -135,7 +155,7 @@ export default function SellPage() {
               </div>
               <p class="mt-1 text-sm text-gray-500" id="file_input_help"> Chấp nhận ảnh PNG, JPEG, JPG hoặc WEBP.</p>
 
-              {selectedImages.length > 0 &&
+              {/* {selectedImages.length > 0 &&
                 (
                   <button
                     className="upload-btn text-red"
@@ -161,7 +181,7 @@ export default function SellPage() {
                       </div>
                     );
                   })}
-              </div>
+              </div> */}
             </div>
 
             {/* Ngày */}

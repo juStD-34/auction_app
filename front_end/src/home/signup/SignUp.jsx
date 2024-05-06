@@ -7,12 +7,14 @@ import LoginModal from "../login/LoginModal";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 import { Button, Card, Label, TextInput, Modal, Select } from "flowbite-react";
+import axios from "axios";
 
 export default function SignUp() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginPopup, setLoginPopup] = useState(false);
   const [openError, setopenError] = useState(false);
 
+  const userLastNameRef = useRef("");
   const userRef = useRef("");
   const passwordRef = useRef("");
   const emailRef = useRef("");
@@ -29,7 +31,11 @@ export default function SignUp() {
   const [type, setType] = React.useState("");
 
   const handleTypeChange = (e) => {
-    setType(e.target.value);
+    if(e.target.value === "buyer"){
+      setType("BIDDER");
+    } else {
+      setType("SELLER");
+    }
   };
 
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
@@ -59,6 +65,32 @@ export default function SignUp() {
     },
     [type]
   );
+
+  const handleSignup = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3002/signup", {
+      email: userRef.current?.value,
+      password: passwordRef.current?.value,
+      fullName: userLastNameRef.current?.value,
+      phoneNumber: phoneRef.current?.value,
+      address: addressRef.current?.value,
+      role: type
+    }).then((response) => {
+      //   if(response.data.message !== "Incorrect password or email") {
+      //     setopenError(false)
+      //     setLogin("Login")
+      //     setUserName(response.data.user.fullName)
+      //     console.log(getUserName())
+      //     console.log(getLogin());
+      //   } else {
+      //     setopenError(true)
+      //     setLogin("Logout")
+      //     console.log(getLogin());
+      //   }
+      // }
+      console.log(response);
+    })
+  }
 
   return (
     <>
@@ -139,6 +171,7 @@ export default function SignUp() {
                   type="text"
                   autoComplete="off"
                   placeholder="TÊN"
+                  ref={userLastNameRef}
                 />
               </div>
 
@@ -297,6 +330,7 @@ export default function SignUp() {
               <button
                 type="submit"
                 className="col-span-6 transition-all duration-200 ease-in-out bg-red-700 border-red-700 border-2 text-white text-2xl py-3 px-5 rounded-md mt-4 block w-full hover:bg-white hover:text-red-600 hover:border-red-600 hover:border-2"
+                onClick={handleSignup}
               >
                 ĐĂNG KÝ TÀI KHOẢN
               </button>
