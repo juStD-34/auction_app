@@ -14,11 +14,20 @@ import grid from "../home/assets/grid.png";
 import "swiper/css";
 import "swiper/css/pagination";
 
+
 export default function IncomingAuction() {
   const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
+  const {getLogin} = require('../home/login/Auth');
+  const isLoggedIn = getLogin();
+
+  {/*Filter*/}
+  const [startDate, setStartDate] = useState('');
+  const [endDate, setEndDate] = useState('');
+  const [statusFilters, setStatusFilters] = useState([]);
+  const [categoryFilters, setCategoryFilters] = useState([]);
+  const [isNew, setIsNew] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,9 +71,14 @@ export default function IncomingAuction() {
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  const handleFilter = () => {
+
+  }
+
   return (
     <>
-      {isLoggedIn ? <NavbarUser /> : <NavigationBar />}
+      {isLoggedIn == "Login" ? <NavbarUser /> : <NavigationBar />}
       <div className="w-6/7 flex justify-center">
         <div className="flex items-center justify-center mb-10 border-b-2">
           <div>
@@ -153,7 +167,7 @@ export default function IncomingAuction() {
           </div>
           {/* Nút Lọc */}
           <div>
-            <button className="bg-red-600 text-white py-2 px-4 rounded hover:bg-black">
+            <button className="bg-red-600 text-white py-2 px-4 rounded hover:bg-black" onClick={handleFilter}>
               Lọc
             </button>
           </div>

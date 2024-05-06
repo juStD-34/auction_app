@@ -17,8 +17,7 @@ const DEFAULT_NOTIFICATION = {
 };
 
 export default function NavbarUser() {
-  const {getLogin} = require("../home/login/Auth");
-  const name = getLogin();
+  const {getUserName, setLogin} = require("../home/login/Auth");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
   const data = ([DEFAULT_NOTIFICATION]);
@@ -179,7 +178,7 @@ export default function NavbarUser() {
                       />
                     </div>
                     <div className="h-8 flex items-center justify-content">
-                      <p className="font-semibold text-sm">{name}</p>
+                      <p className="font-semibold text-sm">{getUserName()}</p>
                     </div>
                   </button>
                 }
@@ -190,7 +189,9 @@ export default function NavbarUser() {
                   </a>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <p className="hover:text-red-500">Đăng xuất</p>
+                  <a href="/home" onClick={setLogin("Logout")}>
+                    <p className="hover:text-red-500">Đăng xuất</p>
+                  </a>
                 </Dropdown.Item>
                 <Dropdown.Item>
                   <p className="hover:text-red-500">Tài sản khác</p>

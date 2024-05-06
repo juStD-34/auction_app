@@ -8,7 +8,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const userRef = React.useRef("");
   const passwordRef = React.useRef("");
-  const {setLogin} = require('./Auth');
+  const {getLogin, setLogin, setUserName, getUserName} = require('./Auth');
 
   const [openError, setopenError] = useState(false);
 
@@ -33,12 +33,17 @@ const Login = () => {
       email: userRef.current?.value,
       password: passwordRef.current?.value,
     }).then((response) => {
-        if(response.data.success == true) {
-          console.log(response.data.success)
+        if(response.data.message !== "Incorrect password or email") {
           setopenError(false)
-          setLogin(response.data.user.fullName)
+          setLogin("Login")
+          setUserName(response.data.user.fullName)
+          console.log(getUserName())
+          console.log(getLogin());
+          window.location.href = "/incoming"
         } else {
           setopenError(true)
+          setLogin("Logout")
+          console.log(getLogin());
         }
       }
     )
