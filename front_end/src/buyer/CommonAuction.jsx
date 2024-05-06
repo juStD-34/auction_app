@@ -19,6 +19,8 @@ export default function CommonAuction() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
+  const { setLoggedIn } = useLoggedIn();
+  setLoggedIn(false);
 
   const navigate = useNavigate();
 
