@@ -1,13 +1,14 @@
 import React, { useCallback, useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { Label, TextInput, Modal, Button } from "flowbite-react";
-
+import axios from "axios";
 //form login
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const userRef = React.useRef("");
   const passwordRef = React.useRef("");
+  const {setLogin} = require('./Auth');
 
   const [openError, setopenError] = useState(false);
 
@@ -21,12 +22,27 @@ const Login = () => {
         password: passwordRef.current?.value,
       };
       setopenError(true);
-
       console.log(data);
     },
     []
   );
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    axios.post("http://localhost:3002/signin", {
+      email: userRef.current?.value,
+      password: passwordRef.current?.value,
+    }).then((response) => {
+        if(response.data.success == true) {
+          console.log(response.data.success)
+          setopenError(false)
+          setLogin(response.data.user.fullName)
+        } else {
+          setopenError(true)
+        }
+      }
+    )
+  }
   return (
     <>
       <div className="p-16">
@@ -97,6 +113,7 @@ const Login = () => {
           <button
             type="submit"
             className="transition-all duration-200 ease-in-out bg-red-600 border-red-600 border-2 text-white text-2xl py-3 px-5 rounded-sm mt-4 block w-full hover:bg-white hover:text-red-600 hover:border-red-600 hover:border-2"
+            onClick={handleLogin}
           >
             Đăng nhập
           </button>
