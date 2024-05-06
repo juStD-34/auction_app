@@ -17,6 +17,8 @@ const DEFAULT_NOTIFICATION = {
 };
 
 export default function NavbarUser() {
+  const {getLogin} = require("../home/login/Auth");
+  const name = getLogin();
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
   const [data, setData] = React.useState([DEFAULT_NOTIFICATION]);
@@ -183,7 +185,7 @@ export default function NavbarUser() {
                       />
                     </div>
                     <div className="h-8 flex items-center justify-content">
-                      <p className="font-semibold text-sm">Le Ba Truong</p>
+                      <p className="font-semibold text-sm">{name}</p>
                     </div>
                   </button>
                 }
