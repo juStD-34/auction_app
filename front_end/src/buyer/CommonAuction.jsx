@@ -6,21 +6,26 @@ import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
 import useCommonAuction from "../hooks/useCommonAuction";
-import { useLoggedIn } from "../stores/useLoggedIn";
 
 import banner from "../home/assets/banner.png";
 import row from "../home/assets/row.png";
 import grid from "../home/assets/grid.png";
 import "swiper/css";
 import "swiper/css/pagination";
+import LoginModal from "../home/login/LoginModal";
+import SearchModal from "../search/SearchModal";
 
 export default function CommonAuction() {
   const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
-  const { setLoggedIn } = useLoggedIn();
-  setLoggedIn(false);
+  const [loginPopup, setLoginPopup] = React.useState(false);
+  const toggleLoginPopup = () => setLoginPopup(!loginPopup);
+
+  const [searchPopup, setSearchPopup] = React.useState(false);
+  const toggleSearch = () => setSearchPopup(!searchPopup);
+  const {getLogin} = require('../home/login/Auth');
+  const isLoggedIn = getLogin();
 
   const navigate = useNavigate();
 
@@ -66,7 +71,8 @@ export default function CommonAuction() {
   );
   return (
     <>
-      {isLoggedIn ? <NavbarUser /> : <NavigationBar />}
+      <div className={loginPopup ? "blur-sm " : ""}>
+      {isLoggedIn === "Login" ? <NavbarUser /> : <NavigationBar toggleLoginPopup={toggleLoginPopup} toggleSearch={toggleSearch}/>}
       <div className="w-6/7 flex justify-center">
         <div className="flex items-center justify-center mb-10 border-b-2">
           <div>
@@ -75,7 +81,7 @@ export default function CommonAuction() {
             </div>
             <div className="opacity-50">Trang chủ</div>
           </div>
-          <img className="w-4/6 h-auto" src={banner} alt="img" />
+          <img className="w-4/6 h-auto ml-10" src={banner} alt="img" />
         </div>
       </div>
       <div className="flex mb-10">
@@ -128,11 +134,19 @@ export default function CommonAuction() {
               {/* Example filter options */}
               <div>
                 <input className="mr-2" type="checkbox" />
-                <label htmlFor="filter1">Option 1</label>
+                <label htmlFor="filter1">Đồ gia dụng</label>
               </div>
               <div>
                 <input className="mr-2" type="checkbox" />
-                <label>Option 2</label>
+                <label>Phương tiện giao thông</label>
+              </div>
+              <div>
+                <input className="mr-2" type="checkbox" />
+                <label>Quần áo</label>
+              </div>
+              <div>
+                <input className="mr-2" type="checkbox" />
+                <label>Khác</label>
               </div>
             </div>
           </div>
@@ -250,6 +264,9 @@ export default function CommonAuction() {
       </div>
 
       <Footer />
+      </div>
+      <LoginModal loginPopup={loginPopup} toggleLoginPopup={toggleLoginPopup} />
+      <SearchModal searchPopup={searchPopup} toggleSearch={toggleSearch} />
     </>
   );
 }
