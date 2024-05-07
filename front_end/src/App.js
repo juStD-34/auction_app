@@ -7,6 +7,7 @@ import {
 
 import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
+import AllAuction from "./buyer/AllAuction";
 import IncomingAuction from "./buyer/IncomingAuction";
 import OccuringAuction from "./buyer/OccuringAuction";
 import ProductDetail from "./buyer/ProductDetail";
@@ -44,6 +45,7 @@ function App() {
           <Route path="/user/account/password" element={<Password />} />
           <Route path="/user/account/privacy" element={<Privacy />} />
 
+          <Route path="/allauction" element={<AllAuction />}/>
           <Route path="/incoming" element={<IncomingAuction />}/>
           <Route path="/occuring" element={<OccuringAuction />}/>
           <Route path="/transport" element={<TransportAuction />}/>

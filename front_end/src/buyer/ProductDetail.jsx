@@ -3,9 +3,10 @@ import { useParams } from "react-router-dom";
 import NavbarUser from "../shared/Navbar";
 import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
+import LoginModal from "../home/login/LoginModal";
+import SearchModal from "../search/SearchModal";
 
 import useAuctionId from "../hooks/useAuctionId";
-import { useLoggedIn } from "../stores/useLoggedIn";
 
 export default function ProductDetail() {
   useEffect(() => {
@@ -13,8 +14,13 @@ export default function ProductDetail() {
   }, []);
 
   const [showPopup, setShowPopup] = useState(false);
-  const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
+  const [loginPopup, setLoginPopup] = React.useState(false);
+  const toggleLoginPopup = () => setLoginPopup(!loginPopup);
 
+  const [searchPopup, setSearchPopup] = React.useState(false);
+  const toggleSearch = () => setSearchPopup(!searchPopup);
+  const {getLogin} = require('../home/login/Auth');
+  const isLoggedIn = getLogin();
 
   const { id } = useParams();
   const datas = useAuctionId(id);
@@ -45,7 +51,8 @@ export default function ProductDetail() {
 
   return (
     <>
-      {isLoggedIn ? <NavbarUser /> : <NavigationBar />}
+    <div className={loginPopup ? "blur-sm " : ""}>
+      {isLoggedIn === "Login" ? <NavbarUser /> : <NavigationBar toggleLoginPopup={toggleLoginPopup} toggleSearch={toggleSearch}/>}
       <div class="my-10 bg-[url('https://lacvietauction.vn/LVT/assets/images/bg/client-right.png')]">
         <div class="w-4/5 mx-auto mt-10 grid grid-cols-5 gap-4 content-center">
           <div class="col-span-3 p-4">
@@ -97,6 +104,9 @@ export default function ProductDetail() {
           </div>
         </div>
       )}
+      </div>
+      <LoginModal loginPopup={loginPopup} toggleLoginPopup={toggleLoginPopup} />
+      <SearchModal searchPopup={searchPopup} toggleSearch={toggleSearch} />
     </>
   );
 }

@@ -2,11 +2,28 @@ import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useSellerAuctions from "../../../hooks/useSellerAuctions";
 
+import { useMutation, useQueryClient } from "react-query";
+import axios from "axios";
+
 export default function Maneger() {
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (id) => {
+      return axios.get("http://localhost:3002/seller/deleteAuction/" + id);
+    },
+  });
+
   const datas = useSellerAuctions("6635dfdc6817a433256fc4f8");
   if (datas.isLoading) return <p>Loading...</p>;
   var res = datas.auction.ownerAuction;
   var obj = [];
+
+  function handleStopAuction(id) {
+    console.log(id);
+    mutation.mutate(id);
+    queryClient.invalidateQueries("SellerAuction");
+  }
 
   const formatDate = (dateString) => {
     const options = {
@@ -134,6 +151,7 @@ export default function Maneger() {
                         <td class="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                           <div class="flex items-center">
                             <button
+                              onClick={() => handleStopAuction(item.id)}
                               type="button"
                               class="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                             >

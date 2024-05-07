@@ -9,7 +9,7 @@ const Login = () => {
   const userRef = React.useRef("");
   const passwordRef = React.useRef("");
   const {getLogin, setLogin, setUserName, getUserName} = require('./Auth');
-
+  const {getUserID, setUserID} = require('../../hooks/userID')
   const [openError, setopenError] = useState(false);
 
   // Xử lý data đăng nhập
@@ -34,12 +34,24 @@ const Login = () => {
       password: passwordRef.current?.value,
     }).then((response) => {
         if(response.data.message !== "Incorrect password or email") {
-          setopenError(false)
-          setLogin("Login")
-          setUserName(response.data.user.fullName)
-          console.log(getUserName())
-          console.log(getLogin());
-          window.location.href = "/incoming"
+          if (response.data.user.role == "BIDDER") {
+            setopenError(false)
+            setLogin("Login")
+            setUserName(response.data.user.fullName)
+            console.log(getUserName())
+            console.log(getLogin());
+            setUserID(response.data.user._id)
+            window.location.href = "/allauction"
+            console.log(getUserID())
+          } else {
+            setopenError(false)
+            setLogin("Login")
+            setUserName(response.data.user.fullName)
+            console.log(getUserName())
+            console.log(getLogin());
+            setUserID(response.data.user._id)
+            window.location.href = "/seller"
+          }
         } else {
           setopenError(true)
           setLogin("Logout")
