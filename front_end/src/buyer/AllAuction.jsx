@@ -5,7 +5,7 @@ import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
-import useCommonAuction from "../hooks/useCommonAuction";
+import useAllAuction from "../hooks/useAllAuction";
 
 import banner from "../home/assets/banner.png";
 import row from "../home/assets/row.png";
@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
 
-export default function CommonAuction() {
+export default function AllAuction() {
   const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -33,9 +33,9 @@ export default function CommonAuction() {
     navigate(`/productdetail/${id}`);
   }
 
-  const datas = useCommonAuction();
+  const datas = useAllAuction();
   if (datas.isLoading) return <p>Loading...</p>;
-  var res = datas.auction.result;
+  var res = datas.auction.allAuction;
   var obj = [];
 
   const formatDate = (dateString) => {
@@ -117,11 +117,11 @@ export default function CommonAuction() {
               {/* Example filter options */}
               <div>
                 <input className="mr-2" type="checkbox" />
-                <label>Option 1</label>
+                <label>Đang diễn ra</label>
               </div>
               <div>
                 <input className="mr-2" type="checkbox" />
-                <label>Option 2</label>
+                <label>Sắp diễn ra</label>
               </div>
             </div>
           </div>
@@ -147,23 +147,6 @@ export default function CommonAuction() {
               <div>
                 <input className="mr-2" type="checkbox" />
                 <label>Khác</label>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg mb-5">
-            {/* Bộ lọc */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold mb-2">
-                Tài sản mới
-              </label>
-              {/* Example filter options */}
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Option 1</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Option 2</label>
               </div>
             </div>
           </div>
