@@ -3,7 +3,7 @@ const User = require("../Model/UserModel");
 const Transaction = require("../Model/TransactionModel");
 module.exports.getAllAuction = async (req, res) => {
     try {
-        const allAuction = await Auction.find();
+        const allAuction = await Auction.find({softDelete: false});
         res.status(201).json({
             success: true,
             message: "Get all auction successfully",
@@ -17,6 +17,7 @@ module.exports.getAllAuction = async (req, res) => {
         });
     }
 }
+
 module.exports.addBudget = async (req, res) => {
     try {
         const{amount} = req.body

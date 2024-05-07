@@ -5,6 +5,8 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
 
+
+
 module.exports.getAuctionById = async (req, res) => {
     try {
         const auction = await Auction.findById(req.params.id);
@@ -21,7 +23,6 @@ module.exports.getAuctionById = async (req, res) => {
         });
     }
 }
-
 
 module.exports.deleteAuctionById = async (req, res) => {
     try {

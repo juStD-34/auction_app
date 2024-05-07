@@ -72,24 +72,27 @@ module.exports.getIncompleteAuction = async (req, res) => {
 };
 
 module.exports.search = async (req, res) => {
-  const { auctionName, startDate, endDate, startPrice, type } = req.body;
-  const query = {};
-  if (auctionName) {
-    query.auctionName = { $regex: auctionName, $options: "i" };
+  const { status, name, startDate, endDate, startPrice, type } = req.query;
+  const query = {softDelete: false};
+  if (name) {
+    query.name = { $regex: name, $options: "i" };
   }
-  if (startDate) {
-    query.timeStart = { $gte: new Date(startDate) };
+  // if (startDate) {
+  //   query.timeStart = { $gte: new Date(startDate) };
+  // }
+  // if (endDate) {
+  //   query.timeEnd = { $lte: new Date(endDate) };
+  // }
+  // if (startPrice) {
+  //   query.startPrice = { $gte: startPrice };
+  // }
+  if(status) {
+    query.status = status
   }
-  if (endDate) {
-    query.timeEnd = { $lte: new Date(endDate) };
+  if(type) {
+    query.product.type = type
   }
-  if (startPrice) {
-    query.startPrice = { $gte: startPrice };
-  }
-  if (type) {
-    query.productType = { $regex: type, $options: "i" };
-  }
-
+  console.log(query)
   try {
     const searchResult = await Auction.find(query);
     res.status(201).json({
