@@ -15,13 +15,13 @@ export default function SellPage() {
       mutationFn: (props) => {
         console.log(props.imgRef[0]);
         return axios.post("http://localhost:3002/seller/createAuction", {
-          auctionName : props.nameProduct,
-          productName : props.nameProduct,
-          productType : "Type 1",
+          auctionName: props.nameProduct,
+          productName: props.nameProduct,
+          productType: "Type 1",
           productImg: "bang bang",
-          timeStart : props.timeStart, 
-          timeEnd : props.timeEnd,
-          startPrice : props.price,
+          timeStart: props.timeStart,
+          timeEnd: props.timeEnd,
+          startPrice: props.price,
           sellerID: "6635dfdc6817a433256fc4f8"
         });
       },
@@ -42,7 +42,7 @@ export default function SellPage() {
   const dateStartRef = useRef("");
   const timeEndRef = useRef("");
   const dateEndRef = useRef("");
-  const imgRef = useRef([]);
+  const imgRef = useRef("");
 
   const [type, setType] = React.useState("");
 
@@ -50,44 +50,48 @@ export default function SellPage() {
     setType(e.target.value);
   };
 
+  //covert img To Base64
+
+  const covertToBase64 = () => {
+    return new Promise((resolve, reject) => {
+      const file = imgRef.current.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+    });
+  };
+
+
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
 
   const formHandler = useCallback(
     () => (event) => {
       event.preventDefault();
-      const imagesBase64 = covertToBase64();
-      const data = {
-        auctionName: "Auction 1", // Tạm thời để "Auction 1
-        nameProduct: nameProductRef.current?.value,
-        price: priceRef.current?.value,
-        timeStart: getDate(timeStartRef.current?.value + " " + dateStartRef.current?.value),
-        timeEnd: getDate(timeEndRef.current?.value + " " + dateEndRef.current?.value),
-        imgRef: imagesBase64, // Sử dụng kết quả từ covertToBase64
-        type: type,
-      };
-      mutation.mutate(data);
-      setopenError(true);
-    },
-    [type]
-  );
+      covertToBase64()
+        .then((base64Image) => {
+          const data = {
+            auctionName: "Auction 1", // Tạm thời để "Auction 1
+            nameProduct: nameProductRef.current?.value,
+            price: priceRef.current?.value,
+            timeStart: getDate(timeStartRef.current?.value + " " + dateStartRef.current?.value),
+            timeEnd: getDate(timeEndRef.current?.value + " " + dateEndRef.current?.value),
+            imgRef: base64Image,
+            type: type,
+          };
+          setopenError(true);
+          console.log(data);
+        })
+        .catch((error) => {
+          console.error("Error converting image to base64:", error);
+        });
+    }, [type]);
 
-  function covertToBase64() {
-    const selectedFiles = imgRef.current.files;
-    const selectedFilesArray = Array.from(selectedFiles);
-    let array = [];
-    selectedFilesArray.forEach((file) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        const base64String = reader.result;
-        array.push(base64String);
-      };
-      reader.onerror = (error) => {
-        console.log("Error: ", error);
-      };
-    });
-    return array;
-  }
+
 
   function getDate(dateString) {
     // Separate the time and date parts
@@ -112,9 +116,9 @@ export default function SellPage() {
     const formattedDate = `${dateObject
       .toISOString()
       .slice(0, -1)}${offsetSign}${offsetHours
-      .toString()
-      .padStart(2, "0")}:${offsetMinutes.toString().padStart(2, "0")}`;
-        console.log(formattedDate);
+        .toString()
+        .padStart(2, "0")}:${offsetMinutes.toString().padStart(2, "0")}`;
+    console.log(formattedDate);
     return formattedDate; // Output: 2024-05-06T08:50:00.000+00:00
   }
 
@@ -174,17 +178,18 @@ export default function SellPage() {
             </div>
 
             {/* <div class="mb-6">
-              <label for="message" class="block text-sm font-semibold mb-2">
-                Mô tả sản phẩm:
-              </label>
-              <textarea
-                id="message"
-                rows="2"
-                class="w-full p-2 border border-gray-300 rounded"
-                placeholder="Viết mô tả của bạn ở đây..."
-                required
-              ></textarea>
-            </div> */}
+                  <label for="message" class="block text-sm font-semibold mb-2">
+                    Mô tả sản phẩm:
+                  </label>
+                  <textarea
+                    id="message"
+                    rows="2"
+                    class="w-full p-2 border border-gray-300 rounded"
+                    placeholder="Viết mô tả của bạn ở đây..."
+                    required
+                  ></textarea>
+                </div> */}
+
             <div className="grid gap-6 mb-6 md:grid-cols-4">
               <div>
                 <label className="block text-sm font-semibold mb-2">
@@ -215,11 +220,11 @@ export default function SellPage() {
               <div className="grid gap-6 mb-6 md:grid-cols-4">
                 <input
                   class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 white:text-gray-400 focus:outline-none"
-                  id="multiple_files"
+                  id="files"
                   type="file"
                   name="images"
                   onChange={covertToBase64}
-                  multiple
+                  required
                   accept="image/png , image/jpeg, image/webp, image/jpg"
                   ref={imgRef}
                 />
@@ -239,6 +244,7 @@ export default function SellPage() {
                     Thời gian bắt đầu:
                   </label>
                   <input
+                    required
                     type="time"
                     className="w-full p-2 border border-gray-300 rounded"
                     ref={timeStartRef}
@@ -251,6 +257,7 @@ export default function SellPage() {
                     Ngày bắt đầu:
                   </label>
                   <input
+                    required
                     type="date"
                     className="w-full p-2 border border-gray-300 rounded"
                     ref={dateStartRef}
@@ -264,6 +271,7 @@ export default function SellPage() {
                     Thời gian kết thúc:
                   </label>
                   <input
+                    required
                     type="time"
                     className="w-full p-2 border border-gray-300 rounded"
                     ref={timeEndRef}
@@ -276,6 +284,7 @@ export default function SellPage() {
                     Ngày kết thúc:
                   </label>
                   <input
+                    required
                     type="date"
                     className="w-full p-2 border border-gray-300 rounded"
                     ref={dateEndRef}
