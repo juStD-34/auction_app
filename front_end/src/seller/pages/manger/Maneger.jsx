@@ -2,26 +2,17 @@ import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useSellerAuctions from "../../../hooks/useSellerAuctions";
 
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 export default function Maneger() {
-  
-  const mutation = useMutation(
-    {
-      mutationFn: (id) => {
-        return axios.get("http://localhost:3002/seller/stopAuction/"+id);
-      },
+  const queryClient = useQueryClient();
+
+  const mutation = useMutation({
+    mutationFn: (id) => {
+      return axios.get("http://localhost:3002/seller/deleteAuction/" + id);
     },
-    {
-      onSuccess: (data) => {
-        console.log("asouidy aiouywoiw ayd");
-      },
-      onError: (error) => {
-        console.log("asoiudh aiwouyh oiwaydai hwaiuyh");
-      },
-    }
-  );
+  });
 
   const datas = useSellerAuctions("6635dfdc6817a433256fc4f8");
   if (datas.isLoading) return <p>Loading...</p>;
@@ -31,8 +22,8 @@ export default function Maneger() {
   function handleStopAuction(id) {
     console.log(id);
     mutation.mutate(id);
+    queryClient.invalidateQueries("SellerAuction");
   }
-
 
   const formatDate = (dateString) => {
     const options = {

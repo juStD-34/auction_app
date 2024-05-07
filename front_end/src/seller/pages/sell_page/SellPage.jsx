@@ -18,7 +18,7 @@ export default function SellPage() {
           auctionName : props.nameProduct,
           productName : props.nameProduct,
           productType : "Type 1",
-          productImg: imgRef[0].toString(),
+          productImg: "bang bang",
           timeStart : props.timeStart, 
           timeEnd : props.timeEnd,
           startPrice : props.price,

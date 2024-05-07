@@ -13,10 +13,7 @@ export default function useSellerAuctions(userId) {
     data: auction,
     error,
     isLoading,
-  } = useQuery("OtherId", retrievePosts, {
-    cacheTime: Infinity, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là undefined
-    refetchOnWindowFocus: false,
-  });
+  } = useQuery("SellerAuction", retrievePosts);
 
   return { auction, error, isLoading };
 }

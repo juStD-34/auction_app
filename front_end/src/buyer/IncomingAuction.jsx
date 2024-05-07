@@ -22,7 +22,6 @@ export default function IncomingAuction() {
   const {getLogin} = require('../home/login/Auth');
   const isLoggedIn = getLogin();
 
-  {/*Filter*/}
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [statusFilters, setStatusFilters] = useState([]);
