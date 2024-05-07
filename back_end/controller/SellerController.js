@@ -84,7 +84,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
                 message: "Seller not found",
             });
         }
-        const ownerAuction = await Auction.find({ sellerID });
+        const ownerAuction = await Auction.find({ sellerID: sellerID, softDelete: false });
         if (ownerAuction.length == 0) {
             return res.status(404).json({
                 success: false,
