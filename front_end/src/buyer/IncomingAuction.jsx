@@ -29,9 +29,10 @@ export default function IncomingAuction() {
   const {getLogin} = require('../home/login/Auth');
   const isLoggedIn = getLogin();
 
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [statusFilters, setStatusFilters] = useState([]);
+  {/*Filter*/}
+  const startDateRef = React.useRef('');
+  const endDateRef = React.useRef('');
+  
   const [categoryFilters, setCategoryFilters] = useState([]);
 
   const navigate = useNavigate();
