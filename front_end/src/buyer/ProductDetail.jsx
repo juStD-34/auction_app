@@ -15,7 +15,6 @@ export default function ProductDetail() {
   const [showPopup, setShowPopup] = useState(false);
   const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
 
-
   const { id } = useParams();
   const datas = useAuctionId(id);
   if (datas.isLoading) return <p>Loading...</p>;
