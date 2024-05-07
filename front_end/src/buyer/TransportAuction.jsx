@@ -6,19 +6,26 @@ import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
 import useTransportAuction from "../hooks/useTransportAuction";
-import { useLoggedIn } from "../stores/useLoggedIn";
 
 import banner from "../home/assets/banner.png";
 import row from "../home/assets/row.png";
 import grid from "../home/assets/grid.png";
 import "swiper/css";
 import "swiper/css/pagination";
+import LoginModal from "../home/login/LoginModal";
+import SearchModal from "../search/SearchModal";
 
 export default function TransportAuction() {
   const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
-  const isLoggedIn = useLoggedIn((state) => state.isLoggedIn);
+  const [loginPopup, setLoginPopup] = React.useState(false);
+  const toggleLoginPopup = () => setLoginPopup(!loginPopup);
+
+  const [searchPopup, setSearchPopup] = React.useState(false);
+  const toggleSearch = () => setSearchPopup(!searchPopup);
+  const {getLogin} = require('../home/login/Auth');
+  const isLoggedIn = getLogin();
 
   const navigate = useNavigate();
 
@@ -64,7 +71,8 @@ export default function TransportAuction() {
   );
   return (
     <>
-      {isLoggedIn ? <NavbarUser /> : <NavigationBar />}
+      <div className={loginPopup ? "blur-sm " : ""}>
+      {isLoggedIn === "Login" ? <NavbarUser /> : <NavigationBar toggleLoginPopup={toggleLoginPopup} toggleSearch={toggleSearch}/>}
       <div className="w-6/7 flex justify-center">
         <div className="flex items-center justify-center mb-10 border-b-2">
           <div>
@@ -73,7 +81,7 @@ export default function TransportAuction() {
             </div>
             <div className="opacity-50">Trang chủ</div>
           </div>
-          <img className="w-4/6 h-auto" src={banner} alt="img" />
+          <img className="w-4/6 h-auto ml-10" src={banner} alt="img" />
         </div>
       </div>
       <div className="flex mb-10">
@@ -248,6 +256,9 @@ export default function TransportAuction() {
       </div>
 
       <Footer />
+      </div>
+      <LoginModal loginPopup={loginPopup} toggleLoginPopup={toggleLoginPopup} />
+      <SearchModal searchPopup={searchPopup} toggleSearch={toggleSearch} />
     </>
   );
 }

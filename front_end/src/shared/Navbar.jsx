@@ -18,6 +18,7 @@ const DEFAULT_NOTIFICATION = {
 
 export default function NavbarUser() {
   const {getUserName, setLogin} = require("../home/login/Auth");
+  const {setUserID} = require("../hooks/userID");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
   const data = ([DEFAULT_NOTIFICATION]);
@@ -29,6 +30,11 @@ export default function NavbarUser() {
   function viewAll() {
     navigate("/history");
   }
+
+  const handleLogout = () => {
+    setLogin("Logout"); // Đặt login thành "Logout"
+    setUserID(null); // Đặt userID về null hoặc giá trị mong muốn
+  };
 
   const [time, setTime] = React.useState(new Date().toLocaleString());
   const date = time.split(" ");
@@ -105,7 +111,7 @@ export default function NavbarUser() {
             inline
             placement="bottom"
             label={
-              <p href="/buyer" className="text-xl hover:text-red-500">
+              <p href="/buyer" className="text-xl hover:text-red-500 font-semibold">
                 Tài sản đấu giá
               </p>
             }
@@ -125,7 +131,7 @@ export default function NavbarUser() {
             inline
             placement="bottom"
             label={
-              <p className="text-xl ml-5 hover:text-red-500">Cuộc đấu giá</p>
+              <p className="text-xl ml-5 hover:text-red-500 font-semibold">Cuộc đấu giá</p>
             }
           >
             <Dropdown.Item>
@@ -189,7 +195,7 @@ export default function NavbarUser() {
                   </a>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <a href="/home" onClick={setLogin("Logout")}>
+                  <a href="/home" onClick={handleLogout}>
                     <p className="hover:text-red-500">Đăng xuất</p>
                   </a>
                 </Dropdown.Item>
