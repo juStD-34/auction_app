@@ -22,7 +22,7 @@ module.exports.getHighestPrice = async (req, res) => {
     try {
         const participants = await Participant.findOne({ auctionID: req.params.id })
         const result = participants.participants
-        // const highestPrice = result.
+        const highestPrice = result[result.length - 1]
         res.status(201).json({
             success: true,
             message: "Get highest price successfully",
