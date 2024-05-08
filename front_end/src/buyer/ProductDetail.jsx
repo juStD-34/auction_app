@@ -5,24 +5,50 @@ import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
+import CountdownTimer from "./components/Timer";
 
 import useAuctionId from "../hooks/useAuctionId";
+import { getUserID } from "../hooks/userID";
+
+import { useMutation } from "react-query";
+import axios from "axios";
 
 export default function ProductDetail() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  const { id } = useParams();
+  const mutation = useMutation(
+    {
+      mutationFn: (props) => {
+        return axios.post("http://localhost:3002/bidder/createBid", {
+          auctionID: id, 
+          userID: getUserID(), 
+          price: props.price,
+        });
+      },
+    },
+    {
+      onSuccess: (data) => {
+        console.log(data);
+      },
+      onError: (error) => {
+        console.log(error);
+      },
+    }
+  );
+
   const [showPopup, setShowPopup] = useState(false);
-  const [loginPopup, setLoginPopup] = React.useState(false);
+  const [loginPopup, setLoginPopup] = useState(false);
+  const priceRef = React.createRef();
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
 
-  const [searchPopup, setSearchPopup] = React.useState(false);
+  const [searchPopup, setSearchPopup] = useState(false);
   const toggleSearch = () => setSearchPopup(!searchPopup);
   const {getLogin} = require('../home/login/Auth');
   const isLoggedIn = getLogin();
 
-  const { id } = useParams();
   const datas = useAuctionId(id);
   if (datas.isLoading) return <p>Loading...</p>;
   var res = datas.auction.existAuction[0];
@@ -36,7 +62,7 @@ export default function ProductDetail() {
       minute: "numeric",
       second: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleDateString("vi-VN", options);
   };
 
   var obj = {
@@ -49,29 +75,45 @@ export default function ProductDetail() {
       "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
   };
 
+  function handleBid(props) {
+    mutation.mutate({
+      price: props.price,
+    });
+    setShowPopup(false);
+  }
+
+  function checkAvailable() {
+    if (isLoggedIn === "Login") return true;
+    console.log(res.timeStart);
+    console.log(Date.now());
+    if (new Date(res.timeStart).getTime() - Date.now() > 0) return false;
+    return true;
+  }
+
   return (
     <>
     <div className={loginPopup ? "blur-sm " : ""}>
       {isLoggedIn === "Login" ? <NavbarUser /> : <NavigationBar toggleLoginPopup={toggleLoginPopup} toggleSearch={toggleSearch}/>}
-      <div class="my-10 bg-[url('https://lacvietauction.vn/LVT/assets/images/bg/client-right.png')]">
-        <div class="w-4/5 mx-auto mt-10 grid grid-cols-5 gap-4 content-center">
-          <div class="col-span-3 p-4">
+      <div className="my-10 bg-[url('https://lacvietauction.vn/LVT/assets/images/bg/client-right.png')]">
+        <div className="w-4/5 mx-auto mt-10 grid grid-cols-5 gap-4 content-center">
+          <div className="col-span-3 p-4">
             <p className="text-3xl mb-5 font-semibold">{obj.name}</p>
-            <p className="text-xl opacity-50">Thời gian bắt đầu: {obj.timeStart}</p>
-            <p className="text-xl opacity-50 mb-5">Thời gian kết thúc: {obj.timeEnd}</p>
+            <p className="text-xl opacity-50">Thời gian bắt đầu {obj.timeStart}</p>
+            <p className="text-xl opacity-50 mb-5">Thời gian kết thúc {obj.timeEnd}</p>
             <p className="text-xl mb-5 opacity-50">Cuộc đấu giá bắt đầu sau: </p>
-            {isLoggedIn ? <button
-              class="bg-red-600 text-white rounded-md p-2 font-semibold "
+            <CountdownTimer targetDate={res.timeStart}></CountdownTimer> 
+            {checkAvailable() ? <button
+              className="bg-red-600 text-white rounded-md p-2 font-semibold "
               onClick={() => setShowPopup(true)}
             >
               ĐẤU GIÁ NGAY!!!
             </button> : null}
           </div>
-          <div class="col-span-2">
+          <div className="col-span-2">
             <img
               src="https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
               alt="Ảnh minh họa"
-              class="w-full"
+              className="w-full"
             />
           </div>
         </div>
@@ -91,12 +133,13 @@ export default function ProductDetail() {
               <p>Giá ban đầu: {obj.price}</p>
               <p>Giá cao nhất được trả:</p>
               <input
-                class="rounded-md mr-2 p-2 border border-pgray-300"
+                className="rounded-md mr-2 p-2 border border-pgray-300"
                 placeholder="Giá đấu..."
+                ref={priceRef}
               />
               <button
                 className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                onClick={() => setShowPopup(false)}
+                onClick={() => handleBid({price: priceRef.current.value})}
               >
                 Đồng ý
               </button>
