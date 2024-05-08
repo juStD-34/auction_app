@@ -91,6 +91,6 @@ async function findWinner(auctionID) {
     }
 }
 
-// const interval = setInterval(findEndAuction, 60000);
+const interval = setInterval(findEndAuction, 60000);
 
 module.exports = { endAuction }
