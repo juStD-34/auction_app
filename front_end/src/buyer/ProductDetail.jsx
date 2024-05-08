@@ -71,8 +71,7 @@ export default function ProductDetail() {
     timeStart: formatDate(res.timeStart),
     timeEnd: formatDate(res.timeEnd),
     price: res.startPrice,
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
+    image: res.product.img,
   };
 
   function handleBid(props) {
@@ -111,7 +110,7 @@ export default function ProductDetail() {
           </div>
           <div className="col-span-2">
             <img
-              src="https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg"
+              src={obj.image}
               alt="Ảnh minh họa"
               className="w-full"
             />
