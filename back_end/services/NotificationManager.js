@@ -3,6 +3,8 @@ const Notification = require("../Model/NotificationModel");
 
 
 const getNotificationApi = "/getNotification/:userID"
+const updateNotificationApi = "/updateNotification";
+const markAllAsReadApi = "/markAllAsRead";
 
 notificationRouter.get(getNotificationApi, async (req, res) => {
     const { userID } = req.params
@@ -11,6 +13,31 @@ notificationRouter.get(getNotificationApi, async (req, res) => {
             receiverID: userID
         })
         res.status(201).json({ success: true, message: "Get notification successfully", result })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+})
+
+
+notificationRouter.post(updateNotificationApi, async (req, res) => {
+    const { notificationID } = req.body;
+
+    try {
+        const result = await Notification.findByIdAndUpdate(notificationID, { status : 'read'});
+        res.status(201).json({ success: true, message: "Update notification successfully", result })
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({ error: error.message });
+    }
+})
+
+notificationRouter.post(markAllAsReadApi, async (req, res) => {
+    const { userID } = req.body;
+    try {
+        const result = await Notification.updateMany({receiverID: userID, status: 'unread'}, {status : 'read'});
+        res.status(201).json({ success: true, message: "Update notification successfully", result })
+        
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: error.message });

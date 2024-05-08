@@ -1,35 +1,51 @@
-const auction = require("../Model/AuctionModel");
+const Auction = require("../Model/AuctionModel");
 const participants = require("../Model/ParticipantsModel");
 module.exports.createBid = async (req, res) => {
   const { auctionID, userID, price } = req.body;
   try {
-    const result = await participants.findOne({ auctionID: auctionID});
-    if (!result) {
+    const auction = await Auction.findOne({ _id : auctionID });
+    console.log(auction, "1234");
+    console.log(auctionID, "123454")
+    if(!auction){
       return res.status(404).json({
         success: false,
-        message: "Auction not found",
+        message: "Auction not found 123 ",
       });
     }
-    const length = result.participants.length
-    if(price <= result.participants[length - 1].price) {
-      
-      return res.status(201).json({
-        success: false,
-        message: "Price must be higher"
-      })
+    if(auction.status === "OPEN") {
+      const result = await participants.findOne({ auctionID: auctionID});
+      if (!result) {
+        return res.status(404).json({
+          success: false,
+          message: "Auction not found",
+        });
+      }
+      const length = result.participants.length
+      if(price <= result.participants[length - 1].price) {
+        
+        return res.status(201).json({
+          success: false,
+          message: "Price must be higher"
+        })
+      }
+      const newBid = await participants.findOneAndUpdate(
+        { auctionID: auctionID },
+        {
+          $push: { participants: { bidderId: userID, price: price } },
+        },
+      );
+      res.status(201).json({
+        success: true,
+        message: "Create bid successfully",
+        newBid,
+      });
     }
-    const newBid = await participants.findOneAndUpdate(
-      { auctionID: auctionID },
-      {
-        $push: { participants: { bidderId: userID, price: price } },
-      },
-    );
-    res.status(201).json({
-      success: true,
-      message: "Create bid successfully",
-      newBid,
-    });
-  } catch (error) {
+    else {
+      return res.status(404).json({
+        message: "Auction doesn't started yet",
+    })
+  } 
+} catch (error) {
     res.status(500).json({
       success: false,
       message: "Internal server error",
@@ -38,9 +54,9 @@ module.exports.createBid = async (req, res) => {
   }
 };
 
-const Auction = require("../Model/AuctionModel");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+
+
+
 
 module.exports.getIncompleteAuction = async (req, res) => {
   try {
@@ -77,20 +93,20 @@ module.exports.search = async (req, res) => {
   if (name) {
     query.name = { $regex: name, $options: "i" };
   }
-  // if (startDate) {
-  //   query.timeStart = { $gte: new Date(startDate) };
-  // }
-  // if (endDate) {
-  //   query.timeEnd = { $lte: new Date(endDate) };
-  // }
-  // if (startPrice) {
-  //   query.startPrice = { $gte: startPrice };
-  // }
+  if (startDate) {
+    query.timeStart = { $gte: new Date(startDate) };
+  }
+  if (endDate) {
+    query.timeEnd = { $lte: new Date(endDate) };
+  }
+  if (startPrice) {
+    query.startPrice = { $gte: startPrice };
+  }
   if(status) {
     query.status = status
   }
   if(type) {
-    query.product.type = type
+    query['product.type'] = type 
   }
   console.log(query)
   try {

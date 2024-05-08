@@ -21,6 +21,11 @@ const transactionSchema = new mongoose.Schema({
             type: Date,
             required: false,
             default: null
+        },
+        softDelete : {
+            type: Boolean,
+            required: true,
+            default: false
         }
     }
 });
