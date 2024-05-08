@@ -15,6 +15,7 @@ module.exports.createAuction = async (req, res) => {
         startPrice,
         sellerID } = req.body;
     // const image = Buffer.from(productImg, "base64");
+    console.log("XXXXX", typeof (productImg))
     try {
         const newAuction = await Auction.create({
             name: auctionName,
@@ -23,6 +24,7 @@ module.exports.createAuction = async (req, res) => {
                 type: productType,
                 img: productImg
             },
+            
             timeStart,
             timeEnd,
             startPrice,
