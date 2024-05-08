@@ -77,20 +77,20 @@ module.exports.search = async (req, res) => {
   if (name) {
     query.name = { $regex: name, $options: "i" };
   }
-  // if (startDate) {
-  //   query.timeStart = { $gte: new Date(startDate) };
-  // }
-  // if (endDate) {
-  //   query.timeEnd = { $lte: new Date(endDate) };
-  // }
-  // if (startPrice) {
-  //   query.startPrice = { $gte: startPrice };
-  // }
+  if (startDate) {
+    query.timeStart = { $gte: new Date(startDate) };
+  }
+  if (endDate) {
+    query.timeEnd = { $lte: new Date(endDate) };
+  }
+  if (startPrice) {
+    query.startPrice = { $gte: startPrice };
+  }
   if(status) {
     query.status = status
   }
   if(type) {
-    query.product.type = type
+    query['product.type'] = type 
   }
   console.log(query)
   try {

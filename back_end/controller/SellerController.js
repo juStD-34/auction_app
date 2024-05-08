@@ -26,7 +26,8 @@ module.exports.createAuction = async (req, res) => {
             timeStart,
             timeEnd,
             startPrice,
-            sellerID
+            sellerID,
+            softDelete: false
         });
         const auctionID = newAuction._id;
         const newParticipants = await Participants.create({
