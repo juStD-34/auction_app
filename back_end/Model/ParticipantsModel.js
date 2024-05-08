@@ -16,11 +16,6 @@ const participantsSchema = new mongoose.Schema({
                 type: Number,
                 required: false,
             },
-            softDelete:{
-                required: true,
-                type: Boolean,
-                default: false
-            },
             
         },
     ],
