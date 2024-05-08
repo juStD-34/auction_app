@@ -2,6 +2,7 @@ import React, { useState, useCallback, useRef } from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { Button, Modal } from "flowbite-react";
 import LoginModal from "../../../home/login/LoginModal";
+import { getUserID } from "../../../hooks/userID";
 
 import { useMutation } from "react-query";
 import axios from "axios";
@@ -9,20 +10,21 @@ import axios from "axios";
 export default function SellPage() {
   const [loginPopup, setLoginPopup] = useState(false);
   const [openError, setopenError] = useState(false);
+  const [openSuccess, setopenSuccess] = useState(false);
 
   const mutation = useMutation(
     {
       mutationFn: (props) => {
-        console.log(props.imgRef[0]);
+        console.log(props.imgRef);
         return axios.post("http://localhost:3002/seller/createAuction", {
           auctionName: props.nameProduct,
           productName: props.nameProduct,
           productType: "Type 1",
-          productImg: "bang bang",
+          productImg: props.imgRef,
           timeStart: props.timeStart,
           timeEnd: props.timeEnd,
           startPrice: props.price,
-          sellerID: "6635dfdc6817a433256fc4f8"
+          sellerID: getUserID(),
         });
       },
     },
@@ -83,12 +85,15 @@ export default function SellPage() {
             imgRef: base64Image,
             type: type,
           };
-          setopenError(true);
+          mutation.mutate(data);
           console.log(data);
+          setopenSuccess(true);
         })
         .catch((error) => {
+          setopenError(true);
           console.error("Error converting image to base64:", error);
         });
+        // eslint-disable-next-line
     }, [type]);
 
 
@@ -331,6 +336,29 @@ export default function SellPage() {
         </Modal.Body>
         <Modal.Footer className="flex justify-center">
           <Button color="failure" onClick={() => setopenError(false)}>
+            OK
+          </Button>
+        </Modal.Footer>
+      </Modal>
+      {/* Thông báo thành công */}
+      <Modal
+        dismissible
+        show={openSuccess}
+        onClose={() => setopenSuccess(true)}
+        size="lg"
+      >
+        <Modal.Body>
+          <div className="space-y-6 text-center">
+            <p className="text-3xl leading-relaxed font-semibold">
+              Cập nhật thông tin thành công
+            </p>
+            <p className="text-xl leading-relaxed">
+              Sản phẩm của bạn đã được đăng thành công
+            </p>
+          </div>
+        </Modal.Body>
+        <Modal.Footer className="flex justify-center">
+          <Button color="success" onClick={() => setopenSuccess(false)}>
             OK
           </Button>
         </Modal.Footer>

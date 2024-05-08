@@ -1,10 +1,11 @@
 import { useQuery } from "react-query";
 import axios from "axios";
+import { getUserID } from "./userID";
 
-export default function useSellerAuctions(userId) {
+export default function useSellerAuctions() {
   const retrievePosts = async () => {
     const response = await axios.get(
-      "http://localhost:3002/seller/getAllAuctionByID/"+userId
+      "http://localhost:3002/seller/getAllAuctionByID/"+getUserID()
     );
     return response.data;
   };
@@ -13,7 +14,10 @@ export default function useSellerAuctions(userId) {
     data: auction,
     error,
     isLoading,
-  } = useQuery("SellerAuction", retrievePosts);
+    isError,
+  } = useQuery("SellerAuction", retrievePosts, {
+    retry: 1,
+  });
 
-  return { auction, error, isLoading };
+  return { auction, error, isLoading, isError };
 }
