@@ -4,18 +4,6 @@ import NavbarUser from "../shared/Navbar";
 import Footer from "../home/components/Footer";
 import useAuctionId from "../hooks/useAuctionId";
 
-const obj = {
-  image:
-    "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  title: "Cu ca rot cua Le Ba Truong",
-  startDate: "12/12/2021",
-  endDate: "13/12/2021",
-  startPrice: "1 ty dong",
-  finalPrice: "2 ty dong",
-  buyer: "Thang Tri Nhan",
-  phone: "0123456789",
-};
-
 export default function HistoryDetail() {
   const { id } = useParams();
 
@@ -50,7 +38,7 @@ export default function HistoryDetail() {
         </div>
         <div className="ml-16 my-10 grid grid-cols-5 gap-4 content-center">
           <img
-            src={obj.image}
+            src={data.product.img}
             alt="Ảnh minh họa"
             className="w-full col-span-3 rounded-lg"
           />
@@ -73,7 +61,7 @@ export default function HistoryDetail() {
             </div>
             <div className="flex mx-1 mt-2">
               <p className="text-gray-700">Giá chốt:</p>
-              <p className="self-end ml-auto text-red-700 font-semibold">{obj.finalPrice}</p>
+              <p className="self-end ml-auto text-red-700 font-semibold">hoan thien cai nay</p>
             </div>
             <div className="flex mx-1 mt-2">
               <p className="text-gray-700">Số bước giá tối đa/ lần trả:</p>
@@ -85,7 +73,7 @@ export default function HistoryDetail() {
             </div>
             <div className="flex mx-1 mt-2">
               <p className="text-gray-700">Tên người mua</p>
-              <p className="self-end ml-auto text-red-700 font-semibold">{obj.winnerID}</p>
+              <p className="self-end ml-auto text-red-700 font-semibold">{data.winnerID}</p>
             </div>
           </div>
         </div>

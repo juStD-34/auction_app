@@ -51,13 +51,13 @@ export default function OccuringAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
+    console.log(res[i]);
     obj.push({
       id: res[i]._id,
       name: res[i].product.name,
       time: formatDate(res[i].timeStart),
       price: res[i].startPrice,
-      image:
-        "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
+      image: res[i].product.img,
     });
   }
 
