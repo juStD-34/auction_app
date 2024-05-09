@@ -26,6 +26,10 @@ const notificationSchema = new mongoose.Schema({
         type: String,
         enum: ['unread', 'read'],
         default: 'unread' 
+    },
+    image: {
+        type: String,
+        required: true,
     }
 });
 

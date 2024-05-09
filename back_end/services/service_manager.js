@@ -57,14 +57,15 @@ async function endAuction(auction) {
                 title: "End Auction",
                 content: "You are winner of the auction",
                 receiverID: winner.bidderId,
-                auctionID: auction._id
-
+                auctionID: auction._id,
+                image: auction.product.img
             })
             const notification2 = new Notification({
                 title: "End Auction",
                 content: "Your auction ended!",
                 receiverID: auction.sellerID,
-                auctionID: auction._id
+                auctionID: auction._id,
+                image: auction.product.img
             })
             notification.save();
             notification2.save();
