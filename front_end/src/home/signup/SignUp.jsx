@@ -28,7 +28,7 @@ export default function SignUp() {
   const bankRef = useRef("");
   const ownerRef = useRef("");
 
-  const [type, setType] = React.useState("");
+  const [type, setType] = React.useState("BIDDER");
 
   const handleTypeChange = (e) => {
     if(e.target.value === "buyer"){
