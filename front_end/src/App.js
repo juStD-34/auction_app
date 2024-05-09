@@ -25,6 +25,8 @@ import Address from "./user/Address";
 import Password from "./user/Password";
 import Privacy from "./user/Privacy";
 
+import ManagerUser from "./admin/ManagerUser";
+
 import Seller from "./seller/pages/sell_page/SellPage"
 import Manager from "./seller/pages/manger/Maneger"
 import SellerProfile from "./seller/pages/profile/Profile"
@@ -39,11 +41,14 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/register" element={<SignUp />} />
+
           <Route path="/user/account/profile" element={<Profile />} />
           <Route path="/user/account/payment" element={<Payment />} />
           <Route path="/user/account/address" element={<Address />} />
           <Route path="/user/account/password" element={<Password />} />
           <Route path="/user/account/privacy" element={<Privacy />} />
+
+          <Route path="/manageruser" element={<ManagerUser />}/>
 
           <Route path="/allauction" element={<AllAuction />}/>
           <Route path="/incoming" element={<IncomingAuction />}/>

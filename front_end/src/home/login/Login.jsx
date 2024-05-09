@@ -43,7 +43,7 @@ const Login = () => {
             setUserID(response.data.user._id)
             window.location.href = "/allauction"
             console.log(getUserID())
-          } else {
+          } else if (response.data.user.role == "SELLER") {
             setopenError(false)
             setLogin("Login")
             setUserName(response.data.user.fullName)
@@ -51,6 +51,13 @@ const Login = () => {
             console.log(getLogin());
             setUserID(response.data.user._id)
             window.location.href = "/seller"
+          } else {
+            setopenError(false)
+            setLogin("Login")
+            console.log(getUserName())
+            console.log(getLogin());
+            setUserID(response.data.user._id)
+            window.location.href = "/managerUser"
           }
         } else {
           setopenError(true)
