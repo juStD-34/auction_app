@@ -56,7 +56,7 @@ const CountdownTimer = ({ targetDate }) => {
       <span className=' font-bold text-2xl'>{timeLeft.seconds} Giây: </span>
     )}
     {(timeLeft.days <= 0 && timeLeft.hours <= 0 && timeLeft.minutes <= 0 && timeLeft.seconds <= 0) && (
-      <span>Hết giờ!</span>
+      <span>00:00:00</span>
     )}
   </div>
   );

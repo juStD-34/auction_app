@@ -7,64 +7,8 @@ import { useState } from "react";
 
 import Banner from "./assets/banner.png";
 
-var obj = [
-  {
-    name: "sCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "qCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "eCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "xCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "zCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-];
+import useSearch from "../hooks/useSearch";
+
 
 export default function SearchResult() {
   const { keyword } = useParams();
@@ -74,6 +18,28 @@ export default function SearchResult() {
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+
+  const formatDate = (date) => {
+    const d = new Date(date);
+    return `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} ${d.getHours()}:${d.getMinutes()}`;
+  };
+
+
+  const { auction, error, isLoading } = useSearch(keyword);
+  if (error) return <div>An error has occurred: {error.message}</div>;
+  if (isLoading) return <div>Loading...</div>;
+  const result = auction.searchResult;
+  var obj = [];
+  for (let i = 0; i < result.length; i++) {
+    obj.push({
+      id: result[i]._id,
+      name: result[i].name,
+      time: formatDate(result[i].timeStart),
+      price: result[i].startPrice,
+      image: result[i].product.img,
+    });
+  }
+
   const displayItems = obj.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
@@ -100,7 +66,7 @@ export default function SearchResult() {
         </div>
         <div>
           <p className="text-2xl pt-3">
-            3 kết quả tìm kiếm cho:{" "}
+            {result.length} kết quả tìm kiếm cho:{" "}
             <span className="font-semibold">{keyword}</span>
           </p>
         </div>

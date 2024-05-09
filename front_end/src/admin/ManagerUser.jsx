@@ -39,10 +39,10 @@ export default function ManagerUser(){
       minute: "numeric",
       second: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleDateString("vi-VN", options);
   };
 
-  for (var i = 0; i < res.length; i++) {
+  for (let i = 0; i < res.length; i++) {
     objSellers.push({
       id: res[i]._id,
       email: res[i].email,
@@ -50,7 +50,7 @@ export default function ManagerUser(){
       time: formatDate(res[i].createdAt)
     });
   }
-  for (var i = 0; i < res1.length; i++) {
+  for (let i = 0; i < res1.length; i++) {
     objBidders.push({
       id: res1[i]._id,
       email: res1[i].email,

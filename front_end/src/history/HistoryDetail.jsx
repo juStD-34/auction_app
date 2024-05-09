@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import NavbarUser from "../shared/Navbar";
 import Footer from "../home/components/Footer";
+import useAuctionId from "../hooks/useAuctionId";
 
 const obj = {
   image:
@@ -22,6 +23,11 @@ export default function HistoryDetail() {
     window.scrollTo(0, 0);
   }, []);
 
+  const datas = useAuctionId(id);
+  if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
+  if (datas.isLoading) return <div>Loading...</div>;
+  console.log(datas.auction);
+  
   return (
     <>
       <NavbarUser />

@@ -82,10 +82,11 @@ export default function ProductDetail() {
   }
 
   function checkAvailable() {
-    if (isLoggedIn === "Login") return true;
     console.log(res.timeStart);
     console.log(Date.now());
     if (new Date(res.timeStart).getTime() - Date.now() > 0) return false;
+    // if (new Date(res.timeEnd).getTime() - Date.now() < 0) return false;
+    if (isLoggedIn === "Login") return true;
     return true;
   }
 
