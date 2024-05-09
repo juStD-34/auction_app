@@ -1,7 +1,7 @@
 const Auction = require("../Model/AuctionModel");
 const Participants = require("../Model/ParticipantsModel");
 const User = require("../Model/UserModel");
-const { endAuction } = require("../services/service_manager");
+const { endAuction, findWinner } = require("../services/service_manager");
 
 //done
 module.exports.createAuction = async (req, res) => {
@@ -24,7 +24,7 @@ module.exports.createAuction = async (req, res) => {
                 type: productType,
                 img: productImg
             },
-            
+
             timeStart,
             timeEnd,
             startPrice,
@@ -94,10 +94,38 @@ module.exports.getAllAuctionByID = async (req, res) => {
                 message: "Don't have auction",
             });
         }
+        let result = [];
+        for (const [index, auction] of ownerAuction.entries()) {
+            const winner = await findWinner(auction._id);
+            if (winner) {
+                console.log(winner);
+                const auctionWithWinner = {
+                    _id: auction._id,
+                    product:{
+                        name: auction.product.name,
+                        type: auction.product.type,
+                        img: auction.product.img
+                    },
+                    name: auction.name,
+                    timeStart: auction.timeStart,
+                    timeEnd: auction.timeEnd,
+                    startPrice: auction.startPrice,
+                    sellerID: auction.sellerID,
+                    winnerID: auction.winnerID,
+                    status: auction.status,
+                    softDelete: auction.softDelete,
+                    __v: auction.__v,
+                    highestPrice: winner.price
+                };
+                // Thêm JSON object mới này vào mảng result
+                result.push(auctionWithWinner);
+            }
+        }
+        console.log(ownerAuction);
         res.status(201).json({
             success: true,
             message: "Get all auction successfully",
-            ownerAuction
+            result
         });
     }
     catch (error) {
@@ -113,7 +141,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
 //done
 module.exports.getAuctionByID = async (req, res) => {
     const { auctionID } = req.params;
-    const query = { _id: auctionID}
+    const query = { _id: auctionID }
     query['softDelete'] = false
     try {
         const existAuction = await Auction.findOne(query);
@@ -123,10 +151,34 @@ module.exports.getAuctionByID = async (req, res) => {
                 message: "Auction not found",
             });
         } else {
+            let result =[];
+            winner = await findWinner(auctionID);
+            if (winner) {
+                const auctionWithWinner = {
+                    _id: existAuction._id,
+                    product:{
+                        name: existAuction.product.name,
+                        type: existAuction.product.type,
+                        img: existAuction.product.img
+                    },
+                    name: existAuction.name,
+                    timeStart: existAuction.timeStart,
+                    timeEnd: existAuction.timeEnd,
+                    startPrice: existAuction.startPrice,
+                    sellerID: existAuction.sellerID,
+                    winnerID: existAuction.winnerID,
+                    status: existAuction.status,
+                    softDelete: existAuction.softDelete,
+                    __v: existAuction.__v,
+                    highestPrice: winner.price
+                }
+
+                result.push(auctionWithWinner);
+            }
             res.status(201).json({
                 success: true,
                 message: "Get auction successfully",
-                existAuction
+                result
 
             });
         }
