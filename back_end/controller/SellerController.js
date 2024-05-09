@@ -113,9 +113,10 @@ module.exports.getAllAuctionByID = async (req, res) => {
 //done
 module.exports.getAuctionByID = async (req, res) => {
     const { auctionID } = req.params;
-
+    const query = { _id: auctionID}
+    query['softDelete'] = false
     try {
-        const existAuction = await Auction.find({ _id: auctionID, softDelete: false });
+        const existAuction = await Auction.findOne(query);
         if (!existAuction) {
             return res.status(404).json({
                 success: false,
