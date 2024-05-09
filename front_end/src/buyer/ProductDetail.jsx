@@ -51,7 +51,7 @@ export default function ProductDetail() {
 
   const datas = useAuctionId(id);
   if (datas.isLoading) return <p>Loading...</p>;
-  var res = datas.auction.existAuction[0];
+  var res = datas.auction.existAuction;
 
   const formatDate = (dateString) => {
     const options = {
@@ -66,7 +66,7 @@ export default function ProductDetail() {
   };
 
   var obj = {
-    id: res._id,
+    // id: res._id,
     name: res.product.name,
     timeStart: formatDate(res.timeStart),
     timeEnd: formatDate(res.timeEnd),
@@ -82,11 +82,9 @@ export default function ProductDetail() {
   }
 
   function checkAvailable() {
-    console.log(res.timeStart);
-    console.log(Date.now());
+    if (isLoggedIn !== "Login") return false;
     if (new Date(res.timeStart).getTime() - Date.now() > 0) return false;
     // if (new Date(res.timeEnd).getTime() - Date.now() < 0) return false;
-    if (isLoggedIn === "Login") return true;
     return true;
   }
 

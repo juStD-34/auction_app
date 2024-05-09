@@ -12,7 +12,7 @@ import useSearch from "../hooks/useSearch";
 
 export default function SearchResult() {
   const { keyword } = useParams();
-  const [viewMode, setViewMode] = useState(false);
+  const [viewMode, setViewMode] = useState(true);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
   const handleClick = (pageNumber) => {
