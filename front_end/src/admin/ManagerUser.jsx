@@ -22,9 +22,9 @@ export default function ManagerUser(){
     setActiveTab(tab);
   };
 
-  const handleBid = (id) => {
-    axios.post(`http://localhost:3002/admin/addBudget/6635dc5a826dc48cb2bc3956`, {
-      amount: budget.current?.value
+  const handleBid = () => {
+    axios.post(`http://localhost:3002/admin/addBudget/${ID.current?.value}`, {
+      amount: parseInt(budget.current?.value)
     }).then((response) => {
       console.log(response);
     })
@@ -134,7 +134,7 @@ export default function ManagerUser(){
                   />
                   <button
                     className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                    onClick={() => handleBid(ID)}
+                    onClick={() => handleBid()}
                     
                   >
                     Đồng ý
