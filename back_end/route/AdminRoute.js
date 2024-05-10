@@ -1,6 +1,6 @@
 // const Admin = require("../controller/AdminController");
 const adminRouter = require("express").Router();
-const {getIncomingAuction, getAllSeller, getAllBidder, getAllAuction, getOccuringAuction} = require("../controller/AdminController");
+const {getIncomingAuction, payForAuction, getAllSeller, getAllBidder, getAllAuction, getOccuringAuction} = require("../controller/AdminController");
 
 const getIncomingAuctionApi = "/getIncomingAuction"
 const getAllSellerApi = "/getAllSeller";
@@ -13,6 +13,7 @@ adminRouter.get(getAllSellerApi, getAllSeller);
 adminRouter.get(getAllBidderApi, getAllBidder);
 adminRouter.get(getAllAuctionApi, getAllAuction);
 adminRouter.get(getOccuringAuctionApi, getOccuringAuction);
+adminRouter.get('/payForAuction/:auctionID', payForAuction);
 
 
 module.exports = adminRouter;
