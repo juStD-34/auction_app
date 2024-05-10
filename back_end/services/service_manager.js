@@ -109,6 +109,15 @@ async function startAuction(auction) {
         auction.timeStart = new Date();
         auction.status = "OPEN";
         auction.save();
+        const notification = new Notification({
+            title: "Start Auction",
+            content: "Your auction has started!",
+            receiverID: auction.sellerID,
+            auctionID: auction._id,
+            image: auction.product.img
+        })
+        notification.save();
+        console.log("startAuction success ");
     }
     catch (error) {
         throw new Error("Failed to start auction");
