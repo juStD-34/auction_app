@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import useSeller from "../hooks/useSeller"
 import useBidder from "../hooks/useBidder"
 import useAllAuction from "../hooks/useAllAuction"
-
+import axios from 'axios';
 export default function ManagerUser(){
   const [activeTab, setActiveTab] = useState('seller'); 
   const {setLogin} = require('../home/login/Auth');
-    const {setUserID} = require('../hooks/userID');
-    const handleLogout = () => {
-        setLogin("Logout");
-        setUserID(null);
-    };
+  const {setUserID} = require('../hooks/userID');
+  const [showPopup, setShowPopup] = useState(false);
+  const ID = React.createRef();
+  const budget = React.createRef();
+  const handleLogout = () => {
+      setLogin("Logout");
+      setUserID(null);
+  };
   var objSellers = [];
   var objBidders = [];
   var objAuctions = [];
@@ -18,6 +21,15 @@ export default function ManagerUser(){
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+
+  const handleBid = (id) => {
+    axios.post(`http://localhost:3002/admin/addBudget/6635dc5a826dc48cb2bc3956`, {
+      amount: budget.current?.value
+    }).then((response) => {
+      console.log(response);
+    })
+  }
+  
 
   const datas = useSeller();
   const datas1 = useBidder();
@@ -28,6 +40,7 @@ export default function ManagerUser(){
   var res1 = datas1.auction.allBidder;
   if (datas2.isLoading) return <p>Loading...</p>;
   var res2 = datas2.auction.allAuction;
+  
   
 
   const formatDate = (dateString) => {
@@ -55,7 +68,8 @@ export default function ManagerUser(){
       id: res1[i]._id,
       email: res1[i].email,
       username: res1[i].username,
-      time: formatDate(res1[i].createdAt)
+      time: formatDate(res1[i].createdAt),
+      budget: res1[i].budget
     });
   }
   for (var i = 0; i < res1.length; i++) {
@@ -90,11 +104,47 @@ export default function ManagerUser(){
             Bidder
           </button>
           <button
-            className={`px-4 py-2 ${activeTab === 'auction' ? 'bg-blue-500 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-700 hover:bg-blue-400'} rounded`}
+            className={`mr-4 px-4 py-2 ${activeTab === 'auction' ? 'bg-blue-500 text-white hover:bg-blue-700' : 'bg-gray-300 text-gray-700 hover:bg-blue-400'} rounded`}
             onClick={() => handleTabChange('auction')}
           >
             Auction
           </button>
+          {showPopup && (
+            <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50">
+              <div className="relative">
+                <button
+                  className="absolute top-0 right-0 m-1 bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-full"
+                  onClick={() => setShowPopup(false)}
+                >
+                  X
+                </button>
+                <div className="bg-white p-8 rounded">
+                  <p className="text-2xl mb-5">Nạp tiền</p>
+                  <p>Nhập id người dùng: </p>
+                  <input
+                    className="rounded-md mr-2 p-2 border border-pgray-300"
+                    placeholder="ID"
+                    ref={ID}
+                  />
+                  <p>Xác nhận số tiền nạp</p>
+                  <input
+                    className="rounded-md mr-2 p-2 border border-pgray-300"
+                    placeholder="...VND"
+                    ref={budget}
+                  />
+                  <button
+                    className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => handleBid(ID)}
+                    
+                  >
+                    Đồng ý
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          
         </div>
         <a href="/home" className="">
           <button onClick={handleLogout} className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-700">Đăng Xuất</button>
@@ -102,10 +152,26 @@ export default function ManagerUser(){
       </div>
       <div className="border rounded p-4">
         <h2 className="text-xl font-semibold mb-4">{activeTab === 'seller' ? 'Danh sách Seller' : activeTab === 'bidder' ? 'Danh sách Bidder' : 'Danh sách Auction'}</h2>
+        {activeTab === 'bidder' && 
+          <button
+            className={`px-4 mb-3 py-2 bg-gray-300 text-gray-700 hover:bg-blue-400 rounded`}
+            onClick={() => setShowPopup(true)}
+          >
+            Nạp tiền
+          </button>}
         <div className="max-w-full overflow-x-auto">
         <table className="w-full">
           <thead>
-          {activeTab !== 'auction' && (
+          {activeTab === 'bidder' && (
+            <tr>
+              <th className="border px-4 py-2">ID</th>
+              <th className="border px-4 py-2">Email</th>
+              <th className="border px-4 py-2">Username</th>
+              <th className="border px-4 py-2">Create at</th>
+              <th className="border px-4 py-2">Budget</th>
+            </tr>
+          )}
+          {activeTab === 'seller' && (
             <tr>
               <th className="border px-4 py-2">ID</th>
               <th className="border px-4 py-2">Email</th>
@@ -143,6 +209,7 @@ export default function ManagerUser(){
                 <td className="border px-4 py-2">{item.email}</td>
                 <td className="border px-4 py-2">{item.username}</td>
                 <td className="border px-4 py-2">{item.time}</td>
+                <td className="border px-4 py-2">{item.budget}</td>
               </tr>
             ))}
             {activeTab === 'auction' && objAuctions.map((item, index) => (
