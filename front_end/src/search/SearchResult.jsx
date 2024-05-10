@@ -188,17 +188,12 @@ export default function SearchResult() {
               </div>
               <div>
                 <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'transport')} checked={filters.type.includes('transport')}/>
+                onChange={() => toggleFilter('type', 'Type 2')} checked={filters.type.includes('Type 2')}/>
                 <label>Tài sản phương tiện</label>
               </div>
               <div>
                 <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'clothes')} checked={filters.type.includes('clothes')}/>
-                <label>Tài sản phương tiện</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'other')} checked={filters.type.includes('other')}/>
+                onChange={() => toggleFilter('type', 'Type 3')} checked={filters.type.includes('Type 3')}/>
                 <label>Khác</label>
               </div>
               </div>

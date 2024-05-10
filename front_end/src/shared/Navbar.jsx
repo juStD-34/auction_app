@@ -148,10 +148,7 @@ export default function NavbarUser() {
               <a href="/common" className="hover:text-red-500">Tài sản gia dụng</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p href="/transport" className="hover:text-red-500">Tài sản phương tiện</p>
-            </Dropdown.Item>
-            <Dropdown.Item>
-              <p href="/clothes" className="hover:text-red-500">Tài sản quần áo</p>
+              <a href="/transport" className="hover:text-red-500">Tài sản phương tiện</a>
             </Dropdown.Item>
             <Dropdown.Item>
               <a href="/other" className="hover:text-red-500">Khác</a>
