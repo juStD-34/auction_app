@@ -2,15 +2,12 @@ const Participants = require("../Model/ParticipantsModel");
 const Auction = require("../Model/AuctionModel");
 const Transaction = require("../Model/TransactionModel");
 const Notification = require("../Model/NotificationModel");
-const moment = require("moment-timezone");
 
 
 async function findEndAuction() {
-    const now = moment().tz("Asia/Jakarta").format();
-    console.log("findEndAuction: ", now);
     try {
         const completeAuctions = await Auction.find({
-            timeEnd: { $lte: now },
+            timeEnd: { $lte: Date.now() },
             status: { $ne: "CLOSED" },
             softDelete: false
         });
@@ -58,7 +55,8 @@ async function endAuction(auction) {
                 title: "Fail Auction",
                 content: "Your auction don't have anyone get bid!",
                 receiverID: auction.sellerID,
-                auctionID: auction._id
+                auctionID: auction._id,
+                image: auction.product.img
             })
             failNotification.save();
             console.log("endAuction fail ")
