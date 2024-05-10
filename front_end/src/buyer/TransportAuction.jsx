@@ -56,11 +56,11 @@ export default function TransportAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    if (res[i].product.type === "transport") {
+    if (res[i].product.type === "Type 2") {
       obj.push({
         id: res[i]._id,
         name: res[i].product.name,
-        time: formatDate(res[i].timeStart),
+        time: res[i].timeStart,
         price: res[i].startPrice,
         type: res[i].product.type,
         status: res[i].status,
@@ -138,7 +138,7 @@ export default function TransportAuction() {
               <input
                 input type="datetime-local" name="startTime"
                 className="w-full p-2 border border-gray-300 rounded"
-                value={formatDate(filters.startTime)} onChange={handleInputChange} 
+                value={filters.startTime} onChange={handleInputChange} 
               />
             </div>
             <div className="mb-4">
@@ -148,7 +148,7 @@ export default function TransportAuction() {
               <input
                 input type="datetime-local" name="endTime"
                 className="w-full p-2 border border-gray-300 rounded"
-                value={formatDate(filters.endTime)} onChange={handleInputChange} 
+                value={filters.endTime} onChange={handleInputChange} 
               />
             </div>
           </div>
@@ -220,7 +220,7 @@ export default function TransportAuction() {
                       </h2>
                       <div className="flex">
                         <p className="text-sm">Thời gian đấu giá:</p>
-                        <p className="text-sm font-bold ml-1">{item.time}</p>
+                        <p className="text-sm font-bold ml-1">{formatDate(item.time)}</p>
                       </div>
                       <div className="flex">
                         <p className="text-sm">Giá khởi điểm: </p>

@@ -3,14 +3,13 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 
 import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
-import AllAuction from "./buyer/AllAuction";
+
 import IncomingAuction from "./buyer/IncomingAuction";
 import OccuringAuction from "./buyer/OccuringAuction";
 import ProductDetail from "./buyer/ProductDetail";
 import TransportAuction from "./buyer/TransportAuction";
 import OtherAuction from "./buyer/OtherAuction";
 import CommonAuction from "./buyer/CommonAuction";
-import ClothesAuction from "./buyer/ClothesAuction";
 
 import SearchResult from "./search/SearchResult";
 import History from "./history/History";
@@ -45,11 +44,9 @@ function App() {
 
           <Route path="/manageruser" element={<ManagerUser />}/>
 
-          <Route path="/allauction" element={<AllAuction />}/>
           <Route path="/incoming" element={<IncomingAuction />}/>
           <Route path="/occuring" element={<OccuringAuction />}/>
           <Route path="/transport" element={<TransportAuction />}/>
-          <Route path="/clothes" element={<ClothesAuction />}/>
           <Route path="/other" element={<OtherAuction />}/>
           <Route path="/common" element={<CommonAuction />}/>
           <Route path="/productdetail/:id" element={<ProductDetail />} />

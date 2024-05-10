@@ -5,7 +5,17 @@ import { Card } from "flowbite-react";
 
 export default function Cards({object}) {
   const navigate = useNavigate();
-
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
   function openDetail() {
     navigate(`/productdetail/${object.id}`);
   }
@@ -22,7 +32,7 @@ export default function Cards({object}) {
         </h5>
       </a>
       <span className="text-md text-gray-900 dark:text-white">
-          Thời gian đấu giá <p className="font-bold">{object.time}</p>
+          Thời gian đấu giá <p className="font-bold">{formatDate(object.time)}</p>
         </span>
       <div className="flex">
         <span className="text-md text-gray-900 dark:text-white">

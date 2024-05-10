@@ -37,7 +37,6 @@ export default function IncomingAuction() {
   const startDateRef = React.useRef('');
   const endDateRef = React.useRef('');
   
-  const [categoryFilters, setCategoryFilters] = useState([]);
 
   const navigate = useNavigate();
 
@@ -67,7 +66,7 @@ export default function IncomingAuction() {
       obj.push({
         id: res[i]._id,
         name: res[i].product.name,
-        time: formatDate(res[i].timeStart),
+        time: res[i].timeStart,
         price: res[i].startPrice,
         type: res[i].product.type,
         status: res[i].status,
@@ -214,7 +213,7 @@ export default function IncomingAuction() {
               <input
                 input type="datetime-local" name="startTime"
                 className="w-full p-2 border border-gray-300 rounded"
-                value={formatDate(filters.startTime)} onChange={handleInputChange} 
+                value={filters.startTime} onChange={handleInputChange} 
               />
             </div>
             <div className="mb-4">
@@ -224,7 +223,7 @@ export default function IncomingAuction() {
               <input
                 input type="datetime-local" name="endTime"
                 className="w-full p-2 border border-gray-300 rounded"
-                value={formatDate(filters.endTime)} onChange={handleInputChange} 
+                value={filters.endTime} onChange={handleInputChange} 
               />
             </div>
             <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3" role="alert">Invalid time</div>
@@ -238,22 +237,17 @@ export default function IncomingAuction() {
               {/* Example filter options */}
               <div>
                 <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'common')} checked={filters.type.includes('common')}/>
+                onChange={() => toggleFilter('type', 'Type 1')} checked={filters.type.includes('Type 1')}/>
                 <label>Tài sản gia dụng</label>
               </div>
               <div>
                 <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'transport')} checked={filters.type.includes('transport')}/>
+                onChange={() => toggleFilter('type', 'Type 2')} checked={filters.type.includes('Type 2')}/>
                 <label>Tài sản phương tiện</label>
               </div>
               <div>
                 <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'clothes')} checked={filters.type.includes('clothes')}/>
-                <label>Tài sản phương tiện</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'other')} checked={filters.type.includes('other')}/>
+                onChange={() => toggleFilter('type', 'Type 3')} checked={filters.type.includes('Type 3')}/>
                 <label>Khác</label>
               </div>
             </div>
@@ -347,7 +341,7 @@ export default function IncomingAuction() {
                       </h2>
                       <div className="flex">
                         <p className="text-sm">Thời gian đấu giá:</p>
-                        <p className="text-sm font-bold ml-1">{item.time}</p>
+                        <p className="text-sm font-bold ml-1">{formatDate(item.time)}</p>
                       </div>
                       <div className="flex">
                         <p className="text-sm">Giá khởi điểm: </p>
