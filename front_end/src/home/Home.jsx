@@ -1,6 +1,8 @@
 import React from "react";
 
 import NavigationBar from "./components/Navbar";
+import NavbarUser from "../shared/Navbar";
+
 import Introduction from "./components/Introduction";
 import Preview from "./components/Preview";
 import Footers from "./components/Footer";
@@ -10,6 +12,8 @@ import SearchModal from "../search/SearchModal";
 function Home() {
   const [loginPopup, setLoginPopup] = React.useState(false);
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
+  const {getLogin} = require('../home/login/Auth');
+  const isLoggedIn = getLogin();
 
   const [searchPopup, setSearchPopup] = React.useState(false);
   const toggleSearch = () => setSearchPopup(!searchPopup);
@@ -17,10 +21,7 @@ function Home() {
   return (
     <>
       <div className={loginPopup ? "blur-sm " : ""}>
-        <NavigationBar
-          toggleLoginPopup={toggleLoginPopup}
-          toggleSearch={toggleSearch}
-        />
+      {isLoggedIn === "Login" ? <NavbarUser /> : <NavigationBar toggleLoginPopup={toggleLoginPopup} toggleSearch={toggleSearch}/>}
         <Introduction />
         <Preview />
         <Footers />

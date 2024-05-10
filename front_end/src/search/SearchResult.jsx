@@ -3,85 +3,108 @@ import NavigationBar from "../home/components/Navbar";
 import Card from "../home/components/Cards";
 import grid from "../home/assets/grid.png";
 import row from "../home/assets/row.png";
-import { useState } from "react";
+import React, { useState } from "react";
+import NavbarUser from "../shared/Navbar";
 
 import Banner from "./assets/banner.png";
 
-var obj = [
-  {
-    name: "sCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "qCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "eCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "xCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "zCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-  {
-    name: "vCáp đồng viễn thông các loại thu hồi thanh lý của Viễn thông Thái Bình",
-    time: "12/04/2004 09:30:00",
-    price: "8.910.410.400 VNĐ",
-    image:
-      "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-  },
-];
+import useSearch from "../hooks/useSearch";
+
 
 export default function SearchResult() {
   const { keyword } = useParams();
-  const [viewMode, setViewMode] = useState(false);
+  const [viewMode, setViewMode] = useState(true);
   const itemsPerPage = 6;
   const [currentPage, setCurrentPage] = useState(1);
+  const [loginPopup, setLoginPopup] = React.useState(false);
+  const toggleLoginPopup = () => setLoginPopup(!loginPopup);
+  const {getLogin} = require('../home/login/Auth');
+  const isLoggedIn = getLogin();
+
+  const [searchPopup, setSearchPopup] = React.useState(false);
+  const toggleSearch = () => setSearchPopup(!searchPopup);
+  const [filters, setFilters] = useState({
+    status: [],
+    type: [],
+    startTime: "",
+    endTime: ""
+  });
+
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-  const displayItems = obj.slice(
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+
+  const { auction, error, isLoading } = useSearch(keyword);
+  if (error) return <div>An error has occurred: {error.message}</div>;
+  if (isLoading) return <div>Loading...</div>;
+  const result = auction.searchResult;
+  var obj = [];
+  for (let i = 0; i < result.length; i++) {
+    obj.push({
+      id: result[i]._id,
+      name: result[i].name,
+      time: result[i].timeStart,
+      price: result[i].startPrice,
+      image: result[i].product.img,
+      type: result[i].product.type,
+      status: result[i].status
+    });
+  }
+
+  const filteredProducts = obj.filter(product => {
+    return (
+      (filters.status.length === 0 || filters.status.includes(product.status)) &&
+      (filters.type.length === 0 || filters.type.includes(product.type)) &&
+      (filters.startTime === "" || new Date(product.time) >= new Date(filters.startTime)) &&
+      (filters.endTime === "" || new Date(product.time) <= new Date(filters.endTime))
+    );
+  });
+  console.log(filteredProducts)
+  const toggleFilter = (filterType, value) => {
+    setFilters(prevFilters => {
+      const updatedFilters = { ...prevFilters };
+      if (filterType === "time") {
+        updatedFilters[filterType] = value;
+      } else {
+        const filterIndex = updatedFilters[filterType].indexOf(value);
+        if (filterIndex !== -1) {
+          updatedFilters[filterType] = updatedFilters[filterType].filter(item => item !== value);
+        } else {
+          updatedFilters[filterType] = [...updatedFilters[filterType], value];
+        }
+      }
+      return updatedFilters;
+    });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
+  const displayItems = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
 
   return (
     <div>
-      <NavigationBar></NavigationBar>
+      {isLoggedIn === "Login" ? <NavbarUser /> : <NavigationBar toggleLoginPopup={toggleLoginPopup} toggleSearch={toggleSearch}/>}
       <div className="px-16">
         <div className="flex flex-row flex-1 border-y-2">
           <div className="py-8">
@@ -100,7 +123,7 @@ export default function SearchResult() {
         </div>
         <div>
           <p className="text-2xl pt-3">
-            3 kết quả tìm kiếm cho:{" "}
+            {result.length} kết quả tìm kiếm cho:{" "}
             <span className="font-semibold">{keyword}</span>
           </p>
         </div>
@@ -114,8 +137,9 @@ export default function SearchResult() {
                   Từ Ngày
                 </label>
                 <input
-                  type="date"
+                input type="datetime-local" name="startTime"
                   className="w-full p-2 border border-gray-300 rounded"
+                  value={filters.startTime} onChange={handleInputChange} 
                 />
               </div>
               <div className="mb-4">
@@ -123,8 +147,9 @@ export default function SearchResult() {
                   Đến Ngày
                 </label>
                 <input
-                  type="date"
+                input type="datetime-local" name="endTime"
                   className="w-full p-2 border border-gray-300 rounded"
+                  value={filters.endTime} onChange={handleInputChange} 
                 />
               </div>
             </div>
@@ -136,12 +161,16 @@ export default function SearchResult() {
                 </label>
                 {/* Example filter options */}
                 <div>
-                  <input className="mr-2" type="checkbox" />
-                  <label>Option 1</label>
+                  <input className="mr-2" type="checkbox" 
+                  onChange={() => toggleFilter('status', 'OPEN')} checked={filters.status.includes('OPEN')}
+                  />
+                  <label>Đang diễn ra</label>
                 </div>
                 <div>
-                  <input className="mr-2" type="checkbox" />
-                  <label>Option 2</label>
+                <input className="mr-2" type="checkbox" 
+                  onChange={() => toggleFilter('status', 'INCOMING')} checked={filters.status.includes('INCOMING')}
+                  />
+                  <label>Sắp diễn ra</label>
                 </div>
               </div>
             </div>
@@ -153,37 +182,21 @@ export default function SearchResult() {
                 </label>
                 {/* Example filter options */}
                 <div>
-                  <input className="mr-2" type="checkbox" />
-                  <label htmlFor="filter1">Option 1</label>
-                </div>
-                <div>
-                  <input className="mr-2" type="checkbox" />
-                  <label>Option 2</label>
-                </div>
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'Type 1')} checked={filters.type.includes('Type 1')}/>
+                <label>Tài sản gia dụng</label>
               </div>
-            </div>
-            <div className="bg-white p-3 rounded-lg mb-5">
-              {/* Bộ lọc */}
-              <div className="mb-4">
-                <label className="block text-sm font-semibold mb-2">
-                  Tài sản mới
-                </label>
-                {/* Example filter options */}
-                <div>
-                  <input className="mr-2" type="checkbox" />
-                  <label>Option 1</label>
-                </div>
-                <div>
-                  <input className="mr-2" type="checkbox" />
-                  <label>Option 2</label>
-                </div>
+              <div>
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'Type 2')} checked={filters.type.includes('Type 2')}/>
+                <label>Tài sản phương tiện</label>
               </div>
-            </div>
-            {/* Nút Lọc */}
-            <div>
-              <button className="bg-red-600 text-white py-2 px-4 rounded hover:bg-black">
-                Lọc
-              </button>
+              <div>
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'Type 3')} checked={filters.type.includes('Type 3')}/>
+                <label>Khác</label>
+              </div>
+              </div>
             </div>
           </div>
           {/* Main Content */}
@@ -239,7 +252,7 @@ export default function SearchResult() {
                 )}
               </div>
               <div className="flex justify-center items-end mt-4">
-                {[...Array(Math.ceil(obj.length / itemsPerPage)).keys()].map(
+                {[...Array(Math.ceil(filteredProducts.length / itemsPerPage)).keys()].map(
                   (pageNumber) => (
                     <button
                       key={pageNumber}

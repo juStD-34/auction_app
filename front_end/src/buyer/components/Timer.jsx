@@ -46,17 +46,17 @@ const CountdownTimer = ({ targetDate }) => {
     {timeLeft.days > 0 && (
       <span className=' font-bold text-2xl'>{timeLeft.days} Ngày: </span>
     )}
-    {timeLeft.hours > 0 && (
+    {timeLeft.hours >= 0 && (
       <span className=' font-bold text-2xl'>{timeLeft.hours} Giờ: </span>
     )}
-    {timeLeft.minutes > 0 && (
+    {timeLeft.minutes >= 0 && (
       <span className=' font-bold text-2xl'>{timeLeft.minutes} Phút: </span>
     )}
-    {timeLeft.seconds > 0 && (
+    {timeLeft.seconds >= 0 && (
       <span className=' font-bold text-2xl'>{timeLeft.seconds} Giây: </span>
     )}
     {(timeLeft.days <= 0 && timeLeft.hours <= 0 && timeLeft.minutes <= 0 && timeLeft.seconds <= 0) && (
-      <span>Hết giờ!</span>
+      <span>00:00:00</span>
     )}
   </div>
   );

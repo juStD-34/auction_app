@@ -51,7 +51,7 @@ export default function ProductDetail() {
 
   const datas = useAuctionId(id);
   if (datas.isLoading) return <p>Loading...</p>;
-  var res = datas.auction.existAuction[0];
+  var res = datas.auction.existAuction;
 
   const formatDate = (dateString) => {
     const options = {
@@ -66,7 +66,7 @@ export default function ProductDetail() {
   };
 
   var obj = {
-    id: res._id,
+    // id: res._id,
     name: res.product.name,
     timeStart: formatDate(res.timeStart),
     timeEnd: formatDate(res.timeEnd),
@@ -82,10 +82,14 @@ export default function ProductDetail() {
   }
 
   function checkAvailable() {
-    if (isLoggedIn === "Login") return true;
-    console.log(res.timeStart);
-    console.log(Date.now());
+    if (isLoggedIn !== "Login") return false;
     if (new Date(res.timeStart).getTime() - Date.now() > 0) return false;
+    // if (new Date(res.timeEnd).getTime() - Date.now() < 0) return false;
+    return true;
+  }
+
+  function checkIsTimeOut() {
+    if (new Date(res.timeStart).getTime() - Date.now() < 0) return false;
     return true;
   }
 
@@ -99,7 +103,7 @@ export default function ProductDetail() {
             <p className="text-3xl mb-5 font-semibold">{obj.name}</p>
             <p className="text-xl opacity-50">Thời gian bắt đầu {obj.timeStart}</p>
             <p className="text-xl opacity-50 mb-5">Thời gian kết thúc {obj.timeEnd}</p>
-            <p className="text-xl mb-5 opacity-50">Cuộc đấu giá bắt đầu sau: </p>
+            {checkIsTimeOut() && <p className="text-xl mb-5 opacity-50">Cuộc đấu giá bắt đầu sau: </p>}
             <CountdownTimer targetDate={res.timeStart}></CountdownTimer> 
             {checkAvailable() ? <button
               className="bg-red-600 text-white rounded-md p-2 font-semibold "

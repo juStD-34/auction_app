@@ -6,14 +6,14 @@ import hehe from "../home/assets/hehe.png";
 import avt from "../home/assets/avt.png";
 import search from "../home/assets/search.png";
 
-const id = 1;
+import useAllNotify from "../hooks/useAllNotify";
 
 const DEFAULT_NOTIFICATION = {
   image:
     "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
-  message: "Notification one.",
-  detailPage: "/historydetails/"+id,
-  receivedTime: "12h ago",
+  message: "No auction found",
+  detailPage: "",
+  receivedTime: "Now",
 };
 
 export default function NavbarUser() {
@@ -21,7 +21,49 @@ export default function NavbarUser() {
   const {setUserID} = require("../hooks/userID");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
-  const data = ([DEFAULT_NOTIFICATION]);
+  
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      // Creates an interval which will update the current data every minute
+      // This will trigger a rerender every component that uses the useDate hook.
+      setTime(new Date().toLocaleString());
+    }, 1000);
+    return () => {
+      clearInterval(timer); // Return a funtion to clear the timer so that it will stop being called on unmount
+    };
+  }, []);
+  
+  const [time, setTime] = React.useState(new Date().toLocaleString());
+  const date = time.split(" ");
+  var day;
+
+  const formatDate = (dateString) => {
+    const options = {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      second: "numeric",
+    };
+    return new Date(dateString).toLocaleDateString("vi-VN", options);
+  };
+
+  const datas = useAllNotify();
+  var obj = [];
+  if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
+  if (datas.isLoading) return <div>Loading...</div>;
+  var res = datas.auction.result;
+  if (res.length === 0) obj.push(DEFAULT_NOTIFICATION);
+  else for (var i = 0; i < res.length; i++) {
+    obj.push({
+      receivedTime: formatDate(res[i].date),
+      message: res[i].content,
+      detailPage: `/historydetails/${res[i]._id}`,
+      image:
+      "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
+    });
+  }
 
   function searchItem() {
     navigate(`/search/${inputRef.current.value}`);
@@ -35,10 +77,6 @@ export default function NavbarUser() {
     setLogin("Logout"); // Đặt login thành "Logout"
     setUserID(null); // Đặt userID về null hoặc giá trị mong muốn
   };
-
-  const [time, setTime] = React.useState(new Date().toLocaleString());
-  const date = time.split(" ");
-  var day;
 
   switch (new Date().getDay()) {
     default:
@@ -63,16 +101,6 @@ export default function NavbarUser() {
       day = "Thứ bảy, ";
   }
 
-  React.useEffect(() => {
-    const timer = setInterval(() => {
-      // Creates an interval which will update the current data every minute
-      // This will trigger a rerender every component that uses the useDate hook.
-      setTime(new Date().toLocaleString());
-    }, 1000);
-    return () => {
-      clearInterval(timer); // Return a funtion to clear the timer so that it will stop being called on unmount
-    };
-  }, []);
   return (
     <div>
       <div className="flex justify-between w-full h-20 p-5 border-b-2 border-gray gap-4">
@@ -111,8 +139,8 @@ export default function NavbarUser() {
             inline
             placement="bottom"
             label={
-              <p href="/buyer" className="text-xl hover:text-red-500 font-semibold">
-                Tài sản đấu giá
+              <p className="text-xl hover:text-red-500 font-semibold">
+                <a href="/allauction" className="">Tài sản đấu giá</a>
               </p>
             }
           >
@@ -120,7 +148,7 @@ export default function NavbarUser() {
               <a href="/common" className="hover:text-red-500">Tài sản gia dụng</a>
             </Dropdown.Item>
             <Dropdown.Item>
-              <p href="/transport" className="hover:text-red-500">Tài sản phương tiện</p>
+              <a href="/transport" className="hover:text-red-500">Tài sản phương tiện</a>
             </Dropdown.Item>
             <Dropdown.Item>
               <a href="/other" className="hover:text-red-500">Khác</a>
@@ -156,17 +184,18 @@ export default function NavbarUser() {
             <div className="mr-2">
               <button className="items-center w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-1 hover:bg-gray-300">
               <Notifications
-                  data={data}
+                  data={obj}
                   header={{
                     title: "Notifications",
                     option: {
-                      text: "View All",
+                      text: "Mark as all read",
                       onClick: () => viewAll(),
                     },
                   }}
                   markAsRead={(data) => {
                     console.log(data);
                   }}
+                  viewAllbtn={{ text: 'View all', linkTo: '/history'}}
                 />
               </button>
             </div>
