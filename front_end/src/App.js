@@ -14,6 +14,7 @@ import ProductDetail from "./buyer/ProductDetail";
 import TransportAuction from "./buyer/TransportAuction";
 import OtherAuction from "./buyer/OtherAuction";
 import CommonAuction from "./buyer/CommonAuction";
+import ClothesAuction from "./buyer/ClothesAuction";
 
 import SearchResult from "./search/SearchResult";
 import History from "./history/History";
@@ -54,6 +55,7 @@ function App() {
           <Route path="/incoming" element={<IncomingAuction />}/>
           <Route path="/occuring" element={<OccuringAuction />}/>
           <Route path="/transport" element={<TransportAuction />}/>
+          <Route path="/clothes" element={<ClothesAuction />}/>
           <Route path="/other" element={<OtherAuction />}/>
           <Route path="/common" element={<CommonAuction />}/>
           <Route path="/productdetail/:id" element={<ProductDetail />} />

@@ -5,7 +5,7 @@ import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
-import useCommonAuction from "../hooks/useCommonAuction";
+import useAllAuction from "../hooks/useAllAuction";
 
 import banner from "../home/assets/banner.png";
 import row from "../home/assets/row.png";
@@ -26,6 +26,11 @@ export default function CommonAuction() {
   const toggleSearch = () => setSearchPopup(!searchPopup);
   const {getLogin} = require('../home/login/Auth');
   const isLoggedIn = getLogin();
+  const [filters, setFilters] = useState({
+    status: [],
+    startTime: "",
+    endTime: ""
+  });
 
   const navigate = useNavigate();
 
@@ -33,9 +38,9 @@ export default function CommonAuction() {
     navigate(`/productdetail/${id}`);
   }
 
-  const datas = useCommonAuction();
+  const datas = useAllAuction();
   if (datas.isLoading) return <p>Loading...</p>;
-  var res = datas.auction.result;
+  var res = datas.auction.allAuction;
   var obj = [];
 
   const formatDate = (dateString) => {
@@ -51,21 +56,57 @@ export default function CommonAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    obj.push({
-      id: res[i]._id,
-      name: res[i].product.name,
-      time: formatDate(res[i].timeStart),
-      price: res[i].startPrice,
-      image:
-        "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-    });
+    if (res[i].product.type === "common") {
+      obj.push({
+        id: res[i]._id,
+        name: res[i].product.name,
+        time: formatDate(res[i].timeStart),
+        price: res[i].startPrice,
+        type: res[i].product.type,
+        status: res[i].status,
+        image:
+          "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
+      });
+    }
   }
 
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const filteredProducts = obj.filter(product => {
+    return (
+      (filters.status.length === 0 || filters.status.includes(product.status)) &&
+      (filters.startTime === "" || new Date(product.time) >= new Date(filters.startTime)) &&
+      (filters.endTime === "" || new Date(product.time) <= new Date(filters.endTime))
+    );
+  });
+  console.log(filteredProducts)
+  const toggleFilter = (filterType, value) => {
+    setFilters(prevFilters => {
+      const updatedFilters = { ...prevFilters };
+      if (filterType === "time") {
+        updatedFilters[filterType] = value;
+      } else {
+        const filterIndex = updatedFilters[filterType].indexOf(value);
+        if (filterIndex !== -1) {
+          updatedFilters[filterType] = updatedFilters[filterType].filter(item => item !== value);
+        } else {
+          updatedFilters[filterType] = [...updatedFilters[filterType], value];
+        }
+      }
+      return updatedFilters;
+    });
+  };
 
-  const displayItems = obj.slice(
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
+
+  const displayItems = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -94,8 +135,9 @@ export default function CommonAuction() {
                 Từ Ngày
               </label>
               <input
-                type="date"
+                input type="datetime-local" name="startTime"
                 className="w-full p-2 border border-gray-300 rounded"
+                value={formatDate(filters.startTime)} onChange={handleInputChange} 
               />
             </div>
             <div className="mb-4">
@@ -103,8 +145,9 @@ export default function CommonAuction() {
                 Đến Ngày
               </label>
               <input
-                type="date"
+                input type="datetime-local" name="endTime"
                 className="w-full p-2 border border-gray-300 rounded"
+                value={formatDate(filters.endTime)} onChange={handleInputChange} 
               />
             </div>
           </div>
@@ -116,62 +159,18 @@ export default function CommonAuction() {
               </label>
               {/* Example filter options */}
               <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Option 1</label>
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('status', 'OPEN')} checked={filters.status.includes('OPEN')}
+                />
+                <label>Đang diễn ra</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Option 2</label>
+              <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('status', 'INCOMING')} checked={filters.status.includes('INCOMING')}
+                />
+                <label>Sắp diễn ra</label>
               </div>
             </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg mb-5">
-            {/* Bộ lọc */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold mb-2">
-                Danh mục tài sản
-              </label>
-              {/* Example filter options */}
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label htmlFor="filter1">Đồ gia dụng</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Phương tiện giao thông</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Quần áo</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Khác</label>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white p-3 rounded-lg mb-5">
-            {/* Bộ lọc */}
-            <div className="mb-4">
-              <label className="block text-sm font-semibold mb-2">
-                Tài sản mới
-              </label>
-              {/* Example filter options */}
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Option 1</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" />
-                <label>Option 2</label>
-              </div>
-            </div>
-          </div>
-          {/* Nút Lọc */}
-          <div>
-            <button className="bg-red-600 text-white py-2 px-4 rounded hover:bg-black">
-              Lọc
-            </button>
           </div>
         </div>
         {/* Main Content */}
@@ -243,7 +242,7 @@ export default function CommonAuction() {
               )}
             </div>
             <div className="flex justify-center items-end mt-4">
-              {[...Array(Math.ceil(obj.length / itemsPerPage)).keys()].map(
+              {[...Array(Math.ceil(filteredProducts.length / itemsPerPage)).keys()].map(
                 (pageNumber) => (
                   <button
                     key={pageNumber}

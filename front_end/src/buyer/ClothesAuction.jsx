@@ -15,7 +15,7 @@ import "swiper/css/pagination";
 import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
 
-export default function OccuringAuction() {
+export default function ClothesAuction() {
   const [viewMode, setViewMode] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
@@ -27,7 +27,7 @@ export default function OccuringAuction() {
   const {getLogin} = require('../home/login/Auth');
   const isLoggedIn = getLogin();
   const [filters, setFilters] = useState({
-    type: [],
+    status: [],
     startTime: "",
     endTime: ""
   });
@@ -56,7 +56,7 @@ export default function OccuringAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    if (res[i].status === "OPEN") {
+    if (res[i].product.type === "clothes") {
       obj.push({
         id: res[i]._id,
         name: res[i].product.name,
@@ -75,7 +75,7 @@ export default function OccuringAuction() {
   };
   const filteredProducts = obj.filter(product => {
     return (
-      (filters.type.length === 0 || filters.type.includes(product.type)) &&
+      (filters.status.length === 0 || filters.status.includes(product.status)) &&
       (filters.startTime === "" || new Date(product.time) >= new Date(filters.startTime)) &&
       (filters.endTime === "" || new Date(product.time) <= new Date(filters.endTime))
     );
@@ -155,28 +155,20 @@ export default function OccuringAuction() {
             {/* Bộ lọc */}
             <div className="mb-4">
               <label className="block text-sm font-semibold mb-2">
-                Danh mục tài sản
+                Trạng thái tài sản
               </label>
               {/* Example filter options */}
               <div>
                 <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'common')} checked={filters.type.includes('common')}/>
-                <label>Tài sản gia dụng</label>
+                onChange={() => toggleFilter('status', 'OPEN')} checked={filters.status.includes('OPEN')}
+                />
+                <label>Đang diễn ra</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'transport')} checked={filters.type.includes('transport')}/>
-                <label>Tài sản phương tiện</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'clothes')} checked={filters.type.includes('clothes')}/>
-                <label>Tài sản phương tiện</label>
-              </div>
-              <div>
-                <input className="mr-2" type="checkbox" 
-                onChange={() => toggleFilter('type', 'other')} checked={filters.type.includes('other')}/>
-                <label>Khác</label>
+              <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('status', 'INCOMING')} checked={filters.status.includes('INCOMING')}
+                />
+                <label>Sắp diễn ra</label>
               </div>
             </div>
           </div>

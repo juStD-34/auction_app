@@ -21,6 +21,12 @@ export default function AllAuction() {
   const itemsPerPage = 6;
   const [loginPopup, setLoginPopup] = React.useState(false);
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
+  const [filters, setFilters] = useState({
+    type: [],
+    status: [],
+    startTime: "",
+    endTime: ""
+  });
 
   const [searchPopup, setSearchPopup] = React.useState(false);
   const toggleSearch = () => setSearchPopup(!searchPopup);
@@ -54,21 +60,60 @@ export default function AllAuction() {
     obj.push({
       id: res[i]._id,
       name: res[i].product.name,
-      time: formatDate(res[i].timeStart),
+      time: res[i].timeStart,
       price: res[i].startPrice,
+      type: res[i].product.type,
+      status: res[i].status,
       image:
         "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
     });
+    console.log(res[i].timeStart);
   }
 
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
 
-  const displayItems = obj.slice(
+  const filteredProducts = obj.filter(product => {
+    return (
+      (filters.type.length === 0 || filters.type.includes(product.type)) &&
+      (filters.status.length === 0 || filters.status.includes(product.status)) &&
+      (filters.startTime === "" || new Date(product.time) >= new Date(filters.startTime)) &&
+      (filters.endTime === "" || new Date(product.time) <= new Date(filters.endTime))
+    );
+  });
+  console.log(filteredProducts)
+  const toggleFilter = (filterType, value) => {
+    setFilters(prevFilters => {
+      const updatedFilters = { ...prevFilters };
+      if (filterType === "time") {
+        updatedFilters[filterType] = value;
+      } else {
+        const filterIndex = updatedFilters[filterType].indexOf(value);
+        if (filterIndex !== -1) {
+          updatedFilters[filterType] = updatedFilters[filterType].filter(item => item !== value);
+        } else {
+          updatedFilters[filterType] = [...updatedFilters[filterType], value];
+        }
+      }
+      return updatedFilters;
+    });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
+
+
+  const displayItems = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
   return (
     <>
       <div className={loginPopup ? "blur-sm " : ""}>
@@ -94,8 +139,9 @@ export default function AllAuction() {
                 Từ Ngày
               </label>
               <input
-                type="date"
+                input type="datetime-local" name="startTime"
                 className="w-full p-2 border border-gray-300 rounded"
+                value={formatDate(filters.startTime)} onChange={handleInputChange} 
               />
             </div>
             <div className="mb-4">
@@ -103,8 +149,9 @@ export default function AllAuction() {
                 Đến Ngày
               </label>
               <input
-                type="date"
+                input type="datetime-local" name="endTime"
                 className="w-full p-2 border border-gray-300 rounded"
+                value={formatDate(filters.endTime)} onChange={handleInputChange} 
               />
             </div>
           </div>
@@ -116,11 +163,15 @@ export default function AllAuction() {
               </label>
               {/* Example filter options */}
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('status', 'OPEN')} checked={filters.status.includes('OPEN')}
+                />
                 <label>Đang diễn ra</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('status', 'INCOMING')} checked={filters.status.includes('INCOMING')}
+                />
                 <label>Sắp diễn ra</label>
               </div>
             </div>
@@ -133,28 +184,26 @@ export default function AllAuction() {
               </label>
               {/* Example filter options */}
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'common')} checked={filters.type.includes('common')}/>
                 <label htmlFor="filter1">Đồ gia dụng</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'transport')} checked={filters.type.includes('transport')}/>
                 <label>Phương tiện giao thông</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'clothes')} checked={filters.type.includes('clothes')}/>
                 <label>Quần áo</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'other')} checked={filters.type.includes('other')}/>
                 <label>Khác</label>
               </div>
             </div>
-          </div>
-          {/* Nút Lọc */}
-          <div>
-            <button className="bg-red-600 text-white py-2 px-4 rounded hover:bg-black">
-              Lọc
-            </button>
           </div>
         </div>
         {/* Main Content */}
@@ -203,7 +252,7 @@ export default function AllAuction() {
                       </h2>
                       <div className="flex">
                         <p className="text-sm">Thời gian đấu giá:</p>
-                        <p className="text-sm font-bold ml-1">{item.time}</p>
+                        <p className="text-sm font-bold ml-1">{formatDate(item.time)}</p>
                       </div>
                       <div className="flex">
                         <p className="text-sm">Giá khởi điểm: </p>
@@ -226,7 +275,7 @@ export default function AllAuction() {
               )}
             </div>
             <div className="flex justify-center items-end mt-4">
-              {[...Array(Math.ceil(obj.length / itemsPerPage)).keys()].map(
+              {[...Array(Math.ceil(filteredProducts.length / itemsPerPage)).keys()].map(
                 (pageNumber) => (
                   <button
                     key={pageNumber}
