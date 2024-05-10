@@ -60,6 +60,7 @@ module.exports.deleteAuction = async (req, res) => {
     const { auctionID } = req.params;
     try {
         const deleteAuction = await Auction.findByIdAndUpdate(auctionID, { softDelete: true });
+        const deleteParticipants = await Participants.deleteOne({ auctionID: auctionID });
         res.status(201).json({
             success: true,
             message: "Delete auction successfully",
