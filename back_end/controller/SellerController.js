@@ -81,7 +81,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
     const { sellerID } = req.params;
 
     try {
-        const existSeller = await User.find({ _id: sellerID, softDelete: false });
+        const existSeller = await User.find({ _id: sellerID, softDelete: false, status: "OPEN" });
         if (!existSeller) {
             return res.status(404).json({
                 success: false,
