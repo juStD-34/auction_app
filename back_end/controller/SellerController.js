@@ -102,7 +102,7 @@ module.exports.getAllAuctionByID = async (req, res) => {
                 console.log(winner);
                 const auctionWithWinner = {
                     _id: auction._id,
-                    product:{
+                    product: {
                         name: auction.product.name,
                         type: auction.product.type,
                         img: auction.product.img
@@ -152,12 +152,12 @@ module.exports.getAuctionByID = async (req, res) => {
                 message: "Auction not found",
             });
         } else {
-            let result =[];
+            let result = [];
             winner = await findWinner(auctionID);
             if (winner) {
                 const auctionWithWinner = {
                     _id: existAuction._id,
-                    product:{
+                    product: {
                         name: existAuction.product.name,
                         type: existAuction.product.type,
                         img: existAuction.product.img
@@ -211,7 +211,13 @@ module.exports.stopAuction = async (req, res) => {
                 success: false,
                 message: "Auction not found",
             });
-        } else {
+        } else if ( existAuction.status == "INCOMING") {
+            return res.status(400).json({
+                success: false,
+                message: "Auction haven't started",
+            });
+        }
+            else {
             if (existAuction.status == "CLOSED") {
                 return res.status(400).json({
                     success: false,
