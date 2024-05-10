@@ -53,7 +53,7 @@ export default function Profile() {
                 
                 <div className='flex'onSubmit={formHandler()}> 
                     <Sidebar />
-                    <div className="h-screen flex-1 p-7">
+                    <div className="h-screen flex-1 p-7 ml-72">
                         <h1 class="mb-4 text-1xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl">THÔNG TIN NGƯỜI BÁN</h1>
 
                         <form>

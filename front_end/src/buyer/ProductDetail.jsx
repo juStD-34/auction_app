@@ -19,12 +19,13 @@ export default function ProductDetail() {
   }, []);
 
   const { id } = useParams();
+  console.log(getUserID());
   const mutation = useMutation(
     {
       mutationFn: (props) => {
         return axios.post("http://localhost:3002/bidder/createBid", {
-          auctionID: id, 
-          userID: getUserID(), 
+          auctionID: id,
+          userID: getUserID(),
           price: props.price,
         });
       },
@@ -51,7 +52,7 @@ export default function ProductDetail() {
 
   const datas = useAuctionId(id);
   if (datas.isLoading) return <p>Loading...</p>;
-  var res = datas.auction.existAuction;
+  var res = datas.auction.result[0];
 
   const formatDate = (dateString) => {
     const options = {
@@ -71,6 +72,7 @@ export default function ProductDetail() {
     timeStart: formatDate(res.timeStart),
     timeEnd: formatDate(res.timeEnd),
     price: res.startPrice,
+    highestPrice: res.highestPrice,
     image: res.product.img,
   };
 
@@ -134,7 +136,7 @@ export default function ProductDetail() {
             <div className="bg-white p-8 rounded">
               <p className="text-2xl mb-5">Đấu giá sản phẩm</p>
               <p>Giá ban đầu: {obj.price}</p>
-              <p>Giá cao nhất được trả:</p>
+              <p>Giá cao nhất được trả: {obj.highestPrice}</p>
               <input
                 className="rounded-md mr-2 p-2 border border-pgray-300"
                 placeholder="Giá đấu..."

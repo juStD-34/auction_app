@@ -60,8 +60,7 @@ export default function NavbarUser() {
       receivedTime: formatDate(res[i].date),
       message: res[i].content,
       detailPage: `/historydetails/${res[i]._id}`,
-      image:
-      "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
+      image: res[i].image,
     });
   }
 

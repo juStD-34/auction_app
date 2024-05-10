@@ -9,13 +9,14 @@ export default function useSellerAuctions() {
     );
     return response.data;
   };
+  console.log(getUserID());
 
   const {
     data: auction,
     error,
     isLoading,
     isError,
-  } = useQuery("SellerAuction", retrievePosts, {
+  } = useQuery('SellerAuction', retrievePosts, {
     retry: 1,
   });
 
