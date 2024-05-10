@@ -2,11 +2,11 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
-function PostCard({ image, title, description, date }) {
+function PostCard({ image, title, date, to }) {
 
   const navigate = useNavigate();
-  function handleClick(id) {
-    navigate("/historydetails/" + id);
+  function handleClick() {
+    navigate(to);
   }
 
   return (
@@ -18,7 +18,7 @@ function PostCard({ image, title, description, date }) {
       />
       <div>
         <h3 className="font-bold text-2xl">{title}</h3>
-        <p className="text-gray-600 text-lg">{description}: {date}</p>
+        <p className="text-gray-600 text-lg">{date}</p>
         <button
           onClick={() => handleClick(title)}
           className="bg-red-600 rounded-md p-2 text-white hover:bg-black mt-4"

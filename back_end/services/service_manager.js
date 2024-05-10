@@ -2,14 +2,15 @@ const Participants = require("../Model/ParticipantsModel");
 const Auction = require("../Model/AuctionModel");
 const Transaction = require("../Model/TransactionModel");
 const Notification = require("../Model/NotificationModel");
+const moment = require("moment-timezone");
 
 
 async function findEndAuction() {
-    const now = new Date();
+    const now = moment().tz("Asia/Jakarta").format();
     console.log("findEndAuction: ", now);
     try {
         const completeAuctions = await Auction.find({
-            timeEnd: { $lte: new Date() },
+            timeEnd: { $lte: now },
             status: { $ne: "CLOSED" },
             softDelete: false
         });
@@ -22,6 +23,28 @@ async function findEndAuction() {
         }
     } catch (error) {
         console.error("Error in findEndAuction:", error);
+    }
+}
+
+async function findStartAuction() {
+    const now = Date.now();
+    console.log("findStartAuction: ", now);
+    try {
+        const startAuctions = await Auction.find({
+            timeStart: { $lte: Date.now() },
+            timeEnd: { $gte: Date.now() },
+            status: "INCOMING",
+            softDelete: false
+        });
+        console.log("startAuctions: ", startAuctions);
+        if (startAuctions && startAuctions.length > 0) {
+            // console.log("have")
+            for (const auction of startAuctions) {
+                await startAuction(auction);
+            }
+        }
+    } catch (error) {
+        console.error("Error in findStartAuction:", error);
     }
 }
 
@@ -57,14 +80,15 @@ async function endAuction(auction) {
                 title: "End Auction",
                 content: "You are winner of the auction",
                 receiverID: winner.bidderId,
-                auctionID: auction._id
-
+                auctionID: auction._id,
+                image: auction.product.img
             })
             const notification2 = new Notification({
                 title: "End Auction",
                 content: "Your auction ended!",
                 receiverID: auction.sellerID,
-                auctionID: auction._id
+                auctionID: auction._id,
+                image: auction.product.img
             })
             notification.save();
             notification2.save();
@@ -76,6 +100,27 @@ async function endAuction(auction) {
     }
     catch (error) {
         throw new Error("Failed to end auction");
+    }
+}
+
+async function startAuction(auction) {
+    try {
+        console.log("startAuction: ", auction);
+        auction.timeStart = new Date();
+        auction.status = "OPEN";
+        auction.save();
+        const notification = new Notification({
+            title: "Start Auction",
+            content: "Your auction has started!",
+            receiverID: auction.sellerID,
+            auctionID: auction._id,
+            image: auction.product.img
+        })
+        notification.save();
+        console.log("startAuction success ");
+    }
+    catch (error) {
+        throw new Error("Failed to start auction");
     }
 }
 
@@ -92,5 +137,6 @@ async function findWinner(auctionID) {
 }
 
 const interval = setInterval(findEndAuction, 60000);
+const startInterval = setInterval(findStartAuction, 10000);
 
 module.exports = { findWinner, endAuction }
