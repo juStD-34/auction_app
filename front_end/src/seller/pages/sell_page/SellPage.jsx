@@ -11,15 +11,16 @@ export default function SellPage() {
   const [loginPopup, setLoginPopup] = useState(false);
   const [openError, setopenError] = useState(false);
   const [openSuccess, setopenSuccess] = useState(false);
+  const [type, setType] = React.useState("Type 3");
 
   const mutation = useMutation(
     {
       mutationFn: (props) => {
-        console.log(props.imgRef);
+        console.log(type);
         return axios.post("http://localhost:3002/seller/createAuction", {
           auctionName: props.nameProduct,
           productName: props.nameProduct,
-          productType: "Type 1",
+          productType: type,
           productImg: props.imgRef,
           timeStart: props.timeStart,
           timeEnd: props.timeEnd,
@@ -46,12 +47,6 @@ export default function SellPage() {
   const dateEndRef = useRef("");
   const imgRef = useRef("");
 
-  const [type, setType] = React.useState("");
-
-  const handleTypeChange = (e) => {
-    setType(e.target.value);
-  };
-
   //covert img To Base64
 
   const covertToBase64 = () => {
@@ -77,7 +72,7 @@ export default function SellPage() {
       covertToBase64()
         .then((base64Image) => {
           const data = {
-            auctionName: "Auction 1", // Tạm thời để "Auction 1
+            auctionName: "Auction 1",
             nameProduct: nameProductRef.current?.value,
             price: priceRef.current?.value,
             timeStart: getDate(timeStartRef.current?.value + " " + dateStartRef.current?.value),
@@ -132,7 +127,7 @@ export default function SellPage() {
       <div className={loginPopup ? "blur-sm " : ""}></div>
       <div className="flex" onSubmit={formHandler()}>
         <Sidebar />
-        <div className="h-screen flex-1 p-7">
+        <div className="h-screen flex-1 p-7 ml-72">
           <h1 class="mb-4 text-1xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl">
             TẠO PHIÊN ĐẤU GIÁ MỚI
           </h1>
@@ -162,21 +157,19 @@ export default function SellPage() {
                   id="default"
                   class="border border-gray-300 text-gray-900 mb-6 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   required
+                  onChange={(e) => setType(e.target.value)}
                 >
-                  <option value="" selected disabled hidden>
+                  <option value="" disabled hidden>
                     Chọn loại sản phẩm đấu giá
                   </option>
-                  <option value="US" onClick={handleTypeChange}>
-                    Tài sản nhà nước
+                  <option value="Type 1">
+                    Tài sản gia dụng
                   </option>
-                  <option value="CA" onClick={handleTypeChange}>
-                    Tài sản bất động sản
+                  <option value="Type 2">
+                    Tài sản phương tiện
                   </option>
-                  <option value="FR" onClick={handleTypeChange}>
-                    Phương tiện xe cộ
-                  </option>
-                  <option value="DE" onClick={handleTypeChange}>
-                    Văn hóa nghệ thuật
+                  <option value="Type 3">
+                    Khác
                   </option>
                 </select>
               </div>

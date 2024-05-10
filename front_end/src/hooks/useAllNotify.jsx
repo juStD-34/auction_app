@@ -6,7 +6,7 @@ import { getUserID } from "./userID";
 export default function useAllNotify() {
   const retrievePosts = async () => {
     const response = await axios.get(
-      "http://localhost:3002/notifications/getNotification/"+"663b575555b75c1036c1075b"
+      "http://localhost:3002/notifications/getNotification/"+getUserID()
     );
     return response.data;
   };
@@ -17,6 +17,6 @@ export default function useAllNotify() {
     isLoading,
   } = useQuery("All-Notify", retrievePosts, {
   });
-
+  console.log(auction);
   return { auction, error, isLoading };
 }

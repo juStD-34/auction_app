@@ -14,8 +14,7 @@ export default function HistoryDetail() {
   const datas = useAuctionId(id);
   if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
   if (datas.isLoading) return <div>Loading...</div>;
-  console.log(datas.auction.existAuction);
-  const data = datas.auction.existAuction;
+  const data = datas.auction.result[0];
 
   function formatDate(dateString) {
     const options = {
@@ -60,7 +59,7 @@ export default function HistoryDetail() {
               <p className="self-end ml-auto text-red-700 font-semibold">{data.startPrice}</p>
             </div>
             <div className="flex mx-1 mt-2">
-              <p className="text-gray-700">Giá chốt:</p>
+              <p className="text-gray-700">Giá chốt: {data.highestPrice}</p>
               <p className="self-end ml-auto text-red-700 font-semibold">hoan thien cai nay</p>
             </div>
             <div className="flex mx-1 mt-2">

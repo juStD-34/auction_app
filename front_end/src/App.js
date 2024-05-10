@@ -1,9 +1,5 @@
 import React from "react";
 import { Routes, Route, BrowserRouter } from "react-router-dom";
-import {
-  QueryClient,
-  QueryClientProvider,
-} from 'react-query';
 
 import Home from "./home/Home"
 import SignUp from "./home/signup/SignUp";
@@ -33,10 +29,8 @@ import Manager from "./seller/pages/manger/Maneger"
 import SellerProfile from "./seller/pages/profile/Profile"
 import Status from "./seller/pages/status/Status"
 
-const queryClient = new QueryClient();
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />} />
@@ -69,7 +63,6 @@ function App() {
           <Route path="/seller/status" element={<Status />} />
         </Routes>
       </BrowserRouter>
-    </QueryClientProvider>
   );
 }
 

@@ -9,7 +9,7 @@ export default function Sidebar() {
         setUserID(null); // Đặt userID về null hoặc giá trị mong muốn
       };
     return (
-        <div className={` ${open ? "w-72" : "w-20 "} bg-red-600 h-screen p-5 pt-8 relative duration-300`}>
+        <div className={` ${open ? "w-72" : "w-20 "} bg-red-600 h-screen p-5 pt-8 fixed duration-300`}>
             <svg className={`w-[30px] h-[30px] text-white light:text-white  ${!open && "rotate-180"}`} aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24"
                 onClick={() => setOpen(!open)}
             >

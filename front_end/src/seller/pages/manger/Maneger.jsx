@@ -26,45 +26,53 @@ export default function Maneger() {
   if (datas.isError) {
     res = [];
   } else {
-    res = datas.auction.ownerAuction;
+    res = datas.auction.result;
   }
   var obj = [];
 
   function handleStopAuction(id) {
     mutation.mutate(id);
-    queryClient.invalidateQueries("SellerAuction");
+    queryClient.invalidateQueries('SellerAuction', { refetchInactive: true });
   }
 
   function acceptAuction(id) {
     mutationAccept.mutate(id);
-    queryClient.invalidateQueries("SellerAuction");
+    // queryClient.invalidateQueries('SellerAuction', { refetchInactive: true });
+    queryClient.removeQueries({ queryKey: ['SellerAuction'] });
   }
 
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
   for (var i = 0; i < res.length; i++) {
+    console.log(res[i]);
+    if (res[i].status == "CLOSED") continue;
     obj.push({
       id: res[i]._id,
       name: res[i].product.name,
-      time: formatDate(res[i].timeStart),
+      time: res[i].timeStart,
+      endTime: res[i].timeEnd,
       price: res[i].startPrice,
+      highestPrice: res[i].highestPrice,
     });
+  }
+
+  function getRemainingTime(endTime) {
+    const end = new Date(endTime);
+    const now = new Date();
+    const diff = end - now;
+    const hours = Math.floor(diff / 1000 / 60 / 60);
+    const minutes = Math.floor((diff / 1000 / 60) % 60);
+    return `${hours}h:${minutes}m`;
+  }
+
+  function checkStart(startTime) {
+    const start = new Date(startTime);
+    const now = new Date();
+    return start - now < 0;
   }
 
   return (
     <div className="flex">
       <Sidebar />
-      <div className="h-screen flex-1 p-7">
+      <div className="h-screen flex-1 p-7 ml-72">
         <h1 className="mb-4 text-1xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl">
           QUẢN LÝ PHIÊN ĐẤU GIÁ
         </h1>
@@ -148,24 +156,34 @@ export default function Maneger() {
                           </td>
                           <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                             <div className="ml-1 text-gray-500 light:text-gray-400">
-                              <label className="time">11:20</label>
+                              {checkStart(item.time) ? (
+                                <label className="time">
+                                  {getRemainingTime(item.endTime)}
+                                </label>
+                              ) : (
+                                "Chưa bắt đầu"
+                              )}
                             </div>
                           </td>
                           <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                             {item.price}
                           </td>
                           <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
-                            160000
+                            {item.highestPrice}
                           </td>
                           <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                             <div className="flex items-center">
-                              <button
-                                onClick={() => acceptAuction(item.id)}
-                                type="button"
-                                className="text-red-600 hover:text-white border border-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-                              >
-                                Chấp nhận giá đấu
-                              </button>
+                              {checkStart(item.time) ? (
+                                <button
+                                  onClick={() => acceptAuction(item.id)}
+                                  type="button"
+                                  className="text-red-600 hover:text-white border border-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+                                >
+                                  Chấp nhận giá đấu
+                                </button>
+                              ) : (
+                                "Chưa bắt đầu"
+                              )}
                             </div>
                           </td>
                           <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
