@@ -34,16 +34,16 @@ const Login = () => {
       password: passwordRef.current?.value,
     }).then((response) => {
         if(response.data.message !== "Incorrect password or email") {
-          if (response.data.user.role == "BIDDER") {
+          if (response.data.user.role === "BIDDER") {
             setopenError(false)
             setLogin("Login")
             setUserName(response.data.user.fullName)
             console.log(getUserName())
             console.log(getLogin());
             setUserID(response.data.user._id)
-            window.location.href = "/allauction"
+            window.location.href = "/occuring"
             console.log(getUserID())
-          } else if (response.data.user.role == "SELLER") {
+          } else if (response.data.user.role === "SELLER") {
             setopenError(false)
             setLogin("Login")
             setUserName(response.data.user.fullName)
