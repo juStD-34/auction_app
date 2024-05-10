@@ -56,7 +56,7 @@ export default function TransportAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    if (res[i].product.type === "transport") {
+    if (res[i].product.type === "Type 2") {
       obj.push({
         id: res[i]._id,
         name: res[i].product.name,

@@ -56,7 +56,7 @@ export default function OtherAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    if (res[i].product.type === "clothes") {
+    if (res[i].product.type === "Type 3") {
       obj.push({
         id: res[i]._id,
         name: res[i].product.name,

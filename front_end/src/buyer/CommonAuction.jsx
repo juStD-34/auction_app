@@ -56,7 +56,7 @@ export default function CommonAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    if (res[i].product.type === "common") {
+    if (res[i].product.type === "Type 1") {
       obj.push({
         id: res[i]._id,
         name: res[i].product.name,
