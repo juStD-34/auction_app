@@ -5,7 +5,7 @@ import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
-import useIncomingAuction from "../hooks/useIncomingAuction";
+import useAllAuction from "../hooks/useAllAuction";
 
 import banner from "../home/assets/banner.png";
 import row from "../home/assets/row.png";
@@ -28,7 +28,11 @@ export default function IncomingAuction() {
   const toggleSearch = () => setSearchPopup(!searchPopup);
   const {getLogin} = require('../home/login/Auth');
   const isLoggedIn = getLogin();
-
+  const [filters, setFilters] = useState({
+    type: [],
+    startTime: "",
+    endTime: ""
+  });
   {/*Filter*/}
   const startDateRef = React.useRef('');
   const endDateRef = React.useRef('');
@@ -41,9 +45,9 @@ export default function IncomingAuction() {
     navigate(`/productdetail/${id}`);
   }
 
-  const datas = useIncomingAuction();
+  const datas = useAllAuction();
   if (datas.isLoading) return <p>Loading...</p>;
-  var res = datas.auction.result;
+  var res = datas.auction.allAuction;
   var obj = [];
 
   const formatDate = (dateString) => {
@@ -59,25 +63,57 @@ export default function IncomingAuction() {
   };
 
   for (var i = 0; i < res.length; i++) {
-    obj.push({
-      id: res[i]._id,
-      name: res[i].product.name,
-      time: formatDate(res[i].timeStart),
-      price: res[i].startPrice,
-      image:
-        "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
-    });
+    if (res[i].status === "INCOMING") {
+      obj.push({
+        id: res[i]._id,
+        name: res[i].product.name,
+        time: formatDate(res[i].timeStart),
+        price: res[i].startPrice,
+        type: res[i].product.type,
+        status: res[i].status,
+        image:
+          "https://data.lvo.vn/media/upload/1001406/IMAGE/N%C4%83m%202024/Vt%20Th%C3%A1i%20B%C3%ACnh_C%C3%A1p/1.jpg",
+      });
+    }
   }
   const handleClick = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
+  const filteredProducts = obj.filter(product => {
+    return (
+      (filters.type.length === 0 || filters.type.includes(product.type)) &&
+      (filters.startTime === "" || new Date(product.time) >= new Date(filters.startTime)) &&
+      (filters.endTime === "" || new Date(product.time) <= new Date(filters.endTime))
+    );
+  });
+  console.log(filteredProducts)
+  const toggleFilter = (filterType, value) => {
+    setFilters(prevFilters => {
+      const updatedFilters = { ...prevFilters };
+      if (filterType === "time") {
+        updatedFilters[filterType] = value;
+      } else {
+        const filterIndex = updatedFilters[filterType].indexOf(value);
+        if (filterIndex !== -1) {
+          updatedFilters[filterType] = updatedFilters[filterType].filter(item => item !== value);
+        } else {
+          updatedFilters[filterType] = [...updatedFilters[filterType], value];
+        }
+      }
+      return updatedFilters;
+    });
+  };
 
-  const displayItems = obj.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [name]: value
+    }));
+  };
 
-  let displayItemsFilter = obj.slice(
+
+  const displayItems = filteredProducts.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
@@ -145,11 +181,11 @@ export default function IncomingAuction() {
     console.log(objRes);
     obj = objRes;
     console.log(obj);
-    displayItemsFilter = obj.slice(
-      (currentPage - 1) * itemsPerPage,
-      currentPage * itemsPerPage
-    );
   };
+  const displayItemsFilter = filteredProducts.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
   
   return (
     <>
@@ -176,10 +212,9 @@ export default function IncomingAuction() {
                 Từ Ngày
               </label>
               <input
-                type="date"
+                input type="datetime-local" name="startTime"
                 className="w-full p-2 border border-gray-300 rounded"
-                ref={startDateRef}
-                required
+                value={formatDate(filters.startTime)} onChange={handleInputChange} 
               />
             </div>
             <div className="mb-4">
@@ -187,10 +222,9 @@ export default function IncomingAuction() {
                 Đến Ngày
               </label>
               <input
-                type="date"
+                input type="datetime-local" name="endTime"
                 className="w-full p-2 border border-gray-300 rounded"
-                ref={endDateRef}
-                required
+                value={formatDate(filters.endTime)} onChange={handleInputChange} 
               />
             </div>
             <div id="error-message" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mt-3" role="alert">Invalid time</div>
@@ -203,24 +237,26 @@ export default function IncomingAuction() {
               </label>
               {/* Example filter options */}
               <div>
-                <input className="mr-2" type="checkbox" />
-                <label htmlFor="filter1">Tài sản gia dụng</label>
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'common')} checked={filters.type.includes('common')}/>
+                <label>Tài sản gia dụng</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'transport')} checked={filters.type.includes('transport')}/>
                 <label>Tài sản phương tiện</label>
               </div>
               <div>
-                <input className="mr-2" type="checkbox" />
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'clothes')} checked={filters.type.includes('clothes')}/>
+                <label>Tài sản phương tiện</label>
+              </div>
+              <div>
+                <input className="mr-2" type="checkbox" 
+                onChange={() => toggleFilter('type', 'other')} checked={filters.type.includes('other')}/>
                 <label>Khác</label>
               </div>
             </div>
-          </div>
-          {/* Nút Lọc */}
-          <div>
-            <button className="bg-red-600 text-white py-2 px-4 rounded hover:bg-black" onClick={handleFilter}>
-              Lọc
-            </button>
           </div>
         </div>
         {/* Main Content */}
