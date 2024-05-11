@@ -75,7 +75,6 @@ export default function OtherAuction() {
   };
   const filteredProducts = obj.filter(product => {
     return (
-      (filters.type.length === 0 || filters.type.includes(product.type)) &&
       (filters.status.length === 0 || filters.status.includes(product.status)) &&
       (filters.startTime === "" || new Date(product.time) >= new Date(filters.startTime)) &&
       (filters.endTime === "" || new Date(product.time) <= new Date(filters.endTime))
