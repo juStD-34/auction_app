@@ -1,5 +1,6 @@
 const notificationRouter = require('express').Router();
 const Notification = require("../Model/NotificationModel");
+const User = require("../Model/UserModel");
 
 
 const getNotificationApi = "/getNotification/:userID"
@@ -35,6 +36,8 @@ notificationRouter.post(updateNotificationApi, async (req, res) => {
 notificationRouter.post(markAllAsReadApi, async (req, res) => {
     const { userID } = req.body;
     try {
+        const user = await User.findById(userID);
+        if(!user) return res.status(404).json({ success: false, message: "User not found" })
         const result = await Notification.updateMany({receiverID: userID, status: 'unread'}, {status : 'read'});
         res.status(201).json({ success: true, message: "Update notification successfully", result })
         
