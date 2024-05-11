@@ -43,9 +43,8 @@ export default function History() {
     obj.push({
       receivedTime: formatDate(res[i].date),
       message: res[i].content,
-      detailPage: `/historydetails/${res[i]._id}`,
-      image:
-      "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
+      detailPage: `/historydetails/${res[i].auctionID}`,
+      image: res[i].image,
     });
   }
 

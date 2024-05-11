@@ -5,6 +5,9 @@ import Notifications from "react-notifications-menu";
 import hehe from "../home/assets/hehe.png";
 import avt from "../home/assets/avt.png";
 import search from "../home/assets/search.png";
+import axios from "axios";
+import { getUserID } from "../hooks/userID";
+import { useQueryClient } from "react-query"; 
 
 import useAllNotify from "../hooks/useAllNotify";
 
@@ -21,6 +24,7 @@ export default function NavbarUser() {
   const {setUserID} = require("../hooks/userID");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
+  const queryClient = useQueryClient();
   
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -54,14 +58,23 @@ export default function NavbarUser() {
   if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
   if (datas.isLoading) return <div>Loading...</div>;
   var res = datas.auction.result;
-  if (res.length === 0) obj.push(DEFAULT_NOTIFICATION);
-  else for (var i = 0; i < res.length; i++) {
+  for (var i = res.length - 1; i >= 0; i--) {
+    if (res[i].status === "read") continue;
     obj.push({
       receivedTime: formatDate(res[i].date),
       message: res[i].content,
-      detailPage: `/historydetails/${res[i]._id}`,
+      detailPage: `/historydetails/${res[i].auctionID}`,
       image: res[i].image,
     });
+  }
+
+  async function markAsAllRead() {
+    console.log(await axios.post(
+      "http://localhost:3002/notifications/markAllAsRead", {    
+          userID: getUserID(),
+      }
+    ));
+    queryClient.invalidateQueries("All-Notify");
   }
 
   function searchItem() {
@@ -139,7 +152,7 @@ export default function NavbarUser() {
             placement="bottom"
             label={
               <p className="text-xl hover:text-red-500 font-semibold">
-                <a href="/allauction" className="">Tài sản đấu giá</a>
+                Tài sản đấu giá
               </p>
             }
           >
@@ -168,6 +181,24 @@ export default function NavbarUser() {
               <a href="/occuring" className="hover:text-red-500">Cuộc đấu giá đang diễn ra</a>
             </Dropdown.Item>
           </Dropdown>
+          <Dropdown
+            arrowIcon={false}
+            inline
+            placement="bottom"
+            label={
+              <p className="text-xl ml-5 hover:text-red-500 font-semibold">Thông tin</p>
+            }
+          >
+          </Dropdown>
+          <Dropdown
+            arrowIcon={false}
+            inline
+            placement="bottom"
+            label={
+              <p className="text-xl ml-5 hover:text-red-500 font-semibold">Liên hệ</p>
+            }
+          >
+          </Dropdown>
         </div>
         <div className="flex">
           <div className="flex items-center gap-4">
@@ -188,13 +219,13 @@ export default function NavbarUser() {
                     title: "Notifications",
                     option: {
                       text: "Mark as all read",
-                      onClick: () => viewAll(),
+                      onClick: () => markAsAllRead(),
                     },
                   }}
-                  markAsRead={(data) => {
-                    console.log(data);
+                  footer={{
+                    text: "View all",
+                    onClick: () => viewAll(),
                   }}
-                  viewAllbtn={{ text: 'View all', linkTo: '/history'}}
                 />
               </button>
             </div>
@@ -228,7 +259,7 @@ export default function NavbarUser() {
                   </a>
                 </Dropdown.Item>
                 <Dropdown.Item>
-                  <p className="hover:text-red-500">Tài sản khác</p>
+                  <a href="/history" className="hover:text-red-500">Lịch sử</a>
                 </Dropdown.Item>
               </Dropdown>
             </div>

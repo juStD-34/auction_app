@@ -76,19 +76,9 @@ export default function SignUp() {
       address: addressRef.current?.value,
       role: type
     }).then((response) => {
-      //   if(response.data.message !== "Incorrect password or email") {
-      //     setopenError(false)
-      //     setLogin("Login")
-      //     setUserName(response.data.user.fullName)
-      //     console.log(getUserName())
-      //     console.log(getLogin());
-      //   } else {
-      //     setopenError(true)
-      //     setLogin("Logout")
-      //     console.log(getLogin());
-      //   }
-      // }
-      console.log(response);
+        if(response.data.message === "User signed in successfully") {
+          window.location.href = "/home"
+        }
     })
   }
 

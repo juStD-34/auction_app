@@ -10,13 +10,12 @@ export default function useAllNotify() {
     );
     return response.data;
   };
-
+  console.log(getUserID());
   const {
     data: auction,
     error,
     isLoading,
   } = useQuery("All-Notify", retrievePosts, {
   });
-  console.log(auction);
   return { auction, error, isLoading };
 }

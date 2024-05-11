@@ -2,23 +2,11 @@ import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useSellerAuctions from "../../../hooks/useSellerAuctions";
 
-import { useMutation, useQueryClient } from "react-query";
+import { useQueryClient } from "react-query";
 import axios from "axios";
 
 export default function Maneger() {
   const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: (id) => {
-      return axios.get("http://localhost:3002/seller/deleteAuction/" + id);
-    },
-  });
-
-  const mutationAccept = useMutation({
-    mutationFn: (id) => {
-      return axios.get("http://localhost:3002/seller/stopAuction/" + id);
-    },
-  });
 
   const datas = useSellerAuctions();
   if (datas.isLoading) return <p>Loading...</p>;
@@ -28,21 +16,19 @@ export default function Maneger() {
   } else {
     res = datas.auction.result;
   }
-  var obj = [];
+  let obj = [];
 
-  function handleStopAuction(id) {
-    mutation.mutate(id);
-    queryClient.invalidateQueries('SellerAuction', { refetchInactive: true });
+  async function handleStopAuction(id) {
+    await axios.get("http://localhost:3002/seller/deleteAuction/" + id);
+    queryClient.invalidateQueries('SellerAuction');
   }
 
-  function acceptAuction(id) {
-    mutationAccept.mutate(id);
-    // queryClient.invalidateQueries('SellerAuction', { refetchInactive: true });
-    queryClient.removeQueries({ queryKey: ['SellerAuction'] });
+  async function acceptAuction(id) {
+    await axios.get("http://localhost:3002/seller/stopAuction/" + id);
+    queryClient.invalidateQueries('SellerAuction');
   }
 
   for (var i = 0; i < res.length; i++) {
-    console.log(res[i]);
     if (res[i].status == "CLOSED") continue;
     obj.push({
       id: res[i]._id,

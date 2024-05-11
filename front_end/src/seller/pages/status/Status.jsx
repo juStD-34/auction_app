@@ -2,8 +2,12 @@ import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 
 import useAllNotify from "../../../hooks/useAllNotify";
+import axios from "axios";
+import { getUserID } from "../../../hooks/userID";
+import { useQueryClient } from "react-query";
 
 export default function Status() {
+  const queryClient = useQueryClient();
   const formatDate = (dateString) => {
     const options = {
       year: "numeric",
@@ -22,23 +26,41 @@ export default function Status() {
     return <div>An error has occurred: {datas.error.message}</div>;
   if (datas.isLoading) return <div>Loading...</div>;
   var res = datas.auction.result;
-  for (var i = 0; i < res.length; i++) {
+  for (var i = res.length - 1; i >= 0; i--) {
+    if (res[i].status === "read") continue;
+    console.log(res[i]);
     obj.push({
       receivedTime: formatDate(res[i].date),
       message: res[i].content,
-      detailPage: `/historydetails/${res[i]._id}`,
+      detailPage: `/sellerdetail/${res[i].auctionID}`,
       image: res[i].image,
     });
+  }
+
+  async function markAsAllRead() {
+    console.log(await axios.post(
+      "http://localhost:3002/notifications/markAllAsRead", {    
+          userID: getUserID(),
+      }
+    ));
+    queryClient.invalidateQueries("All-Notify");
   }
 
   return (
     <div className="flex">
       <Sidebar />
       <div className="h-screen flex-1 p-7 ml-72">
-        <h1 className="mb-4 text-1xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl">
-          QUẢN LÝ THÔNG BÁO
-        </h1>
-
+        <div className="flex">
+          <h1 className="mb-4 text-1xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl">
+            QUẢN LÝ THÔNG BÁO
+          </h1>
+          <button
+            onClick={markAsAllRead}
+            className="mb-4 ml-auto px-4 py-2 text-white bg-red-600 rounded-md"
+          >
+            Đánh dấu tất cả đã đọc
+          </button>
+        </div>
         <ol class="relative border-s border-gray-200 ">
           {obj.map((item, index) => (
             <>
