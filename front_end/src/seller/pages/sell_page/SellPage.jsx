@@ -52,17 +52,21 @@ export default function SellPage() {
   const covertToBase64 = () => {
     return new Promise((resolve, reject) => {
       const file = imgRef.current.files[0];
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => {
-        resolve(reader.result);
-      };
-      reader.onerror = (error) => {
-        reject(error);
-      };
+      const maxSizeBytes = 4 * 1024 * 1024;
+      if (file.size > maxSizeBytes) {
+        alert("File size exceeds the maximum limit of 4Mb");
+      } else {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => {
+          resolve(reader.result);
+        };
+        reader.onerror = (error) => {
+          reject(error);
+        };
+      }
     });
   };
-
 
   const toggleLoginPopup = () => setLoginPopup(!loginPopup);
 
@@ -75,8 +79,12 @@ export default function SellPage() {
             auctionName: "Auction 1",
             nameProduct: nameProductRef.current?.value,
             price: priceRef.current?.value,
-            timeStart: getDate(timeStartRef.current?.value + " " + dateStartRef.current?.value),
-            timeEnd: getDate(timeEndRef.current?.value + " " + dateEndRef.current?.value),
+            timeStart: getDate(
+              timeStartRef.current?.value + " " + dateStartRef.current?.value
+            ),
+            timeEnd: getDate(
+              timeEndRef.current?.value + " " + dateEndRef.current?.value
+            ),
             imgRef: base64Image,
             type: type,
           };
@@ -88,10 +96,10 @@ export default function SellPage() {
           setopenError(true);
           console.error("Error converting image to base64:", error);
         });
-        // eslint-disable-next-line
-    }, [type]);
-
-
+      // eslint-disable-next-line
+    },
+    [type]
+  );
 
   function getDate(dateString) {
     // Separate the time and date parts
@@ -116,8 +124,8 @@ export default function SellPage() {
     const formattedDate = `${dateObject
       .toISOString()
       .slice(0, -1)}${offsetSign}${offsetHours
-        .toString()
-        .padStart(2, "0")}:${offsetMinutes.toString().padStart(2, "0")}`;
+      .toString()
+      .padStart(2, "0")}:${offsetMinutes.toString().padStart(2, "0")}`;
     console.log(formattedDate);
     return formattedDate; // Output: 2024-05-06T08:50:00.000+00:00
   }
@@ -162,15 +170,9 @@ export default function SellPage() {
                   <option value="" disabled hidden>
                     Chọn loại sản phẩm đấu giá
                   </option>
-                  <option value="Type 1">
-                    Tài sản gia dụng
-                  </option>
-                  <option value="Type 2">
-                    Tài sản phương tiện
-                  </option>
-                  <option value="Type 3">
-                    Khác
-                  </option>
+                  <option value="Type 1">Tài sản gia dụng</option>
+                  <option value="Type 2">Tài sản phương tiện</option>
+                  <option value="Type 3">Khác</option>
                 </select>
               </div>
             </div>
@@ -229,7 +231,7 @@ export default function SellPage() {
               </div>
               <p class="mt-1 text-sm text-gray-500" id="file_input_help">
                 {" "}
-                Chấp nhận ảnh PNG, JPEG, JPG hoặc WEBP.
+                Chấp nhận ảnh PNG, JPEG, JPG hoặc WEBP. (Tối đa 4Mb)
               </p>
             </div>
 

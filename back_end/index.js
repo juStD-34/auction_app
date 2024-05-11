@@ -12,6 +12,7 @@ const userRoute = require('./route/UserRoute')
 const session = require('express-session');
 const passport = require('passport');
 const userVerification = require('./Middleware/Middleware')
+const bodyParser = require('body-parser')
 
 const app = express()
 const cors = require('cors')
@@ -36,6 +37,8 @@ app.use(
         credential: true,
     })
 )
+app.use(bodyParser.json({ limit: "4000kb", extended: true }));
+app.use(bodyParser.urlencoded({ limit: "4000kb", extended: true }));
 
 app.use(express.json());
 app.use('/user',userRoute)
