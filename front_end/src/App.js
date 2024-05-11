@@ -14,6 +14,7 @@ import CommonAuction from "./buyer/CommonAuction";
 import SearchResult from "./search/SearchResult";
 import History from "./history/History";
 import HistoryDetail from "./history/HistoryDetail";
+import SellerDetail from "./seller/pages/SellerDetail";
 
 import Profile from "./user/Profile";
 import Payment from "./user/Payment";
@@ -55,6 +56,7 @@ function App() {
           <Route path="/history" element={<History />} />
           <Route path="/historydetails/:id" element={<HistoryDetail />} />
           <Route path="/seller" element={<Seller />} />
+          <Route path="/sellerdetail/:id" element={<SellerDetail />} />
           <Route path="/seller/profile" element={<SellerProfile />} />
           <Route path="/seller/manager" element={<Manager />} />
           <Route path="/seller/status" element={<Status />} />

@@ -6,6 +6,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from 'react-query';
+import { ReactQueryDevtools } from 'react-query/devtools';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -14,6 +15,7 @@ root.render(
 
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={true}/>
     <App />
     </QueryClientProvider>
 

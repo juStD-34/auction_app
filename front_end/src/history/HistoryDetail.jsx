@@ -41,7 +41,7 @@ export default function HistoryDetail() {
             alt="Ảnh minh họa"
             className="w-full col-span-3 rounded-lg"
           />
-          <div className="col-span-2 p-4 ml-8 border rounded-lg border-gray-300">
+          <div className="col-span-2 p-2 ml-8 border rounded-lg border-gray-300">
             <div className="flex mx-1 mt-2">
               <p className="text-gray-700">Mã tài sản:</p>
               <p className="self-end ml-auto text-red-700 font-semibold">{id}</p>
@@ -59,8 +59,8 @@ export default function HistoryDetail() {
               <p className="self-end ml-auto text-red-700 font-semibold">{data.startPrice}</p>
             </div>
             <div className="flex mx-1 mt-2">
-              <p className="text-gray-700">Giá chốt: {data.highestPrice}</p>
-              <p className="self-end ml-auto text-red-700 font-semibold">hoan thien cai nay</p>
+              <p className="text-gray-700">Giá chốt: </p>
+              <p className="self-end ml-auto text-red-700 font-semibold">{data.highestPrice}</p>
             </div>
             <div className="flex mx-1 mt-2">
               <p className="text-gray-700">Số bước giá tối đa/ lần trả:</p>
@@ -71,8 +71,10 @@ export default function HistoryDetail() {
               <p className="self-end ml-auto text-red-700 font-semibold">Trả giá lên và liên tục</p>
             </div>
             <div className="flex mx-1 mt-2">
-              <p className="text-gray-700">Tên người mua</p>
-              <p className="self-end ml-auto text-red-700 font-semibold">{data.winnerID}</p>
+              <p className="text-gray-700">ID người mua</p>
+              {data.winnerID === null ? 
+              <p className="self-end ml-auto text-red-700 font-semibold">Không có</p>
+            : <p className="self-end ml-auto text-red-700 font-semibold">{data.winnerID}</p>} 
             </div>
           </div>
         </div>
