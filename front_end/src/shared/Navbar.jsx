@@ -139,7 +139,7 @@ export default function NavbarUser() {
             placement="bottom"
             label={
               <p className="text-xl hover:text-red-500 font-semibold">
-                <a href="/allauction" className="">Tài sản đấu giá</a>
+                Tài sản đấu giá
               </p>
             }
           >
@@ -226,9 +226,6 @@ export default function NavbarUser() {
                   <a href="/home" onClick={handleLogout}>
                     <p className="hover:text-red-500">Đăng xuất</p>
                   </a>
-                </Dropdown.Item>
-                <Dropdown.Item>
-                  <p className="hover:text-red-500">Tài sản khác</p>
                 </Dropdown.Item>
               </Dropdown>
             </div>
