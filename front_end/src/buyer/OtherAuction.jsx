@@ -5,7 +5,7 @@ import NavigationBar from "../home/components/Navbar";
 import Footer from "../home/components/Footer";
 import Card from "../home/components/Cards";
 
-import useAllAuction from "../hooks/useOtherAuction";
+import useAllAuction from "../hooks/useAllAuction";
 
 import banner from "../home/assets/banner.png";
 import row from "../home/assets/row.png";
