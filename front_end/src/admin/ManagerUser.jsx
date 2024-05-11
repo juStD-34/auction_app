@@ -5,6 +5,7 @@ import useAllAuction from "../hooks/useAllAuction"
 import axios from 'axios';
 export default function ManagerUser(){
   const [activeTab, setActiveTab] = useState('seller'); 
+  const [payment, setPayment] = useState(false);
   const {setLogin} = require('../home/login/Auth');
   const {setUserID} = require('../hooks/userID');
   const [showPopup, setShowPopup] = useState(false);
@@ -21,11 +22,23 @@ export default function ManagerUser(){
   const handleTabChange = (tab) => {
     setActiveTab(tab);
   };
+  const handleButtonClick = () => {
+    // Hiển thị pop-up
+    
+  };
 
   const handleBid = () => {
     axios.post(`http://localhost:3002/admin/addBudget/${ID.current?.value}`, {
       amount: parseInt(budget.current?.value)
     }).then((response) => {
+      if(response.data.message === "Update user successfully") {
+        setPayment(true);
+
+        // Sau 3 giây, tải lại trang
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+      }
       console.log(response);
     })
   }
@@ -139,6 +152,11 @@ export default function ManagerUser(){
                   >
                     Đồng ý
                   </button>
+                  {payment && (
+                    <div className="popup">
+                      <span className="popup-content">Nạp tiền thành công!</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
