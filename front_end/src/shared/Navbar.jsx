@@ -152,7 +152,7 @@ export default function NavbarUser() {
             placement="bottom"
             label={
               <p className="text-xl hover:text-red-500 font-semibold">
-                <a href="/allauction" className="">Tài sản đấu giá</a>
+                Tài sản đấu giá
               </p>
             }
           >
