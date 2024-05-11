@@ -9,7 +9,6 @@ export default function useSellerAuctions() {
     );
     return response.data;
   };
-  console.log(getUserID());
 
   const {
     data: auction,
@@ -17,7 +16,6 @@ export default function useSellerAuctions() {
     isLoading,
     isError,
   } = useQuery('SellerAuction', retrievePosts, {
-    retry: 1,
   });
 
   return { auction, error, isLoading, isError };

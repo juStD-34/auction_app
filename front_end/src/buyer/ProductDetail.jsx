@@ -10,7 +10,7 @@ import CountdownTimer from "./components/Timer";
 import useAuctionId from "../hooks/useAuctionId";
 import { getUserID } from "../hooks/userID";
 
-import { useMutation } from "react-query";
+import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
 
 export default function ProductDetail() {
@@ -18,6 +18,7 @@ export default function ProductDetail() {
     window.scrollTo(0, 0);
   }, []);
 
+  const queryClient = useQueryClient();
   const { id } = useParams();
   console.log(getUserID());
   const mutation = useMutation(
@@ -32,7 +33,7 @@ export default function ProductDetail() {
     },
     {
       onSuccess: (data) => {
-        console.log(data);
+        queryClient.invalidateQueries("AuctionID");
       },
       onError: (error) => {
         console.log(error);
@@ -67,13 +68,13 @@ export default function ProductDetail() {
   };
 
   var obj = {
-    // id: res._id,
     name: res.product.name,
     timeStart: formatDate(res.timeStart),
     timeEnd: formatDate(res.timeEnd),
     price: res.startPrice,
     highestPrice: res.highestPrice,
     image: res.product.img,
+    status: res.status,
   };
 
   function handleBid(props) {
@@ -107,7 +108,7 @@ export default function ProductDetail() {
             <p className="text-xl opacity-50 mb-5">Thời gian kết thúc {obj.timeEnd}</p>
             {checkIsTimeOut() && <p className="text-xl mb-5 opacity-50">Cuộc đấu giá bắt đầu sau: </p>}
             <CountdownTimer targetDate={res.timeStart}></CountdownTimer> 
-            {checkAvailable() ? <button
+            {checkAvailable() ? (obj.status === "CLOSED") ? null : <button
               className="bg-red-600 text-white rounded-md p-2 font-semibold "
               onClick={() => setShowPopup(true)}
             >
