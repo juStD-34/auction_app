@@ -6,9 +6,9 @@ import NavbarUser from "../shared/Navbar";
 import { Card } from "flowbite-react";
 
 export default function Profile() {
-  const nameRef = React.useRef("Có anh ri đỗ vượt lên đứng đầu");
-  const emailRef = React.useRef("Sa tị chỉ nhận nỗi đau");
-  const phoneRef = React.useRef("Nhìn anh ôm cúp đỉnh cao đời người");
+  const nameRef = React.useRef("Justin Bieber");
+  const emailRef = React.useRef("test@gmail.com");
+  const phoneRef = React.useRef("0931882038");
   const dobRef = React.useRef("2000-01-01");
 
   //Gui request edit profile
@@ -41,7 +41,7 @@ export default function Profile() {
               Tên đăng nhập
             </label>
             <p id="username" className="col-span-3 ml-4">
-              Cả bồ hò hét gầm vang,
+              kevilbabiln
             </p>
             <label
               htmlFor="name"
@@ -52,7 +52,7 @@ export default function Profile() {
             <input
               id="name"
               ref={nameRef}
-              defaultValue="Có anh ri đỗ vượt lên đứng đầu"
+              defaultValue="Justin Bieber"
               className="pl-4 ml-4 rounded-md col-span-3 focus:ring-0 focus:outline-none py-2 border border-gray-500 focus:border-red-500"
             ></input>
             <label
@@ -64,7 +64,7 @@ export default function Profile() {
             <input
               id="email"
               ref={emailRef}
-              defaultValue="Sa tị chỉ nhận nỗi đau"
+              defaultValue="test@gmail.com"
               className="pl-4 ml-4 rounded-md col-span-3 focus:ring-0 focus:outline-none py-2 border border-gray-500 focus:border-red-500"
             ></input>
             <label
@@ -76,7 +76,7 @@ export default function Profile() {
             <input
               id="phone"
               ref={phoneRef}
-              defaultValue="Nhìn anh ôm cúp đỉnh cao đời người"
+              defaultValue="0931882038"
               className="pl-4 ml-4 rounded-md col-span-3 focus:ring-0 focus:outline-none py-2 border border-gray-500 focus:border-red-500"
             ></input>
             <label

@@ -212,7 +212,7 @@ export default function NavbarUser() {
           </div>
           <div className="flex items-center justify-end">
             <div className="mr-2">
-              <button className="items-center w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-1 hover:bg-gray-300">
+              <button className="items-center pl-1.5 w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-1 hover:bg-gray-300">
               <Notifications
                   data={obj}
                   header={{

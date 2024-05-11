@@ -12,12 +12,6 @@ export default function Address() {
       address: "Số 7 Lạc Long Quân, Phường Mỹ Đình 2, Quận Ba Đình, Hà Nội",
       default: true,
     },
-    {
-      name: "Trần Tuấn Nichan",
-      phone: "(+84) 012346578",
-      address: "Số 7 Chân Cầu, Phường Ăn xin, Quận Biến Thái, Nhật Bản",
-      default: false,
-    },
   ];
 
   return (
