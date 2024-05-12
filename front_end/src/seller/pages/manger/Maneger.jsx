@@ -32,7 +32,10 @@ export default function Maneger() {
   }
 
   async function acceptAuction(id) {
-    await axios.get("http://localhost:3002/seller/stopAuction/" + id);
+    await Promise.all([
+      axios.get("http://localhost:3002/seller/stopAuction/" + id),
+      axios.get("http://localhost:3002/admin/payForAuction/" + id),
+    ]);
     await queryClient.invalidateQueries('SellerAuction');
     setOpenAccept(false);
   }

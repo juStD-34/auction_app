@@ -9,6 +9,7 @@ import CountdownTimer from "./components/Timer";
 import Loading from "../shared/Loading";
 import useAuctionId from "../hooks/useAuctionId";
 import { getUserID } from "../hooks/userID";
+import {getBudget} from "../hooks/userBudget";
 
 import { useMutation, useQueryClient } from "react-query";
 import axios from "axios";
@@ -73,7 +74,8 @@ export default function ProductDetail() {
     await mutation.mutateAsync({
       price: props.price,
     });
-    queryClient.invalidateQueries("AuctionId");
+    await queryClient.invalidateQueries("AuctionId");
+    setShowPopup(false);
   }
 
   function checkAvailable() {
@@ -87,6 +89,13 @@ export default function ProductDetail() {
     if (new Date(res.timeStart).getTime() - Date.now() < 0) return false;
     return true;
   }
+
+  const handleValidation = () => {
+    const value = parseInt(priceRef.current.value, 10);
+    if (value > getBudget() || value <= obj.highestPrice) {
+      alert('Price can\'t be higher than your stock or smaller than highest price');
+    }
+  };
 
   return (
     <>
@@ -130,10 +139,12 @@ export default function ProductDetail() {
               <p className="text-2xl mb-5">Đấu giá sản phẩm</p>
               <p>Giá ban đầu: {obj.price}</p>
               <p>Giá cao nhất được trả: {obj.highestPrice}</p>
+              <p>Ví hiện tại: {getBudget()}</p>
               <input
                 className="rounded-md mr-2 p-2 border border-pgray-300"
                 placeholder="Giá đấu..."
                 ref={priceRef}
+                onBlur={handleValidation}
               />
               <button
                 className="mt-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"

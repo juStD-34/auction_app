@@ -15,6 +15,7 @@ export default function useAllNotify() {
     error,
     isLoading,
   } = useQuery("All-Notify", retrievePosts, {
+    cacheTime: Infinity,
   });
   return { auction, error, isLoading };
 }
