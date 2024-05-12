@@ -72,7 +72,7 @@ async function endAuction(auction) {
 
             });
             transaction.save();
-            auction.winnerID = winner._id;
+            auction.winnerID = winner.bidderId;
             // auction.save();
             const notification = new Notification({
                 title: "End Auction",
