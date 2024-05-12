@@ -6,6 +6,7 @@ import Loading from "../shared/Loading";
 import useBidder from "../hooks/useBidder"
 
 export default function Payment() {
+  const {getBudget, setBudget} = require("../hooks/userBudget")
   const {getUserID} = require('../hooks/userID')
   const datas = useBidder();
   var budget = ""
@@ -13,7 +14,8 @@ export default function Payment() {
   var res = datas.auction.allBidder;
   for (let i = 0; i < res.length; i++) {
     if (res[i]._id === getUserID()){
-      budget = res[i].budget
+      budget = res[i].budget;
+      setBudget(budget);
     }
   }
   return (

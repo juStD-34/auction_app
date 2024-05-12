@@ -18,23 +18,11 @@ export default function Preview() {
   var res = datas.auction.result;
   var obj = [];
 
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString(undefined, options);
-  };
-
   for (var i = 0; i < res.length; i++) {
     obj.push({
       id: res[i]._id,
       name: res[i].product.name,
-      time: formatDate(res[i].timeStart),
+      time: res[i].timeStart,
       price: res[i].startPrice,
       image: res[i].product.img,
     });
