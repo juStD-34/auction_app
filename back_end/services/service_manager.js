@@ -95,7 +95,6 @@ async function endAuction(auction) {
             auction.status = "CLOSED";
             auction.save();
         }
-
     }
     catch (error) {
         throw new Error("Failed to end auction");
