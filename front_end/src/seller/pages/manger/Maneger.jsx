@@ -1,11 +1,18 @@
 import React from "react";
 import Sidebar from "../../components/sidebar/Sidebar";
 import useSellerAuctions from "../../../hooks/useSellerAuctions";
+import { Button, Modal } from "flowbite-react";
+import { FcHighPriority } from "react-icons/fc";
+import { FcCurrencyExchange } from "react-icons/fc";
+
 
 import { useQueryClient } from "react-query";
 import axios from "axios";
 
 export default function Maneger() {
+  const [openAccept, setOpenAccept] = React.useState(false);
+  const [openCancel, setOpenCancel] = React.useState(false);
+  const [currentID, setCurrentID] = React.useState("");
   const queryClient = useQueryClient();
 
   const datas = useSellerAuctions();
@@ -21,11 +28,13 @@ export default function Maneger() {
   async function handleStopAuction(id) {
     await axios.get("http://localhost:3002/seller/deleteAuction/" + id);
     queryClient.invalidateQueries('SellerAuction');
+    setOpenCancel(false);
   }
 
   async function acceptAuction(id) {
     await axios.get("http://localhost:3002/seller/stopAuction/" + id);
     queryClient.invalidateQueries('SellerAuction');
+    setOpenAccept(false);
   }
 
   for (var i = 0; i < res.length; i++) {
@@ -161,7 +170,10 @@ export default function Maneger() {
                             <div className="flex items-center">
                               {checkStart(item.time) ? (
                                 <button
-                                  onClick={() => acceptAuction(item.id)}
+                                  onClick={() => {
+                                    setOpenAccept(true);
+                                    setCurrentID(item.id);
+                                  }}
                                   type="button"
                                   className="text-red-600 hover:text-white border border-red-600 hover:bg-red-900 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
                                 >
@@ -175,7 +187,10 @@ export default function Maneger() {
                           <td className="px-4 py-2 font-medium text-gray-900 whitespace-nowrap light:text-white border-x light:border-neutral-600">
                             <div className="flex items-center">
                               <button
-                                onClick={() => handleStopAuction(item.id)}
+                                onClick={() => {
+                                  setOpenCancel(true);
+                                  setCurrentID(item.id);
+                                }}
                                 type="button"
                                 className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
                               >
@@ -195,6 +210,44 @@ export default function Maneger() {
           </div>
         </section>
       </div>
+      <Modal show={openAccept} popup size="md">
+        <Modal.Header/>
+        <Modal.Body>
+        <div className="text-center">
+            <FcCurrencyExchange className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            Bạn có chắc chắn muốn chấp nhận giá này không?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={() => acceptAuction(currentID)}>
+                Có, tôi chắc chắn
+              </Button>
+              <Button color="gray" onClick={() => setOpenAccept(false)}>
+                Không
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
+      <Modal show={openCancel} popup size="md">
+      <Modal.Header />
+        <Modal.Body>
+          <div className="text-center">
+            <FcHighPriority className="mx-auto mb-4 h-14 w-14 text-gray-400 dark:text-gray-200" />
+            <h3 className="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">
+            Bạn có chắc chắn muốn hủy phiên đấu giá này không?
+            </h3>
+            <div className="flex justify-center gap-4">
+              <Button color="failure" onClick={() => handleStopAuction(currentID)}>
+                Có, tôi chắc chắn
+              </Button>
+              <Button color="gray" onClick={() => setOpenCancel(false)}>
+                Không
+              </Button>
+            </div>
+          </div>
+        </Modal.Body>
+      </Modal>
     </div>
   );
 }
