@@ -14,7 +14,7 @@ export default function Cards({ object }) {
       minute: "numeric",
       second: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleDateString("vi-VN", options);
   };
   function openDetail() {
     navigate(`/productdetail/${object.id}`);

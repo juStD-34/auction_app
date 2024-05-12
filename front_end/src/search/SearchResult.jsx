@@ -43,7 +43,7 @@ export default function SearchResult() {
       minute: "numeric",
       second: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleDateString("vi-VN", options);
   };
 
   const navigate = useNavigate();

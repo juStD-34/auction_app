@@ -50,9 +50,10 @@ export default function ManagerUser(){
   const datas2 = useAllAuction();
   if (datas.isLoading) return <Loading/>;
   var res = datas.auction.allSeller;
-  if (datas.isLoading) return <Loading/>;
+  if (datas1.isLoading) return <Loading/>;
   var res1 = datas1.auction.allBidder;
-  if (datas.isLoading) return <Loading/>;
+  console.log(res1);
+  if (datas2.isLoading) return <Loading/>;
   var res2 = datas2.auction.allAuction;
   
   
@@ -73,7 +74,6 @@ export default function ManagerUser(){
     objSellers.push({
       id: res[i]._id,
       email: res[i].email,
-      username: res[i].username,
       time: formatDate(res[i].createdAt)
     });
   }
@@ -81,12 +81,11 @@ export default function ManagerUser(){
     objBidders.push({
       id: res1[i]._id,
       email: res1[i].email,
-      username: res1[i].username,
       time: formatDate(res1[i].createdAt),
       budget: res1[i].budget
     });
   }
-  for (var i = 0; i < res1.length; i++) {
+  for (var i = 0; i < res2.length; i++) {
     objAuctions.push({
       id: res2[i]._id,
       name: res2[i].name,
@@ -184,7 +183,6 @@ export default function ManagerUser(){
           {activeTab === 'bidder' && (
             <tr>
               <th className="border px-4 py-2">ID</th>
-              <th className="border px-4 py-2">Email</th>
               <th className="border px-4 py-2">Username</th>
               <th className="border px-4 py-2">Create at</th>
               <th className="border px-4 py-2">Budget</th>
@@ -193,7 +191,6 @@ export default function ManagerUser(){
           {activeTab === 'seller' && (
             <tr>
               <th className="border px-4 py-2">ID</th>
-              <th className="border px-4 py-2">Email</th>
               <th className="border px-4 py-2">Username</th>
               <th className="border px-4 py-2">Create at</th>
             </tr>
@@ -218,7 +215,6 @@ export default function ManagerUser(){
               <tr key={index}>
                 <td className="border px-4 py-2">{item.id}</td>
                 <td className="border px-4 py-2">{item.email}</td>
-                <td className="border px-4 py-2">{item.username}</td>
                 <td className="border px-4 py-2">{item.time}</td>
               </tr>
             ))}
@@ -226,7 +222,6 @@ export default function ManagerUser(){
               <tr key={index}>
                 <td className="border px-4 py-2">{item.id}</td>
                 <td className="border px-4 py-2">{item.email}</td>
-                <td className="border px-4 py-2">{item.username}</td>
                 <td className="border px-4 py-2">{item.time}</td>
                 <td className="border px-4 py-2">{item.budget}</td>
               </tr>

@@ -53,7 +53,7 @@ export default function TransportAuction() {
       minute: "numeric",
       second: "numeric",
     };
-    return new Date(dateString).toLocaleDateString(undefined, options);
+    return new Date(dateString).toLocaleDateString("vi-VN", options);
   };
 
   for (var i = 0; i < res.length; i++) {

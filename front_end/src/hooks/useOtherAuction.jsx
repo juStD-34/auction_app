@@ -14,7 +14,7 @@ export default function useOtherAuction() {
     error,
     isLoading,
   } = useQuery("OtherId", retrievePosts, {
-    cacheTime: Infinity, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là undefined
+    cacheTime: Infinity, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là vi-VN
     refetchOnWindowFocus: false,
   });
 
