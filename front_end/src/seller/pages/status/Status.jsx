@@ -65,7 +65,7 @@ export default function Status() {
           {obj.map((item, index) => (
             <>
               <li key={index} className="flex mb-10 ms-6">
-                <img src={item.image} alt="" className=" rounded-md mr-4"/>
+                <img src={item.image} alt="" className=" rounded-md mr-4 w-60 h-40"/>
                 <div className="my-auto">
                   <a href={item.detailPage} className="flex items-center mb-1 text-lg font-semibold text-gray-900 ">
                     {item.message}

@@ -67,12 +67,12 @@ export default function Maneger() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="h-screen flex-1 p-7 ml-72">
+      <div className="h-screen flex-1 p-7 ml-60">
         <h1 className="mb-4 text-1xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-3xl">
           QUẢN LÝ PHIÊN ĐẤU GIÁ
         </h1>
         <section className="bg-gray-50 light:bg-gray-900 py-3 sm:py-5">
-          <div className="px-4 mx-auto max-w-screen-2xl lg:px-12">
+          <div className="px-4 mx-auto max-w-screen-2xl">
             <div className="relative overflow-hidden bg-white shadow-md light:bg-gray-800 sm:rounded-lg">
               <div className="flex flex-col px-4 py-3 space-y-3 lg:flex-row lg:items-center lg:justify-between lg:space-y-0 lg:space-x-4"></div>
               <div className="overflow-x-auto">

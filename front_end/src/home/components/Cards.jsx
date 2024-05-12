@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { Card } from "flowbite-react";
 
-export default function Cards({object}) {
+export default function Cards({ object }) {
   const navigate = useNavigate();
   const formatDate = (dateString) => {
     const options = {
@@ -22,18 +22,23 @@ export default function Cards({object}) {
 
   return (
     <Card
-      className="max-w-xs mb-16"
-      imgAlt="Apple Watch Series 7 in colors pink, silver, and black"
-      imgSrc={object.image}
+      className=" max-w-sm mb-16"
+      renderImage={() => (
+        <img
+          className="object-cover max-h-56 rounded-t-lg"
+          src={object.image}
+          alt={object.name}
+        />
+      )}
     >
       <a href={"/productdetail/" + object.name}>
-        <h5 className="text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+        <h5 className="text-xl overflow-hidden max-w-60 font-bold tracking-tight text-gray-900 dark:text-white">
           {object.name}
         </h5>
       </a>
       <span className="text-md text-gray-900 dark:text-white">
-          Thời gian đấu giá <p className="font-bold">{formatDate(object.time)}</p>
-        </span>
+        Thời gian đấu giá <p className="font-bold">{formatDate(object.time)}</p>
+      </span>
       <div className="flex">
         <span className="text-md text-gray-900 dark:text-white">
           Giá khởi điểm: <p className="font-bold">{object.price}</p>
