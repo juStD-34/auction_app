@@ -40,7 +40,7 @@ export default function SellerDetail() {
             alt="Ảnh minh họa"
             className="w-full col-span-3 rounded-lg"
           />
-          <div className="col-span-2 p-2 ml-8 border rounded-lg border-gray-300">
+          <div className="col-span-2 p-2 ml-2 border rounded-lg border-gray-300">
             <div className="flex mx-1 mt-2">
               <p className="text-gray-700">Mã tài sản:</p>
               <p className="self-end ml-auto text-red-700 font-semibold">{id}</p>

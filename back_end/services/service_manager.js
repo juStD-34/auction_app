@@ -91,10 +91,11 @@ async function endAuction(auction) {
             notification.save();
             notification2.save();
             console.log("endAuction success ");
+            auction.timeEnd = new Date();
+            auction.status = "CLOSED";
+            auction.save();
         }
-        auction.timeEnd = new Date();
-        auction.status = "CLOSED";
-        auction.save();
+
     }
     catch (error) {
         throw new Error("Failed to end auction");

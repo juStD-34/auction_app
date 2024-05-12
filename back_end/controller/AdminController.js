@@ -91,7 +91,7 @@ module.exports.payForAuction = async (req, res) => {
 
     console.log(bidder, "checkkkk")
     const seller = await User.findById(sellerId);
-    const amount = transaction.payment.amount
+    const amount = transaction.payment.amount;
     if(bidder.budget < amount) {
         res.status(200).json({
             success: false,
