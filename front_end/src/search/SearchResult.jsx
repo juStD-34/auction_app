@@ -9,7 +9,7 @@ import NavbarUser from "../shared/Navbar";
 import Banner from "./assets/banner.png";
 
 import useSearch from "../hooks/useSearch";
-
+import Loading from "../shared/Loading";
 
 export default function SearchResult() {
   const { keyword } = useParams();
@@ -54,7 +54,7 @@ export default function SearchResult() {
 
   const { auction, error, isLoading } = useSearch(keyword);
   if (error) return <div>An error has occurred: {error.message}</div>;
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loading/>;
   const result = auction.searchResult;
   var obj = [];
   for (let i = 0; i < result.length; i++) {

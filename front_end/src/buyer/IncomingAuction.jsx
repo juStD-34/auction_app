@@ -14,7 +14,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
-
+import Loading from "../shared/Loading";
 
 export default function IncomingAuction() {
   const [viewMode, setViewMode] = useState(true);
@@ -33,7 +33,6 @@ export default function IncomingAuction() {
     startTime: "",
     endTime: ""
   });
-  {/*Filter*/}
   const startDateRef = React.useRef('');
   const endDateRef = React.useRef('');
   
@@ -45,7 +44,7 @@ export default function IncomingAuction() {
   }
 
   const datas = useAllAuction();
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.allAuction;
   var obj = [];
 

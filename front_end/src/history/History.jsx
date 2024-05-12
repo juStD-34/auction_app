@@ -2,7 +2,7 @@ import PostCard from "./components/PostCard";
 import NavbarUser from "../shared/Navbar";
 
 import useAllNotify from "../hooks/useAllNotify";
-
+import Loading from "../shared/Loading";
 const savedPosts = [
   {
     id: 1,
@@ -37,7 +37,7 @@ export default function History() {
   const datas = useAllNotify();
   var obj = [];
   if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
-  if (datas.isLoading) return <div>Loading...</div>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.result;
   for (var i = 0; i < res.length; i++) {
     obj.push({

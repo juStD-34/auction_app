@@ -2,13 +2,14 @@ import Sidebar from "./components/Sidebar";
 import NavbarUser from "../shared/Navbar";
 
 import { Card } from "flowbite-react";
+import Loading from "../shared/Loading";
 import useBidder from "../hooks/useBidder"
 
 export default function Payment() {
   const {getUserID} = require('../hooks/userID')
   const datas = useBidder();
   var budget = ""
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.allBidder;
   for (let i = 0; i < res.length; i++) {
     if (res[i]._id === getUserID()){

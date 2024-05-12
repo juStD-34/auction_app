@@ -5,7 +5,7 @@ import useAllNotify from "../../../hooks/useAllNotify";
 import axios from "axios";
 import { getUserID } from "../../../hooks/userID";
 import { useQueryClient } from "react-query";
-
+import Loading from "../../../shared/Loading";
 export default function Status() {
   const queryClient = useQueryClient();
   const formatDate = (dateString) => {
@@ -24,7 +24,7 @@ export default function Status() {
   var obj = [];
   if (datas.error)
     return <div>An error has occurred: {datas.error.message}</div>;
-  if (datas.isLoading) return <div>Loading...</div>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.result;
   for (var i = res.length - 1; i >= 0; i--) {
     if (res[i].status === "read") continue;

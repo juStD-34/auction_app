@@ -3,6 +3,7 @@ import useSeller from "../hooks/useSeller"
 import useBidder from "../hooks/useBidder"
 import useAllAuction from "../hooks/useAllAuction"
 import axios from 'axios';
+import Loading from '../shared/Loading';
 export default function ManagerUser(){
   const [activeTab, setActiveTab] = useState('seller'); 
   const [payment, setPayment] = useState(false);
@@ -47,11 +48,11 @@ export default function ManagerUser(){
   const datas = useSeller();
   const datas1 = useBidder();
   const datas2 = useAllAuction();
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.allSeller;
-  if (datas1.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res1 = datas1.auction.allBidder;
-  if (datas2.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res2 = datas2.auction.allAuction;
   
   

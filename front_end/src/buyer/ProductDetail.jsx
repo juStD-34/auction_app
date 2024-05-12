@@ -6,7 +6,7 @@ import Footer from "../home/components/Footer";
 import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
 import CountdownTimer from "./components/Timer";
-
+import Loading from "../shared/Loading";
 import useAuctionId from "../hooks/useAuctionId";
 import { getUserID } from "../hooks/userID";
 
@@ -43,7 +43,7 @@ export default function ProductDetail() {
   const isLoggedIn = getLogin();
 
   const datas = useAuctionId(id);
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.result[0];
 
   const formatDate = (dateString) => {

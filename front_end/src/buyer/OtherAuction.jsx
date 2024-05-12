@@ -14,7 +14,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
-
+import Loading from "../shared/Loading";
 export default function OtherAuction() {
   const [viewMode, setViewMode] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -39,7 +39,7 @@ export default function OtherAuction() {
   }
 
   const datas = useAllAuction();
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.allAuction;
   var obj = [];
 

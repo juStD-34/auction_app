@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import NavbarUser from "../shared/Navbar";
 import Footer from "../home/components/Footer";
 import useAuctionId from "../hooks/useAuctionId";
-
+import Loading from "../shared/Loading";
 export default function HistoryDetail() {
   const { id } = useParams();
 
@@ -13,7 +13,7 @@ export default function HistoryDetail() {
 
   const datas = useAuctionId(id);
   if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
-  if (datas.isLoading) return <div>Loading...</div>;
+  if (datas.isLoading) return <Loading/>;
   const data = datas.auction.result[0];
 
   function formatDate(dateString) {

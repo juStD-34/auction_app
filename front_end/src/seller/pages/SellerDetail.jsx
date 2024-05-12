@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Sidebar from "../components/sidebar/Sidebar";
 import useAuctionId from "../../hooks/useAuctionId";
-
+import Loading from "../../shared/Loading";
 export default function SellerDetail() {
   const { id } = useParams();
 
@@ -12,7 +12,7 @@ export default function SellerDetail() {
 
   const datas = useAuctionId(id);
   if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
-  if (datas.isLoading) return <div>Loading...</div>;
+  if (datas.isLoading) return <Loading/>;
   const data = datas.auction.result[0];
 
   function formatDate(dateString) {

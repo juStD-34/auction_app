@@ -4,7 +4,7 @@ import useSellerAuctions from "../../../hooks/useSellerAuctions";
 import { Button, Modal } from "flowbite-react";
 import { FcHighPriority } from "react-icons/fc";
 import { FcCurrencyExchange } from "react-icons/fc";
-
+import Loading from "../../../shared/Loading";
 
 import { useQueryClient } from "react-query";
 import axios from "axios";
@@ -16,7 +16,7 @@ export default function Maneger() {
   const queryClient = useQueryClient();
 
   const datas = useSellerAuctions();
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res;
   if (datas.isError) {
     res = [];

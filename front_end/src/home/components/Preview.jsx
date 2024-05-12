@@ -7,13 +7,14 @@ import "swiper/css";
 import "swiper/css/pagination";
 
 import Cards from "./Cards";
+import Loading from "../../shared/Loading";
 
 import useIncomingAuction from "../../hooks/useIncomingAuction";
 
 
 export default function Preview() {
   const datas = useIncomingAuction();
-  if (datas.isLoading) return <p>Loading...</p>;
+  if (datas.isLoading) return <Loading/>;
   var res = datas.auction.result;
   var obj = [];
 
