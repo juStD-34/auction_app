@@ -1,6 +1,7 @@
 import { Dropdown, Navbar, Button } from "flowbite-react";
 import { CiSearch } from "react-icons/ci";
 import React from "react";
+import hehe from "../assets/hehe.png"
 
 export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
   const [time, setTime] = React.useState(new Date().toLocaleString());
@@ -42,29 +43,13 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
   }, []);
 
   return (
-    <div className="px-10">
+    <div className="order-2 px-10">
       <Navbar fluid rounded>
         <Navbar.Brand>
-          <span className="self-center whitespace-nowrap text-2xl font-semibold dark:text-white">
-            Đấu giá tới bến
-          </span>
+          <img src={hehe} style={{ width: "60px", height: "60px" }}
+                className="content-center ml-10"
+                alt="auction"/>
         </Navbar.Brand>
-        <div className="flex md:order-2 gap-4">
-          <div className="flex flex-col pr-4">
-            <div className="text-lg font-bold">{date[1]}</div>
-            <div className="text-sm">
-              {day}
-              {date[0].replace(",", "")}
-            </div>
-          </div>
-          <Button color="red" onClick={toggleSearch}>
-            <CiSearch className="h-7 w-7" />
-            <p className="pt-1">Tìm kiếm</p>
-          </Button>
-          <Button color="failure" onClick={toggleLoginPopup}>
-            <p className="pt-1">Đăng nhập</p>
-          </Button>
-        </div>
         <Navbar.Collapse>
           <Dropdown
             arrowIcon={true}
@@ -120,6 +105,22 @@ export default function NavigationBar({ toggleLoginPopup, toggleSearch}) {
             Liên hệ
           </p>
         </Navbar.Collapse>
+        <div className="flex gap-4">
+          <div className="flex flex-col pr-4">
+            <div className="text-lg font-bold">{date[1]}</div>
+            <div className="text-sm">
+              {day}
+              {date[0].replace(",", "")}
+            </div>
+          </div>
+          <Button color="red" onClick={toggleSearch}>
+            <CiSearch className="h-7 w-7" />
+            <p className="pt-1">Tìm kiếm</p>
+          </Button>
+          <Button color="failure" onClick={toggleLoginPopup}>
+            <p className="pt-1">Đăng nhập</p>
+          </Button>
+        </div>
       </Navbar>
     </div>
   );
