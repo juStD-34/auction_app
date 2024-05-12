@@ -167,7 +167,7 @@ module.exports.getAuctionByID = async (req, res) => {
                     timeEnd: existAuction.timeEnd,
                     startPrice: existAuction.startPrice,
                     sellerID: existAuction.sellerID,
-                    winnerID: existAuction.winnerID,
+                    winnerID: winner.bidderId,
                     status: existAuction.status,
                     softDelete: existAuction.softDelete,
                     __v: existAuction.__v,
