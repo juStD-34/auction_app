@@ -27,18 +27,18 @@ export default function Maneger() {
 
   async function handleStopAuction(id) {
     await axios.get("http://localhost:3002/seller/deleteAuction/" + id);
-    queryClient.invalidateQueries('SellerAuction');
+    await queryClient.invalidateQueries('SellerAuction');
     setOpenCancel(false);
   }
 
   async function acceptAuction(id) {
     await axios.get("http://localhost:3002/seller/stopAuction/" + id);
-    queryClient.invalidateQueries('SellerAuction');
+    await queryClient.invalidateQueries('SellerAuction');
     setOpenAccept(false);
   }
 
   for (var i = 0; i < res.length; i++) {
-    if (res[i].status == "CLOSED") continue;
+    if (res[i].status === "CLOSED") continue;
     obj.push({
       id: res[i]._id,
       name: res[i].product.name,

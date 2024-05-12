@@ -20,7 +20,6 @@ export default function ProductDetail() {
 
   const queryClient = useQueryClient();
   const { id } = useParams();
-  console.log(getUserID());
   const mutation = useMutation(
     {
       mutationFn: (props) => {
@@ -31,14 +30,6 @@ export default function ProductDetail() {
         });
       },
     },
-    {
-      onSuccess: (data) => {
-        queryClient.invalidateQueries("AuctionID");
-      },
-      onError: (error) => {
-        console.log(error);
-      },
-    }
   );
 
   const [showPopup, setShowPopup] = useState(false);
@@ -76,12 +67,13 @@ export default function ProductDetail() {
     image: res.product.img,
     status: res.status,
   };
+  console.log(obj.highestPrice);
 
-  function handleBid(props) {
-    mutation.mutate({
+  async function handleBid(props) {
+    await mutation.mutateAsync({
       price: props.price,
     });
-    setShowPopup(false);
+    queryClient.invalidateQueries("AuctionId");
   }
 
   function checkAvailable() {

@@ -14,7 +14,7 @@ function PostCard({ image, title, date, to }) {
       <img
         src={image}
         alt="Post"
-        className="h-full w-32 rounded-l-lg object-cover mr-4"
+        className="h-40 w-60 rounded-l-lg object-cover mr-4"
       />
       <div>
         <h3 className="font-bold text-2xl">{title}</h3>

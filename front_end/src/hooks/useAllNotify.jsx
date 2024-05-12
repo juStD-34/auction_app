@@ -10,7 +10,6 @@ export default function useAllNotify() {
     );
     return response.data;
   };
-  console.log(getUserID());
   const {
     data: auction,
     error,

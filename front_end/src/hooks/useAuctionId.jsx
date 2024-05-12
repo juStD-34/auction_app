@@ -14,7 +14,6 @@ export default function useAuctionId(id) {
     error,
     isLoading,
   } = useQuery("AuctionId", retrievePosts, {
-    cacheTime: Infinity, //Thời gian cache data, ví dụ: 5000, sau 5s thì cache sẽ bị xóa, khi đó data trong cache sẽ là undefined
     refetchOnWindowFocus: false,
   });
 

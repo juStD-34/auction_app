@@ -16,7 +16,7 @@ import LoginModal from "../home/login/LoginModal";
 import SearchModal from "../search/SearchModal";
 
 export default function OtherAuction() {
-  const [viewMode, setViewMode] = useState(false);
+  const [viewMode, setViewMode] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
   const [loginPopup, setLoginPopup] = React.useState(false);

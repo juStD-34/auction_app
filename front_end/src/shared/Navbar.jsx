@@ -1,30 +1,16 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "flowbite-react";
-import Notifications from "react-notifications-menu";
 import hehe from "../home/assets/hehe.png";
 import avt from "../home/assets/avt.png";
 import search from "../home/assets/search.png";
-import axios from "axios";
-import { getUserID } from "../hooks/userID";
-import { useQueryClient } from "react-query"; 
-
-import useAllNotify from "../hooks/useAllNotify";
-
-const DEFAULT_NOTIFICATION = {
-  image:
-    "https://cutshort-data.s3.amazonaws.com/cloudfront/public/companies/5809d1d8af3059ed5b346ed1/logo-1615367026425-logo-v6.png",
-  message: "No auction found",
-  detailPage: "",
-  receivedTime: "Now",
-};
+import NotifyList from "./NotifyList";
 
 export default function NavbarUser() {
   const {getUserName, setLogin} = require("../home/login/Auth");
   const {setUserID} = require("../hooks/userID");
   const navigate = useNavigate();
   const inputRef = React.useRef(null);
-  const queryClient = useQueryClient();
   
   React.useEffect(() => {
     const timer = setInterval(() => {
@@ -41,48 +27,9 @@ export default function NavbarUser() {
   const date = time.split(" ");
   var day;
 
-  const formatDate = (dateString) => {
-    const options = {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-      hour: "numeric",
-      minute: "numeric",
-      second: "numeric",
-    };
-    return new Date(dateString).toLocaleDateString("vi-VN", options);
-  };
-
-  const datas = useAllNotify();
-  var obj = [];
-  if (datas.error) return <div>An error has occurred: {datas.error.message}</div>;
-  if (datas.isLoading) return <div>Loading...</div>;
-  var res = datas.auction.result;
-  for (var i = res.length - 1; i >= 0; i--) {
-    if (res[i].status === "read") continue;
-    obj.push({
-      receivedTime: formatDate(res[i].date),
-      message: res[i].content,
-      detailPage: `/historydetails/${res[i].auctionID}`,
-      image: res[i].image,
-    });
-  }
-
-  async function markAsAllRead() {
-    console.log(await axios.post(
-      "http://localhost:3002/notifications/markAllAsRead", {    
-          userID: getUserID(),
-      }
-    ));
-    queryClient.invalidateQueries("All-Notify");
-  }
 
   function searchItem() {
     navigate(`/search/${inputRef.current.value}`);
-  }
-
-  function viewAll() {
-    navigate("/history");
   }
 
   const handleLogout = () => {
@@ -213,20 +160,7 @@ export default function NavbarUser() {
           <div className="flex items-center justify-end">
             <div className="mr-2">
               <button className="items-center pl-1.5 w-10 h-10 shadow-md rounded-full border-2 border-gray-400 p-1 hover:bg-gray-300">
-              <Notifications
-                  data={obj}
-                  header={{
-                    title: "Notifications",
-                    option: {
-                      text: "Mark as all read",
-                      onClick: () => markAsAllRead(),
-                    },
-                  }}
-                  footer={{
-                    text: "View all",
-                    onClick: () => viewAll(),
-                  }}
-                />
+              <NotifyList />
               </button>
             </div>
             <div className="h-10 w-auto flex rounded-full shadow-md border-2 border-gray-400 p-1 items-center space-x-2 pr-2 hover:bg-gray-300">
