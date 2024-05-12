@@ -81,9 +81,15 @@ module.exports.payForAuction = async (req, res) => {
     const { auctionID } = req.params;
     const auction = await Auction.findById(auctionID);
     const transaction = await Transaction.findOne({ auctionID: auctionID });
+    
+    console.log(transaction, "tran")
+    console.log(auction, "auction")
     const sellerId = auction.sellerID;
     const bidderId = auction.winnerID;
+    console.log(bidderId, "bidder")
     const bidder = await User.findById(bidderId);
+
+    console.log(bidder, "checkkkk")
     const seller = await User.findById(sellerId);
     const amount = transaction.payment.amount
     if(bidder.budget < amount) {
